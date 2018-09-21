@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.RegisterActivity"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbarRegistro"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="20dp"
+        android:text="Selecciona tu foto de perfil"
+        android:textAlignment="center" />
+
+    <ImageView
+        android:id="@+id/Foto"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="34dp"
+        android:src="@mipmap/cameraregister" />
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Rusuario"
+        android:layout_alignParentStart="true"
+        android:text="@string/RegistroUsuario" />
+
+    <EditText
+        android:id="@+id/Rusuario"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/VerificarEmail"
+        android:layout_alignParentStart="true"
+        android:hint="Escribe tu nombre de usuario" />
+
+
+    <TextView
+        android:id="@+id/VerificarEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Registrar"
+        android:layout_alignParentStart="true"
+        android:clickable="true"
+        android:text="@string/VerificacionEmail"
+        android:textAlignment="center" />
+
+    <Button
+        android:id="@+id/Registrar"
+        style="@android:style/Widget.Holo.Button.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="149dp"
+        android:shadowColor="@color/colorPrimary"
+        android:text="Enviar"
+        android:textAlignment="center"
+        android:textColorLink="@color/design_default_color_primary_dark" />
+
+
+
+</LinearLayout>

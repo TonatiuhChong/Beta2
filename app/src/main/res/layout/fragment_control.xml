@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Fragments.ControlFragment">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true">
+
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Seleccionahabitación" />
+
+
+                <Spinner
+                    android:id="@+id/Habitaciones"
+                    android:layout_width="104dp"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="@string/Habitaciones"
+                    android:visibility="invisible">
+
+                </Spinner>
+
+                <Spinner
+                    android:id="@+id/modo"
+                    android:layout_width="104dp"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="@string/Habitaciones"
+                    android:visibility="invisible">
+
+                </Spinner>
+
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/EditHabitacion"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Escribe Habitación"
+                android:inputType="textPersonName" />
+
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Seleccione el tipo de sensor" />
+
+                <Spinner
+                    android:id="@+id/TSensor"
+                    android:layout_width="219dp"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="@string/Habitaciones"
+                    android:visibility="invisible">
+
+                </Spinner>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/EditSensor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Escriba Tipo  Sensor"
+                android:inputType="textPersonName" />
+
+
+            <EditText
+                android:id="@+id/EditValor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Escriba el valor del sensor"
+                android:inputType="textPersonName" />
+
+            <Button
+                android:id="@+id/BtnActualizar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Actualizar" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <Spinner
+                    android:id="@+id/VSensor"
+                    android:layout_width="382dp"
+                    android:layout_height="2dp"
+                    android:visibility="invisible" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/ImgHabCocina1"
+                android:layout_width="109dp"
+                android:layout_height="96dp"
+                android:layout_below="@+id/ImgHabSala"
+                android:layout_toEndOf="@+id/ImgHabSala"
+                android:src="@android:color/holo_red_dark" />
+
+            <ImageView
+                android:id="@+id/ImgHabPasillo1"
+                android:layout_width="109dp"
+                android:layout_height="87dp"
+                android:layout_alignStart="@+id/ImgHabSala"
+                android:layout_below="@+id/ImgHabBano"
+                android:src="@android:color/holo_orange_dark" />
+
+            <ImageView
+                android:id="@+id/ImgHabBano"
+                android:layout_width="69dp"
+                android:layout_height="42dp"
+                android:layout_alignStart="@+id/ImgHabSala"
+                android:layout_alignTop="@+id/ImgHabCocina1"
+                android:layout_marginEnd="41dp"
+                android:src="@android:color/holo_green_light" />
+
+            <ImageView
+                android:id="@+id/ImgHabServicio"
+                android:layout_width="108dp"
+                android:layout_height="38dp"
+                android:layout_alignStart="@+id/ImgHabCocina1"
+                android:layout_below="@+id/ImgHabCocina2"
+                android:src="#850fdcd9" />
+
+            <ImageView
+                android:id="@+id/ImgHabPasillo3"
+                android:layout_width="76dp"
+                android:layout_height="37dp"
+                android:layout_below="@+id/ImgHabCocina2"
+                android:layout_toStartOf="@+id/ImgHabCocina1"
+                android:src="@android:color/black" />
+
+            <ImageView
+                android:id="@+id/ImgHabPasillo2"
+                android:layout_width="32dp"
+                android:layout_height="102dp"
+                android:layout_below="@+id/ImgHabPasillo1"
+                android:layout_toStartOf="@+id/ImgHabEstudio"
+                android:src="@android:color/holo_purple" />
+
+            <ImageView
+                android:id="@+id/ImgHabEstudio"
+                android:layout_width="75dp"
+                android:layout_height="65dp"
+                android:layout_below="@+id/ImgHabPasillo1"
+                android:layout_toStartOf="@+id/ImgHabCocina1"
+                android:src="@android:color/holo_red_light" />
+
+            <ImageView
+                android:id="@+id/ImgHabCocina2"
+                android:layout_width="109dp"
+                android:layout_height="97dp"
+                android:layout_alignStart="@+id/ImgHabCocina1"
+                android:layout_below="@+id/ImgHabCocina1"
+                android:src="@android:color/darker_gray" />
+
+            <ImageView
+                android:id="@+id/ImgHabComedor"
+                android:layout_width="109dp"
+                android:layout_height="96dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignStart="@+id/ImgHabCocina1"
+                android:src="@android:color/holo_blue_dark" />
+
+            <ImageView
+                android:id="@+id/ImgHabSala"
+                android:layout_width="109dp"
+                android:layout_height="96dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="87dp"
+                android:src="@android:color/holo_blue_bright" />
+        </RelativeLayout>
+    </LinearLayout>
+</RelativeLayout>
