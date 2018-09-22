@@ -96,4 +96,17 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="SaludoRegistro">Registra tu cuenta</string>
+    <string name="RegistroEmail">Registra tu Email</string>
+    <string name="RegistroPassword">Registra tu contraseña</string>
+    <string name="Registrarse">No tienes cuenta? registrate ya!</string>
+    <string name="Login">Entrar</string>
+    <string name="OlvidasteTuContraseña">Olvidaste tu contraseña?</string>
+    <string name="SaludodeBienvenida">Hola! Inicia sesión para comenzar!</string>
+    <string name="VerificacionEmail">Email no verificado (Presiona para verificar)</string>
+    <string name="RegistroUsuario">Escribe el nombre de tu usuario</string>
+    <string name="TotalSensores">Sensores Activos: </string>
+    <string name="Totalhabitaciones">Habitaciones Activas</string>
+    <string name="Sensores">Sensores</string>
+    <string name="Seleccionahabitación">Selecciona Habitacion</string>
 </resources>

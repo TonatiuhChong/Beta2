@@ -42,7 +42,6 @@
                     android:id="@+id/Habitaciones"
                     android:layout_width="104dp"
                     android:layout_height="wrap_content"
-                    android:autofillHints="@string/Habitaciones"
                     android:visibility="invisible">
 
                 </Spinner>
@@ -51,7 +50,6 @@
                     android:id="@+id/modo"
                     android:layout_width="104dp"
                     android:layout_height="wrap_content"
-                    android:autofillHints="@string/Habitaciones"
                     android:visibility="invisible">
 
                 </Spinner>
@@ -81,7 +79,7 @@
                     android:id="@+id/TSensor"
                     android:layout_width="219dp"
                     android:layout_height="wrap_content"
-                    android:autofillHints="@string/Habitaciones"
+
                     android:visibility="invisible">
 
                 </Spinner>
