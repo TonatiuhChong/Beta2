@@ -1,6 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
 
-</android.support.constraint.ConstraintLayout>
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Habitacion"
+        android:textAlignment="center" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Acciones"
+        android:textAlignment="center"/>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listviewAcciones"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="horizontal"/>
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Información"
+        android:textAlignment="center"/>
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/list_preference_entries"
+        android:spinnerMode="dialog" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/button2"
+            android:layout_width="195dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/dialogButtonOK"
+            android:layout_marginStart="0dp"
+            android:text="Volver" />
+
+        <Button
+            android:id="@+id/dialogButtonOK"
+            android:layout_width="225dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/textView4"
+            android:text=" Ok " />
+    </LinearLayout>
+</LinearLayout>

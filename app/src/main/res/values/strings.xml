@@ -112,4 +112,10 @@
     <string name="NOTLOGIN">No se completo el inicio de sesión.</string>
     <string name="registration_success">Registro exitoso :)</string>
     <string name="ActualizarRegistro">Actualizar Verificación</string>
+    <string name="CerrarSesion">Cerrar Sesión</string>
+    <string name="Compartir">Compartir</string>
+    <string name="Soporte">Soporte</string>
+    <string name="reconocimiento">Reconocimiento Facial</string>
+    <string name="ControlHogar">Control del hogar</string>
+    <string name="NOCERRO">No se completo el cierre de sesión</string>
 </resources>
