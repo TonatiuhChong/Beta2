@@ -1,4 +1,4 @@
-package com.example.hombr.beta;
+package com.example.hombr.beta.Singletons;
 
 import android.net.Uri;
 

@@ -109,4 +109,7 @@
     <string name="Totalhabitaciones">Habitaciones Activas</string>
     <string name="Sensores">Sensores</string>
     <string name="Seleccionahabitación">Selecciona Habitacion</string>
+    <string name="NOTLOGIN">No se completo el inicio de sesión.</string>
+    <string name="registration_success">Registro exitoso :)</string>
+    <string name="ActualizarRegistro">Actualizar Verificación</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.hombr.beta;
+package com.example.hombr.beta.Singletons;
 
 public class CUser {
     public String name, email, password;
