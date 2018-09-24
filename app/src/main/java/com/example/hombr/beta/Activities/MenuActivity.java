@@ -3,8 +3,7 @@ package com.example.hombr.beta.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -20,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hombr.beta.ConfiguracionActivity;
@@ -83,9 +81,9 @@ public class MenuActivity extends AppCompatActivity
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-
-        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
-        tx.replace(R.id.escenario, new ControlFragment());
+        FragmentManager manager= getSupportFragmentManager();
+        FragmentTransaction tx = manager.beginTransaction();
+        tx.replace(R.id.escenario,  new ControlFragment());
         tx.commit();
 
 
