@@ -1,11 +1,12 @@
 package com.example.hombr.beta.Adapters;
 
-public class ListItemAcciones {private String desc;
+public class ListItemAcciones {
+    private String desc;
     private int Foto;
 
     public ListItemAcciones(String desc, int foto) {
         this.desc = desc;
-        Foto = foto;
+        this.Foto = foto;
     }
 
     public String getDesc() {

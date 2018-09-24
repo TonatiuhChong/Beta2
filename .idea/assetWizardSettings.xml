@@ -34,11 +34,11 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="faf2ff" />
+                                      <entry key="backgroundColor" value="fff2ff" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="D:\Downloads\Compact Camera-48-96-480px\cameraregister.png" />
-                                      <entry key="foregroundLayerName" value="registercamara" />
-                                      <entry key="outputName" value="cameraregister" />
+                                      <entry key="foregroundImage" value="D:\OneDrive - Instituto Politecnico Nacional\w32\Añadir cámara-64-128-512px\icons8-añadir-cámara-512.png" />
+                                      <entry key="foregroundLayerName" value="addimagen1" />
+                                      <entry key="outputName" value="addimagen" />
                                     </map>
                                   </option>
                                 </PersistentState>

@@ -4,19 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/azul1"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:orientation="vertical"
     tools:context=".Activities.Register2Activity">
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" />
 
     <ImageView
         android:id="@+id/Foto"
@@ -24,7 +19,8 @@
         android:layout_height="202dp"
         android:layout_marginLeft="80dp"
         android:layout_marginRight="80dp"
-        android:src="@mipmap/ic_launcher" />
+        android:src="@mipmap/ic_launcher"
+        app:srcCompat="@drawable/usuario" />
 
     <TextView
         android:layout_width="match_parent"
@@ -71,11 +67,11 @@
         tools:layout_editor_absoluteY="188dp" />
 
     <TextView
-        android:textAlignment="center"
         android:id="@+id/RefPassword2"
         android:layout_width="match_parent"
         android:layout_height="31dp"
         android:text="@string/RegistroPassword"
+        android:textAlignment="center"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="185dp" />
 
@@ -91,8 +87,8 @@
         tools:layout_editor_absoluteY="279dp" />
 
     <LinearLayout
-        android:layout_width="355dp"
-        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <Button
@@ -110,6 +106,7 @@
             android:text="Continuar"
             android:textAlignment="center"
             android:textColorLink="@color/design_default_color_primary_dark" />
+
         <ProgressBar
             android:id="@+id/progressbar"
             android:layout_width="wrap_content"
@@ -118,7 +115,6 @@
             android:layout_centerVertical="true"
             android:visibility="gone" />
     </LinearLayout>
-
 
 
 </LinearLayout>
