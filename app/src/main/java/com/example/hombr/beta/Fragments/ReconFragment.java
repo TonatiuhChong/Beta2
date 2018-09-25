@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +17,20 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -91,18 +95,33 @@ public class ReconFragment extends Fragment {
 
     private void conexion() {
 
+
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Users");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Set<String> set = new HashSet<String>();
+               final String[]emails = new String[0];
                 Iterator i = dataSnapshot.getChildren().iterator();
                 while (i.hasNext()){
                     set.add(((DataSnapshot)i.next()).getKey());
+                    DatabaseReference ref2=FirebaseDatabase.getInstance().getReference().child("Users").child(set.iterator().next());
+                    ref2.child("email").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+//                            Toast.makeText(getActivity(), dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
+                           emails[i.next()]=dataSnapshot.getValue().toString();
+
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
                 rooms.clear();
                 rooms.addAll(set);
-
 
                 arrayAdapter.notifyDataSetChanged();
             }
@@ -115,6 +134,19 @@ public class ReconFragment extends Fragment {
 
     }
 
+    private void hijos(DatabaseReference ref2) {
+        ref2.child("email").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
-   
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
 }

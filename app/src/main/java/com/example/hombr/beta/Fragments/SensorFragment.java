@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.hombr.beta.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +44,7 @@ public class SensorFragment extends Fragment {
         Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
         Sensores = (TextView) Rec.findViewById(R.id.FragmentoSensorCantidad);
         listas = (ListView) Rec.findViewById(R.id.FragmentListaSensores);
+        TextView prueba=(TextView)Rec.findViewById(R.id.FSsensores);
 
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sensores);
         listas.setAdapter(arrayAdapter);
@@ -70,6 +73,40 @@ public class SensorFragment extends Fragment {
         });
 
         return Rec;
+    }
+
+
+    private void lista(){
+
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Habitaciones");
+
+        ref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
     }
 }
 

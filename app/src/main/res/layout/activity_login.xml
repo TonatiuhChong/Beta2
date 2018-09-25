@@ -36,7 +36,7 @@
         android:text="@string/SaludodeBienvenida"
         android:textAlignment="center"
         android:textSize="24sp" />
- 
+
     <ScrollView
         android:id="@+id/login_form"
         android:layout_width="match_parent"
