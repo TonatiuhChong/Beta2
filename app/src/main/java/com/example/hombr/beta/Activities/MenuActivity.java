@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hombr.beta.ConfiguracionActivity;
 import com.example.hombr.beta.Fragments.ControlFragment;
+import com.example.hombr.beta.Fragments.Recon2Fragment;
 import com.example.hombr.beta.Fragments.ReconFragment;
 import com.example.hombr.beta.Fragments.SensorFragment;
 import com.example.hombr.beta.R;
@@ -173,7 +174,7 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.ReconocimientoFacial) {
             // Handle the camera action
-            fm.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+            fm.beginTransaction().replace(R.id.escenario, new Recon2Fragment()).commit();
         } else if (id == R.id.ControlDelHogar) {
             fm.beginTransaction().replace(R.id.escenario, new ControlFragment()).commit();
         } else if (id == R.id.Sensores) {

@@ -1,52 +1,53 @@
 package com.example.hombr.beta.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.hombr.beta.Adapters.ListItemUsuarios;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 
-public class ReconFragment extends Fragment {
+public class Recon2Fragment extends Fragment {
 
     private TextView NombreU,EmailU,PerfilU;
     private ImageView ImgUSer;
-    private ListView lista;
-    private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<String> rooms= new ArrayList<>();
     public  Boolean VActivacion=Boolean.TRUE;
+    private RecyclerView rv;
+    private List<ListItemUsuarios> usuarios;
+    private Adapter adapter;
+
 
     @Nullable
     @Override
@@ -54,14 +55,15 @@ public class ReconFragment extends Fragment {
 
         View Rec= inflater.inflate(R.layout.fragment_recon,container,false);
 
-        lista=(ListView)Rec.findViewById(R.id.FragmentListaUsers);
-        NombreU=(TextView)Rec.findViewById(R.id.FragmentNameUser);
-        EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser);
-        PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser);
-        ImgUSer=(ImageView)Rec.findViewById(R.id.FragmentFotoUser);
 
-        arrayAdapter= new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,rooms);
-        lista.setAdapter(arrayAdapter);
+        NombreU=(TextView)Rec.findViewById(R.id.FragmentNameUser2);
+        EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser2);
+        PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser2);
+        ImgUSer=(ImageView)Rec.findViewById(R.id.FragmentFotoUser2);
+
+        rv=(RecyclerView)Rec.findViewById(R.id.recyclerusuarios);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
+        usuarios=new ArrayList<>();
 
 
         NombreU.setText(Singleton.getInstance().getUser());
@@ -69,7 +71,7 @@ public class ReconFragment extends Fragment {
         PerfilU.setText(Singleton.getInstance().getPassword());
         Glide.with(this).load(Singleton.getInstance().getFoto()).apply(RequestOptions.circleCropTransform()).into(ImgUSer);
 
-        FloatingActionButton fab = (FloatingActionButton) Rec.findViewById(R.id.fab);
+        FloatingActionButton fab = (FloatingActionButton) Rec.findViewById(R.id.fab2);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -83,47 +85,19 @@ public class ReconFragment extends Fragment {
                 ActivarCamara.updateChildren(map);
                 FragmentManager tr= getActivity().getSupportFragmentManager();
                 tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
-
-
-
             }
         });
 
-        conexion();
-        return Rec;
-    }
-
-    private void conexion() {
-
-
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Users");
+        adapter = new Adapter(usuarios);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Set<String> set = new HashSet<String>();
-               final String[]emails = new String[0];
-                Iterator i = dataSnapshot.getChildren().iterator();
-                while (i.hasNext()){
-                    set.add(((DataSnapshot)i.next()).getKey());
-                    DatabaseReference ref2=FirebaseDatabase.getInstance().getReference().child("Users").child(set.iterator().next());
-                    ref2.child("email").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            Toast.makeText(getActivity(), dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
-                          // emails[i.next()]=dataSnapshot.getValue().toString();
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    ListItemUsuarios users=snapshot.getValue(ListItemUsuarios.class);
+                    usuarios.add(users);
 
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
                 }
-                rooms.clear();
-                rooms.addAll(set);
-
-                arrayAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -132,20 +106,7 @@ public class ReconFragment extends Fragment {
             }
         });
 
-    }
-
-    private void hijos(DatabaseReference ref2) {
-        ref2.child("email").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+        return Rec;
     }
 
 
