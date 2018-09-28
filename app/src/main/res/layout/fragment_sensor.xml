@@ -45,6 +45,10 @@
         android:textStyle="bold"
         tools:layout_editor_absoluteX="0dp"
         tools:layout_editor_absoluteY="69dp" />
+    <ListView
+        android:id="@+id/FragmentListaSensores"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></ListView>
 
 
     <android.support.v7.widget.RecyclerView

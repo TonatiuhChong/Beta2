@@ -1,12 +1,14 @@
 package com.example.hombr.beta.Activities;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hombr.beta.R;
@@ -18,18 +20,29 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 public class Register2Activity extends AppCompatActivity implements View.OnClickListener{
-    EditText editTextEmail, editTextPassword,editTextPassword2;
-
+    private EditText editTextEmail, editTextPassword,editTextPassword2;
+    private TextView saludo,email,contra,contra2;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
-
+        Typeface fontbold = Typeface.createFromAsset(getAssets(), "font/googlebold.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "font/googleregular.ttf");
+        //EDIT
         editTextEmail = (EditText) findViewById(R.id.REmail);
         editTextPassword = (EditText) findViewById(R.id.Password);
         editTextPassword2 = (EditText) findViewById(R.id.Password2);
+        //SALUDOS
+        saludo=(TextView)findViewById(R.id.saludoRegistro);
+        email=(TextView)findViewById(R.id.saludoemail);
+        contra=(TextView)findViewById(R.id.RefPassword);
+        contra2=(TextView)findViewById(R.id.RefPassword2);
+        saludo.setTypeface(fontbold);
+        email.setTypeface(font);
+        contra.setTypeface(font);
+        contra2.setTypeface(font);
         mAuth = FirebaseAuth.getInstance();
 
         findViewById(R.id.EntrarMenu).setOnClickListener(this);

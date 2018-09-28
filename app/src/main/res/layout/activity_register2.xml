@@ -23,13 +23,29 @@
         app:srcCompat="@drawable/usuario" />
 
     <TextView
+        android:id="@+id/saludoRegistro"
         android:layout_width="match_parent"
         android:layout_height="59dp"
         android:text="@string/SaludoRegistro"
         android:textAlignment="center"
         android:textSize="24sp" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+
+
+
 
     <TextView
+        android:id="@+id/saludoemail"
         android:layout_width="match_parent"
         android:layout_height="31dp"
         android:text="@string/RegistroEmail"
@@ -43,7 +59,8 @@
         android:textColor="@color/design_default_color_primary_dark"
         android:textSize="18sp"
         tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="142dp" />
+        tools:layout_editor_absoluteY="142dp"
+        android:inputType="textEmailAddress"/>
 
     <TextView
         android:id="@+id/RefPassword"
@@ -115,6 +132,7 @@
             android:layout_centerVertical="true"
             android:visibility="gone" />
     </LinearLayout>
-
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

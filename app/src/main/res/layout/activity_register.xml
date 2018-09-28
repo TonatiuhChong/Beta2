@@ -16,14 +16,19 @@
         android:background="?attr/colorPrimary"
         app:popupTheme="@style/AppTheme.PopupOverlay" />
 
+
+
     <TextView
+        android:id="@+id/saludocamara"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
         android:layout_marginTop="20dp"
         android:text="Selecciona tu foto de perfil"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textSize="18dp"
+        />
 
     <ImageView
         android:id="@+id/Foto"
@@ -34,6 +39,16 @@
         android:layout_marginTop="34dp"
         android:src="@mipmap/cameraregister" />
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
@@ -75,4 +90,6 @@
         android:textColorLink="@color/design_default_color_primary_dark" />
 
 
+    </LinearLayout>
+</ScrollView>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.example.hombr.beta.Fragments;
 
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -48,6 +49,7 @@ public class Recon2Fragment extends Fragment {
     private RecyclerView rv;
     private RecyclerView.Adapter adapter;
     private List<ListItemUsuarios> usuarios;
+
 
 
     @Nullable

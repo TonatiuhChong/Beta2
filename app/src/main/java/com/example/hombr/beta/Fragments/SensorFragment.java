@@ -6,17 +6,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.hombr.beta.Adapters.ListItemSensores;
 import com.example.hombr.beta.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -29,7 +25,6 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Set;
 
 
@@ -37,9 +32,8 @@ public class SensorFragment extends Fragment {
 
     private ListView listas;
     private TextView Cuartos, Sensores;
-    private RecyclerView rv;
-    private RecyclerView.Adapter adapter;
-    private List<ListItemSensores> listasensores;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> sensores = new ArrayList<>();
 
     @Nullable
     @Override
@@ -49,33 +43,26 @@ public class SensorFragment extends Fragment {
 
         Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
         Sensores = (TextView) Rec.findViewById(R.id.FragmentoSensorCantidad);
-        //listas = (ListView) Rec.findViewById(R.id.FragmentListaSensores);
+        listas = (ListView) Rec.findViewById(R.id.FragmentListaSensores);
         TextView prueba=(TextView)Rec.findViewById(R.id.FSsensores);
 
-        rv=(RecyclerView) Rec.findViewById(R.id.FSrecycler);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL,false));
-        listasensores=new ArrayList<>();
+        arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sensores);
+        listas.setAdapter(arrayAdapter);
 
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Habitaciones");
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                Set<String> set = new HashSet<String>();
-//                Iterator i = dataSnapshot.getChildren().iterator();
-//                while (i.hasNext()) {
-//                    set.add(((DataSnapshot) i.next()).getKey());
-//                }
-//                sensores.clear();
-//                sensores.addAll(set);
-//                arrayAdapter.notifyDataSetChanged();
-//                Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
-//                //Sensores.setText(@string/Habitacion"+" "+sensores.size());
-
-
-
-
-
-
+                Set<String> set = new HashSet<String>();
+                Iterator i = dataSnapshot.getChildren().iterator();
+                while (i.hasNext()) {
+                    set.add(((DataSnapshot) i.next()).getKey());
+                }
+                sensores.clear();
+                sensores.addAll(set);
+                arrayAdapter.notifyDataSetChanged();
+                Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
+                //Sensores.setText(@string/Habitacion"+" "+sensores.size());
 
             }
 

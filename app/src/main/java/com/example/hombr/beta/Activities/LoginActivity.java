@@ -85,19 +85,28 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         Typeface fontbold = Typeface.createFromAsset(getAssets(), "font/googlebold.ttf");
-    //    Typeface font = Typeface.createFromAsset(getAssets(), "font/googleregular.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "font/googleregular.ttf");
         TextView textView = (TextView) findViewById(R.id.saludobienvenida);
         textView.setTypeface(fontbold);
+        TextView pp= (TextView) findViewById(R.id.firma);
+        pp.setTypeface(font);
+
+
         // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        mEmailView.setTypeface(font);
+
         populateAutoComplete();
 
 
         mPasswordView = (EditText) findViewById(R.id.password);
+        mPasswordView.setTypeface(font);
+
         google =(SignInButton) findViewById(R.id.BtnGoogle);
+
         mAuth = FirebaseAuth.getInstance();
         olvido=(TextView)findViewById(R.id.ForgotPassword);
-        olvido.setTypeface(fontbold);
+        olvido.setTypeface(font);
 
         olvido.setOnClickListener(new OnClickListener() {
             @Override
@@ -145,6 +154,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
         Registrar=(TextView)findViewById(R.id.Registrarse);
+        Registrar.setTypeface(font);
+
         //Registrar.setTypeface(fontbold);
         Registrar.setOnClickListener(new OnClickListener() {
             @Override

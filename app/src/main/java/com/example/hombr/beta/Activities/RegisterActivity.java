@@ -1,13 +1,19 @@
 package com.example.hombr.beta.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.Build;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Patterns;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,24 +41,26 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
+import static android.Manifest.permission.READ_CONTACTS;
+
 public class RegisterActivity extends AppCompatActivity {
     private static final int CHOOSE_IMAGE = 101;
 
-    TextView textView;
+    TextView textView,camara;
     ImageView imageView;
     EditText editText;
-
     Uri uriProfileImage;
-
     String profileImageUrl;
-
     FirebaseAuth mAuth;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         mAuth = FirebaseAuth.getInstance();
+        Typeface fontbold = Typeface.createFromAsset(getAssets(), "font/googlebold.ttf");
+        Typeface font = Typeface.createFromAsset(getAssets(), "font/googleregular.ttf");
 
         Toolbar toolbar = findViewById(R.id.toolbarRegistro);
         setSupportActionBar(toolbar);
@@ -60,11 +68,33 @@ public class RegisterActivity extends AppCompatActivity {
         editText = (EditText) findViewById(R.id.Rusuario);
         imageView = (ImageView) findViewById(R.id.Foto);
         textView = (TextView) findViewById(R.id.VerificarEmail);
+        camara = (TextView) findViewById(R.id.saludocamara);
+        camara.setTypeface(fontbold);
+
+
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showImageChooser();
+                AlertDialog.Builder builder= new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("Escoja una opcion")
+                        .setItems(R.array.acciones, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which){
+
+                                    case 0:
+                                        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                                            dispatchTakePictureIntent();
+                                        }
+                                        break;
+                                    case 1:
+                                        showImageChooser();
+                                        break;
+                                }
+                            }
+                        });
+
             }
         });
 
@@ -77,6 +107,13 @@ public class RegisterActivity extends AppCompatActivity {
                 saveUserInformation();
             }
         });
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+        }
     }
 
 
@@ -180,7 +217,10 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
                 imageView.setImageBitmap(bitmap);
+                //
 
+
+                //
                 uploadImageToFirebaseStorage();
 
             } catch (IOException e) {

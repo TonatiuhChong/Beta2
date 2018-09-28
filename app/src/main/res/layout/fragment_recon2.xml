@@ -29,8 +29,8 @@
 
         <ImageView
             android:id="@+id/FragmentFotoUser2"
-            android:layout_width="133dp"
-            android:layout_height="114dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_marginEnd="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/linearLayout"

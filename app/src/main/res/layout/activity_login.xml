@@ -28,7 +28,6 @@
         android:paddingTop="50dp"
         app:srcCompat="@mipmap/iconoprincipal_round" />
 
-
     <TextView
         android:id="@+id/saludobienvenida"
         android:layout_width="match_parent"
@@ -103,10 +102,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@color/colorPrimaryDark"
+        android:backgroundTint="@android:color/holo_blue_light"
         android:elevation="2dp"
         android:text="@string/Login"
-        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-        />
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1" />
     <com.google.android.gms.common.SignInButton
         android:id="@+id/BtnGoogle"
         android:layout_width="match_parent"
@@ -122,26 +121,28 @@
 
 </LinearLayout>
 
-            <TextView
-                android:id="@+id/Registrarse"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:text="@string/Registrarse"
-                android:textAlignment="center"
-                android:textFontWeight="18dp" />
-
-
-
         </LinearLayout>
     </ScrollView>
+    <TextView
+        android:id="@+id/Registrarse"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:text="@string/Registrarse"
+        android:textAlignment="center"
+        android:textFontWeight="18dp" />
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="20dp" />
+
 
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/firma"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Diseñado por alumnos de UPIITA"
-        android:textAlignment="textEnd" />
+        android:textAlignment="textEnd"
+        android:typeface="normal"/>
 
 </LinearLayout>
