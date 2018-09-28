@@ -209,10 +209,6 @@ public class ControlFragment extends Fragment {
                 break;
 
         }
-
-
-
-
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

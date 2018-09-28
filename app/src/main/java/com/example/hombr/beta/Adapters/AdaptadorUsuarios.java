@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.hombr.beta.R;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.ViewHolder> {
@@ -31,10 +32,12 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Vi
 
     @Override
     public void onBindViewHolder( ViewHolder viewHolder, int i) {
-     final ListItemUsuarios listitem =listItems2.get(i);
-    viewHolder.email.setText(listitem.getCorreo());
-    viewHolder.nombre.setText(listitem.getNombre());
-    viewHolder.fotito.setImageResource(listitem.getFotoUsuario());
+    ListItemUsuarios listitem =listItems2.get(i);
+    viewHolder.email.setText(listitem.getEmail());
+    viewHolder.nombre.setText(listitem.getName());
+//    viewHolder.nivel.setText(listitem.getPassword());
+//    viewHolder.extra.setText(listitem.getReconocimiento()   );
+//    viewHolder.fotito.setImageResource(listitem.getFotoUsuario());
     }
 
     @Override
@@ -45,15 +48,17 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Vi
     public class ViewHolder extends RecyclerView.ViewHolder{
 
 
-        public TextView nombre, email,nivel;
+        public TextView nombre, email,nivel,extra;
         public ImageView fotito;
 
         public  ViewHolder(View itemView){
             super(itemView);
 
             nombre=(TextView)itemView.findViewById(R.id.FRNombreUsuario);
+            nivel=(TextView)itemView.findViewById(R.id.FRExtra1);
+            extra=(TextView)itemView.findViewById(R.id.FRExtra2);
             email=(TextView)itemView.findViewById(R.id.FREmailUsuario);
-            fotito=(ImageView)itemView.findViewById(R.id.FRImagenUsuario);
+//            fotito=(ImageView)itemView.findViewById(R.id.FRImagenUsuario);
 
 
 

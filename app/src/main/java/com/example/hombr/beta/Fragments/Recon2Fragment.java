@@ -21,6 +21,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.hombr.beta.Adapters.AdaptadorUsuarios;
 import com.example.hombr.beta.Adapters.ListItemUsuarios;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
@@ -45,25 +46,21 @@ public class Recon2Fragment extends Fragment {
     private ImageView ImgUSer;
     public  Boolean VActivacion=Boolean.TRUE;
     private RecyclerView rv;
+    private RecyclerView.Adapter adapter;
     private List<ListItemUsuarios> usuarios;
-    private Adapter adapter;
 
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View Rec= inflater.inflate(R.layout.fragment_recon,container,false);
-
+        View Rec= inflater.inflate(R.layout.fragment_recon2,container,false);
 
         NombreU=(TextView)Rec.findViewById(R.id.FragmentNameUser2);
         EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser2);
         PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser2);
         ImgUSer=(ImageView)Rec.findViewById(R.id.FragmentFotoUser2);
 
-        rv=(RecyclerView)Rec.findViewById(R.id.recyclerusuarios);
-        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
-        usuarios=new ArrayList<>();
 
 
         NombreU.setText(Singleton.getInstance().getUser());
@@ -87,17 +84,25 @@ public class Recon2Fragment extends Fragment {
                 tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
             }
         });
+        rv=(RecyclerView)Rec.findViewById(R.id.recyclerusuarios);
+        rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL,false));
+        usuarios=new ArrayList<>();
+
 
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Users");
-        adapter = new Adapter(usuarios);
+        adapter = new AdaptadorUsuarios(usuarios,getActivity());
+        rv.setAdapter(adapter);
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                usuarios.removeAll(usuarios);
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     ListItemUsuarios users=snapshot.getValue(ListItemUsuarios.class);
                     usuarios.add(users);
 
+
                 }
+                adapter.notifyDataSetChanged();
             }
 
             @Override

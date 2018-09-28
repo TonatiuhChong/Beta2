@@ -34,7 +34,7 @@ public class AdaptadorListaSensores extends RecyclerView.Adapter<AdaptadorListaS
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final ListItemSensores listSensores=listItems.get(i);
         viewHolder.HabitacionListview.setText(listSensores.getHabitacion());
-        viewHolder.TipoSensor.setText(listSensores.getTsensor());
+        viewHolder.TipoSensor.setText(listSensores.get());
         viewHolder.ValorSensor.setText(listSensores.getValorSensor());
         viewHolder.TipoMotor.setText(listSensores.getTmotor());
         viewHolder.ValorMotor.setText(listSensores.getEstadoMotor());

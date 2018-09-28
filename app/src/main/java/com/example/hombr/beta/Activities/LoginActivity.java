@@ -84,10 +84,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-
-        Typeface fontbold = Typeface.createFromAsset(getAssets(), "font/googleregular.ttf");
-    //    Typeface font = Typeface.createFromAsset(getAssets(), "font/googlebold.ttf");
+        Typeface fontbold = Typeface.createFromAsset(getAssets(), "font/googlebold.ttf");
+    //    Typeface font = Typeface.createFromAsset(getAssets(), "font/googleregular.ttf");
         TextView textView = (TextView) findViewById(R.id.saludobienvenida);
         textView.setTypeface(fontbold);
         // Set up the login form.
@@ -147,7 +145,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
         Registrar=(TextView)findViewById(R.id.Registrarse);
-        Registrar.setTypeface(fontbold);
+        //Registrar.setTypeface(fontbold);
         Registrar.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -4,30 +4,48 @@ import java.net.URI;
 
 public class ListItemUsuarios {
 
-    String Nombre, Correo, Nivel;
-    int FotoUsuario;
+    String name, email, password,reconocimiento;
+    public ListItemUsuarios(){}
 
-    public String getNombre() {
-        return Nombre;
+    public String getName() {
+        return name;
     }
 
-    public String getCorreo() {
-        return Correo;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getNivel() {
-        return Nivel;
+    public String getEmail() {
+        return email;
     }
 
-    public int getFotoUsuario() {
-        return FotoUsuario;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public ListItemUsuarios(String nombre, String correo, String nivel, int fotoUsuario) {
+    public String getPassword() {
+        return password;
+    }
 
-        Nombre = nombre;
-        Correo = correo;
-        Nivel = nivel;
-        FotoUsuario = fotoUsuario;
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getReconocimiento() {
+        return reconocimiento;
+    }
+
+    public void setReconocimiento(String reconocimiento) {
+        this.reconocimiento = reconocimiento;
+    }
+
+
+    public ListItemUsuarios(String name, String email, String password, String reconocimiento) {
+
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.reconocimiento = reconocimiento;
+
     }
 }

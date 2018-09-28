@@ -1,46 +1,50 @@
 package com.example.hombr.beta.Adapters;
 
 public class ListItemSensores {
-    private String Tsensor, ValorSensor, Tmotor, EstadoMotor, Habitacion;
+    private String Ambiental;
+    private String Presencia;
+    private String Ventana;
+    private String Puerta;
+    private String Iluminacion;
 
-    public ListItemSensores(String tsensor, String valorSensor, String tmotor, String estadoMotor, String habitacion) {
-        Tsensor = tsensor;
-        ValorSensor = valorSensor;
-        Tmotor = tmotor;
-        EstadoMotor = estadoMotor;
-        Habitacion = habitacion;
+    public String getAmbiental() {
+        return Ambiental;
     }
 
-    public String getTsensor() {
-        return Tsensor;
+    public void setAmbiental(String ambiental) {
+        Ambiental = ambiental;
     }
 
-    public void setTsensor(String tsensor) {
-        Tsensor = tsensor;
+    public String getPresencia() {
+        return Presencia;
     }
 
-    public String getValorSensor() {
-        return ValorSensor;
+    public void setPresencia(String presencia) {
+        Presencia = presencia;
     }
 
-    public void setValorSensor(String valorSensor) {
-        ValorSensor = valorSensor;
+    public String getVentana() {
+        return Ventana;
     }
 
-    public String getTmotor() {
-        return Tmotor;
+    public void setVentana(String ventana) {
+        Ventana = ventana;
     }
 
-    public void setTmotor(String tmotor) {
-        Tmotor = tmotor;
+    public String getPuerta() {
+        return Puerta;
     }
 
-    public String getEstadoMotor() {
-        return EstadoMotor;
+    public void setPuerta(String puerta) {
+        Puerta = puerta;
     }
 
-    public void setEstadoMotor(String estadoMotor) {
-        EstadoMotor = estadoMotor;
+    public String getIluminacion() {
+        return Iluminacion;
+    }
+
+    public void setIluminacion(String iluminacion) {
+        Iluminacion = iluminacion;
     }
 
     public String getHabitacion() {
@@ -50,4 +54,18 @@ public class ListItemSensores {
     public void setHabitacion(String habitacion) {
         Habitacion = habitacion;
     }
-}
+
+    public ListItemSensores(String ambiental, String presencia, String ventana, String puerta, String iluminacion, String habitacion) {
+
+        Ambiental = ambiental;
+        Presencia = presencia;
+        Ventana = ventana;
+        Puerta = puerta;
+        Iluminacion = iluminacion;
+        Habitacion = habitacion;
+    }
+
+    private String Habitacion;
+
+
+   }
