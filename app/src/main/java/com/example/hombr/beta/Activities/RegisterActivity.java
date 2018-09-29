@@ -76,25 +76,25 @@ public class RegisterActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                AlertDialog.Builder builder= new AlertDialog.Builder(RegisterActivity.this);
-                builder.setTitle("Escoja una opcion")
-                        .setItems(R.array.acciones, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                switch (which){
-
-                                    case 0:
-                                        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-                                            dispatchTakePictureIntent();
-                                        }
-                                        break;
-                                    case 1:
-                                        showImageChooser();
-                                        break;
-                                }
-                            }
-                        });
-
+//                AlertDialog.Builder builder= new AlertDialog.Builder(RegisterActivity.this);
+//                builder.setTitle("Escoja una opcion")
+//                        .setItems(R.array.acciones, new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                switch (which){
+//
+//                                    case 0:
+//                                        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+//                                            dispatchTakePictureIntent();
+//                                        }
+//                                        break;
+//                                    case 1:
+//                                        showImageChooser();
+//                                        break;
+//                                }
+//                            }
+//                        });
+          showImageChooser();
             }
         });
 
