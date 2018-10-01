@@ -78,29 +78,29 @@ public class RegisterActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                AlertDialog.Builder builder= new AlertDialog.Builder(RegisterActivity.this);
-//                builder.setTitle("Escoja una opcion")
-//                        .setItems(R.array.acciones, new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                switch (which){
-//
-//                                    case 0:
-//                                        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-//                                            dispatchTakePictureIntent();
-//                                        }
-//                                        break;
-//                                    case 1:
-//                                        showImageChooser();
-//                                        break;
-//                                }
-//                            }
-//                        });
-          showImageChooser();
-          PackageManager pack=getPackageManager();
-//                List<ResolveInfo> activity=pack.queryIntentActivities(MediaStore.ACTION_IMAGE_CAPTURE,);
+                AlertDialog.Builder builder= new AlertDialog.Builder(RegisterActivity.this);
+                builder.setTitle("Escoja una opcion")
+                        .setItems(R.array.acciones, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                switch (which){
+
+                                    case 0:
+                                        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
+                                            dispatchTakePictureIntent();
+                                        }
+                                        break;
+                                    case 1:
+                                        showImageChooser();
+                                        break;
+                                }
+                            }
+                        });
+            builder.show();
             }
+
         });
+
 
         loadUserInformation();
 
@@ -162,8 +162,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         }
     }
-
-
     private void saveUserInformation() {
 
         String displayName = editText.getText().toString();
@@ -211,7 +209,12 @@ public class RegisterActivity extends AppCompatActivity {
                     });
         }
     }
-
+    private void showImageChooser() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
+    }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -221,16 +224,23 @@ public class RegisterActivity extends AppCompatActivity {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
                 imageView.setImageBitmap(bitmap);
-                //
-
-
-                //
                 uploadImageToFirebaseStorage();
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+            imageView.setImageBitmap(imageBitmap);
+            uploadImageToFirebaseStorage();
+
+        }
+
+
     }
 
     private void uploadImageToFirebaseStorage() {
@@ -238,19 +248,16 @@ public class RegisterActivity extends AppCompatActivity {
                 FirebaseStorage.getInstance().getReference("profilepics/" + System.currentTimeMillis() + ".jpg");
 
         if (uriProfileImage != null) {
-
             profileImageRef.putFile(uriProfileImage)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-
                             profileImageUrl = taskSnapshot.getDownloadUrl().toString();
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
                         @Override
                         public void onFailure(@NonNull Exception e) {
-
                             Toast.makeText(RegisterActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -296,16 +303,7 @@ public class RegisterActivity extends AppCompatActivity {
         return true;
     }
 
-    private void showImageChooser() {
 
-
-
-
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
-    }
 
 
 
