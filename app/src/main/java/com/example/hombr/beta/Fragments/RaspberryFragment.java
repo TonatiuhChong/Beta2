@@ -37,7 +37,7 @@ public class RaspberryFragment extends Fragment {
                 map.put("Activacion",false);
                 ActivarCamara.updateChildren(map);
                 FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+                tr.beginTransaction().replace(R.id.escenario, new Recon2Fragment()).commit();
 
             }
         });

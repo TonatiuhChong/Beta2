@@ -50,6 +50,13 @@ public class ControlFragment extends Fragment {
     private String[] Sense = {"Presencia", "Iluminación", "Ambiental"};
     private String[] automatizacion = {"motor", "servo", "luz", "puerta", "ventana"};
 
+    String[] logicos = {"true", "false"};
+    String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
+    String[] NO={"No aplica"};
+
+    private Spinner spinner;
+    ArrayAdapter adapterSpinner;
+
     //***********
     private RecyclerView recyclerView1;
     private RecyclerView.Adapter adapter1;
@@ -172,10 +179,6 @@ public class ControlFragment extends Fragment {
                 R.drawable.iluminacion
         };
 
-        String[] logicos = {"true", "false"};
-        String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
-
-
         final Dialog dialog= new Dialog(getActivity());
         dialog.setContentView(R.layout.dialogcasa);
         dialog.setTitle("Actividades");
@@ -188,8 +191,8 @@ public class ControlFragment extends Fragment {
         recyclerView1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
         listItems=new ArrayList<>();
         //spinner
-        Spinner spinner=(Spinner)dialog.findViewById(R.id.spinner);
-        ArrayAdapter adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+        spinner=(Spinner)dialog.findViewById(R.id.spinner);
+        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
         //Carga valores al list view custom
         for (int i=0; i<images.length; i++){
             ListItemAcciones listItem=new ListItemAcciones(
@@ -198,17 +201,11 @@ public class ControlFragment extends Fragment {
 
             listItems.add(listItem);
         }
-        adapter1=new AdaptadorAcciones(listItems,getActivity());
+        adapter1=new AdaptadorAcciones(listItems,getActivity(),this);
 
         recyclerView1.setAdapter(adapter1);
 
 
-        switch (Singleton.getInstance().getModo()){
-            case "Switch":
-                spinner.setAdapter(adapterSpinner);
-                break;
-
-        }
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -288,6 +285,36 @@ public class ControlFragment extends Fragment {
             });}
     }
 
+    public  void pintar (){
+
+        switch (Singleton.getInstance().getModo()){
+            case "Switch":
+                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                spinner.setAdapter(adapterSpinner);
+                break;
+            case "Presencia":
+                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                spinner.setAdapter(adapterSpinner);
+                break;
+            case "Ambiental":
+                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                spinner.setAdapter(adapterSpinner);
+                break;
+            case "Puerta":
+                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                spinner.setAdapter(adapterSpinner);
+                break;
+            case "Ventana":
+                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                spinner.setAdapter(adapterSpinner);
+                break;
+            case "Iluminación":
+                spinner.setAdapter(adapterSpinner);
+                break;
 
 
+
+        }
+
+    }
 }

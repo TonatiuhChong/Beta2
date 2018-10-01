@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
@@ -40,6 +41,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -95,6 +97,8 @@ public class RegisterActivity extends AppCompatActivity {
 //                            }
 //                        });
           showImageChooser();
+          PackageManager pack=getPackageManager();
+//                List<ResolveInfo> activity=pack.queryIntentActivities(MediaStore.ACTION_IMAGE_CAPTURE,);
             }
         });
 

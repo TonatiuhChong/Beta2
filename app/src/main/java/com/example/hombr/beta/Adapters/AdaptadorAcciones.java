@@ -1,5 +1,6 @@
 package com.example.hombr.beta.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hombr.beta.Fragments.ControlFragment;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
 
@@ -18,10 +20,12 @@ import java.util.List;
 public class AdaptadorAcciones extends RecyclerView.Adapter<AdaptadorAcciones.ViewHolder> {
 
     private List<ListItemAcciones> listItems;
+    ControlFragment p;
 
-    public AdaptadorAcciones(List<ListItemAcciones> listItems, Context context) {
+    public AdaptadorAcciones(List<ListItemAcciones> listItems, Context context, ControlFragment p) {
         this.listItems = listItems;
         this.context = context;
+        this.p= p;
     }
 
     private Context context;
@@ -47,6 +51,7 @@ public class AdaptadorAcciones extends RecyclerView.Adapter<AdaptadorAcciones.Vi
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setModo(listItem.getDesc());
+                p.pintar();
                 Toast.makeText(context,Singleton.getInstance().getModo(), Toast.LENGTH_SHORT).show();
 
             }
