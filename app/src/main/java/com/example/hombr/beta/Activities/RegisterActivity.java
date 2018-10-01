@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -40,7 +41,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import static android.Manifest.permission.READ_CONTACTS;
@@ -48,6 +52,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 public class RegisterActivity extends AppCompatActivity {
     private static final int CHOOSE_IMAGE = 101;
 
+    String mCurrentPhotoPath;
     TextView textView,camara;
     ImageView imageView;
     EditText editText;
@@ -72,9 +77,6 @@ public class RegisterActivity extends AppCompatActivity {
         textView = (TextView) findViewById(R.id.VerificarEmail);
         camara = (TextView) findViewById(R.id.saludocamara);
         camara.setTypeface(fontbold);
-
-
-
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,10 +86,12 @@ public class RegisterActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which){
-
                                     case 0:
                                         if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-                                            dispatchTakePictureIntent();
+                                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                            }
                                         }
                                         break;
                                     case 1:
@@ -100,11 +104,7 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
         });
-
-
         loadUserInformation();
-
-
         findViewById(R.id.Registrar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,14 +112,6 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
     }
-
-    private void dispatchTakePictureIntent() {
-        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-        }
-    }
-
 
     @Override
     protected void onStart() {
@@ -235,6 +227,18 @@ public class RegisterActivity extends AppCompatActivity {
 
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date(1));
+            String imageFileName = "JPEG_" + timeStamp + "_";
+            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+            try {
+                File image = File.createTempFile(
+                        imageFileName,  /* prefix */
+                        ".jpg",         /* suffix */
+                        storageDir      /* directory */
+                );
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             imageView.setImageBitmap(imageBitmap);
             uploadImageToFirebaseStorage();
 

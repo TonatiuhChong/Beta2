@@ -49,6 +49,22 @@ public class ControlFragment extends Fragment {
     private String[] rooms = {"Cocina", "Habitacion1", "Sala", "Estudio", "Entrada", "Comedor"};
     private String[] Sense = {"Presencia", "Iluminación", "Ambiental"};
     private String[] automatizacion = {"motor", "servo", "luz", "puerta", "ventana"};
+    String[] NAcciones = {
+            "Switch",
+            "Presencia",
+            "Ambiental",
+            "Puerta",
+            "Ventana",
+            "Iluminación"
+    };
+    int [] images = {
+            R.drawable.corriente,
+            R.drawable.presencia,
+            R.drawable.ambiental,
+            R.drawable.puerta,
+            R.drawable.ventana,
+            R.drawable.iluminacion
+    };
 
     String[] logicos = {"true", "false"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
@@ -97,6 +113,7 @@ public class ControlFragment extends Fragment {
         sala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Singleton.getInstance().setHabitacion("Sala");
                 dialogos();
 
             }
@@ -104,117 +121,146 @@ public class ControlFragment extends Fragment {
         comedor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Comedor");
                 dialogos();
             }
         });
         cocina1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Cocina Parte 1");
                 dialogos();
             }
         });
         cocina2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Cocina Parte2");
                 dialogos();
             }
         });
         servicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Servicio");
                 dialogos();
             }
         });
         bano.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Sanitario 1");
                 dialogos();
             }
         });
         pasillo1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Pasillo 1");
                 dialogos();
             }
         });
         estudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Estudio");
                 dialogos();
             }
         });
         pasillo2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Pasillo 2");
                 dialogos();
             }
         });
         pasillo3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                Singleton.getInstance().setHabitacion("Pasillo 3");
                 dialogos();
             }
         });
         //***********************
 
-        Singleton.getInstance().setModo("Falso");
+//        Singleton.getInstance().setModo("Falso");
         return Rec;
     }
 
     private void dialogos() {
-        String[] NAcciones = {
-                "Switch",
-                "Presencia",
-                "Ambiental",
-                "Puerta",
-                "Ventana",
-                "Iluminación"
-        };
-        int [] images = {
-                R.drawable.corriente,
-                R.drawable.presencia,
-                R.drawable.ambiental,
-                R.drawable.puerta,
-                R.drawable.ventana,
-                R.drawable.iluminacion
-        };
-
-        final Dialog dialog= new Dialog(getActivity());
+        final Dialog dialog = new Dialog(getActivity());
         dialog.setContentView(R.layout.dialogcasa);
         dialog.setTitle("Actividades");
         //********************************
         TextView text = (TextView) dialog.findViewById(R.id.text);
         text.setText(Singleton.getInstance().getHabitacion());
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
-        recyclerView1=(RecyclerView)dialog.findViewById(R.id.listviewAcciones);
+        recyclerView1 = (RecyclerView) dialog.findViewById(R.id.listviewAcciones);
         //recyclerView1.hasFixedSize(true);
-        recyclerView1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
-        listItems=new ArrayList<>();
+        recyclerView1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL, false));
+        listItems = new ArrayList<>();
         //spinner
-        spinner=(Spinner)dialog.findViewById(R.id.spinner);
-        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+        spinner = (Spinner) dialog.findViewById(R.id.spinner);
+        adapterSpinner = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, NO);
         //Carga valores al list view custom
-        for (int i=0; i<images.length; i++){
-            ListItemAcciones listItem=new ListItemAcciones(
+        for (int i = 0; i < images.length; i++) {
+            ListItemAcciones listItem = new ListItemAcciones(
                     NAcciones[i], images[i]
             );
-
             listItems.add(listItem);
         }
-        adapter1=new AdaptadorAcciones(listItems,getActivity(),this);
-
+        adapter1 = new AdaptadorAcciones(listItems, getActivity(), this);
         recyclerView1.setAdapter(adapter1);
-
-
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getHabitacion());
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put(Singleton.getInstance().getTsensores(), Singleton.getInstance().getHabitacion());
+                ref.updateChildren(map);
+                Intent intent = new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://ideorreas.mx/inmotica-domotica/"));
+
+                PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+                NotificationCompat.Builder buildern = new NotificationCompat.Builder(getActivity());
+                buildern.setContentIntent(pendingIntent);
+
+                buildern.setSmallIcon(R.drawable.ambiental);
+                buildern.setAutoCancel(true);
+                buildern.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notifications_black_24dp));
+                buildern.setContentTitle("Cambio de Valor");
+                buildern.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() + " de la acción " + Singleton.getInstance().getTipo() + " con el valor de " + Singleton.getInstance().getValor());
+                buildern.setSubText("Presiona para abrir el mapa");
+
+                NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
+                        getActivity().NOTIFICATION_SERVICE);
+                notificationManager.notify(1, buildern.build());
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 dialog.dismiss();
             }
         });
-
-        dialog.show();
     }
+
+
 
 
     private void actualizar() {
