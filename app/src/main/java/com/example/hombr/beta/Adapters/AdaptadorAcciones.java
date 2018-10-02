@@ -42,17 +42,14 @@ public class AdaptadorAcciones extends RecyclerView.Adapter<AdaptadorAcciones.Vi
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         final ListItemAcciones listItem=listItems.get(i);
 
-
         viewHolder.nombre.setText(listItem.getDesc());
         viewHolder.imagen.setImageResource(listItem.getFoto());
-
-
         viewHolder.imagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setModo(listItem.getDesc());
                 p.pintar();
-                Toast.makeText(context,Singleton.getInstance().getModo(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context,Singleton.getInstance().getModo(), Toast.LENGTH_SHORT).show();
 
             }
         });
