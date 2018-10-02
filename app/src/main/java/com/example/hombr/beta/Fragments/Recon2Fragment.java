@@ -89,8 +89,6 @@ public class Recon2Fragment extends Fragment {
         rv=(RecyclerView)Rec.findViewById(R.id.recyclerusuarios);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL,false));
         usuarios=new ArrayList<>();
-
-
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Users");
         adapter = new AdaptadorUsuarios(usuarios,getActivity());
         rv.setAdapter(adapter);

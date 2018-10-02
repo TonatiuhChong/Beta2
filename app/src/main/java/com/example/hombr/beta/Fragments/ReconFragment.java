@@ -9,18 +9,25 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.example.hombr.beta.Adapters.AdaptadorSensoresValues;
+import com.example.hombr.beta.Adapters.AdaptadorUsuarios;
+import com.example.hombr.beta.Adapters.ListItemUsuarios;
+import com.example.hombr.beta.Adapters.ListItemValuesSensor;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -35,95 +42,48 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
 
 public class ReconFragment extends Fragment {
 
-    private TextView NombreU,EmailU,PerfilU;
-    private ImageView ImgUSer;
-    private ListView lista;
-    private ArrayAdapter<String> arrayAdapter;
-    private ArrayList<String> rooms= new ArrayList<>();
-    public  Boolean VActivacion=Boolean.TRUE;
 
-    @Nullable
+    private TextView Cuartos;
+    private TextView Sensores;
+    private ArrayAdapter<String> arrayAdapter;
+    private ArrayList<String> sensores = new ArrayList<>();
+    //----------------------------------------
+    private RecyclerView rp;
+    private RecyclerView.Adapter adapter;
+    private List<ListItemValuesSensor> values;
+
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
         View Rec= inflater.inflate(R.layout.fragment_recon,container,false);
-
-        lista=(ListView)Rec.findViewById(R.id.FragmentListaUsers);
-        NombreU=(TextView)Rec.findViewById(R.id.FragmentNameUser);
-        EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser);
-        PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser);
-        ImgUSer=(ImageView)Rec.findViewById(R.id.FragmentFotoUser);
-
-        arrayAdapter= new ArrayAdapter<String>(getContext(),android.R.layout.simple_list_item_1,rooms);
-        lista.setAdapter(arrayAdapter);
+        Cuartos = (TextView) Rec.findViewById(R.id.FS2TotalSHab);
+        Sensores = (TextView) Rec.findViewById(R.id.FS2TotalSens);
+        ListView listas = (ListView) Rec.findViewById(R.id.FSkeysFirebase);
+        arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sensores);
+        listas.setAdapter(arrayAdapter);
 
 
-        NombreU.setText(Singleton.getInstance().getUser());
-        EmailU.setText(Singleton.getInstance().getEmail());
-        PerfilU.setText(Singleton.getInstance().getPassword());
-        Glide.with(this).load(Singleton.getInstance().getFoto()).apply(RequestOptions.circleCropTransform()).into(ImgUSer);
-
-        FloatingActionButton fab = (FloatingActionButton) Rec.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-//                VActivacion=!VActivacion;
-                Snackbar.make(view, "Acerquese a la camara para activar el reconocimiento Facial", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-
-                DatabaseReference ActivarCamara= FirebaseDatabase.getInstance().getReference().child("Facial");
-                Map<String,Object> map= new HashMap<String, Object>();
-                map.put("Activacion",VActivacion);
-                ActivarCamara.updateChildren(map);
-                FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
-
-
-
-            }
-        });
-
-        conexion();
-        return Rec;
-    }
-
-    private void conexion() {
-
-
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Users");
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getTipo());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Set<String> set = new HashSet<String>();
-               final String[]emails = new String[0];
                 Iterator i = dataSnapshot.getChildren().iterator();
-                while (i.hasNext()){
-                    set.add(((DataSnapshot)i.next()).getKey());
-                    DatabaseReference ref2=FirebaseDatabase.getInstance().getReference().child("Users").child(set.iterator().next());
-                    ref2.child("email").addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-//                            Toast.makeText(getActivity(), dataSnapshot.getValue().toString(), Toast.LENGTH_SHORT).show();
-                          // emails[i.next()]=dataSnapshot.getValue().toString();
-
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
+                while (i.hasNext()) {
+                    set.add(((DataSnapshot) i.next()).getKey());
                 }
-                rooms.clear();
-                rooms.addAll(set);
-
+                sensores.clear();
+                sensores.addAll(set);
                 arrayAdapter.notifyDataSetChanged();
+                Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
+
             }
 
             @Override
@@ -131,14 +91,23 @@ public class ReconFragment extends Fragment {
 
             }
         });
-
-    }
-
-    private void hijos(DatabaseReference ref2) {
-        ref2.child("email").addValueEventListener(new ValueEventListener() {
+        rp = (RecyclerView) Rec.findViewById(R.id.FSValuesFirebase);
+        rp.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL,false));
+        values= new ArrayList<>();
+        DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getTipo());
+        adapter = new AdaptadorSensoresValues(values,getActivity());
+        rp.setAdapter(adapter);
+        ref2.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                values.removeAll(values);
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    ListItemValuesSensor valoress=snapshot.getValue(ListItemValuesSensor.class);
+                    values.add(valoress);
 
+
+                }
+                adapter.notifyDataSetChanged();
             }
 
             @Override
@@ -146,6 +115,11 @@ public class ReconFragment extends Fragment {
 
             }
         });
+
+
+
+
+        return Rec;
     }
 
 

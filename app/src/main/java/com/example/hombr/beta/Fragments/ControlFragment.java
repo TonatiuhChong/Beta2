@@ -48,10 +48,10 @@ public class ControlFragment extends Fragment {
     private Button btn;
     private ImageView sala,comedor, cocina1,cocina2,estudio,pasillo1,pasillo2,pasillo3,bano,servicio;
     private EditText EditHab,EditSense,EditValue;
-    String[] NAcciones = {"Switch","Presencia","Ambiental","Puerta","Ventana","Iluminación"};
+    String[] NAcciones = {"Apagador","Presencia","Ambiental","Puerta","Ventana","Iluminación"};
     int [] images = {R.drawable.corriente,R.drawable.presencia,R.drawable.ambiental,R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion};
 
-    String[] logicos = {"true", "false"};
+    String[] logicos = {"Apagar", "Encender"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
     String[] NO={"No aplica"};
 
@@ -81,20 +81,7 @@ public class ControlFragment extends Fragment {
         pasillo3=Rec.findViewById(R.id.ImgHabPasillo3);
         bano=Rec.findViewById(R.id.ImgHabBano);
         servicio=Rec.findViewById(R.id.ImgHabServicio);
-        //*******EditText
-//        EditHab=Rec.findViewById(R.id.EditHabitacion);
-//        EditSense=Rec.findViewById(R.id.EditSensor);
-//        EditValue=Rec.findViewById(R.id.EditValor);
-//        EditHab.setText("cocina");
-//        EditSense.setText("notif");
-        //**************
-//        btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                actualizar();
-//            }
-//        });
-        //DIALOGS EMERGENTES
+
         sala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,7 +224,7 @@ public class ControlFragment extends Fragment {
         builder.setAutoCancel(true);
         builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notifications_black_24dp));
         builder.setContentTitle("Cambio de Valor");
-        builder.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() +" de la acción " +Singleton.getInstance().getTipo() +" con el valor de " +Singleton.getInstance().getValor());
+        builder.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() +" de la acción " +Singleton.getInstance().getModo() +" con el valor de " +Singleton.getInstance().getValor());
         builder.setSubText("Presiona para abrir el mapa");
 
         NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
@@ -248,12 +235,6 @@ public class ControlFragment extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //Resultado.setText(dataSnapshot.getValue().toString());
-                //nino=dataSnapshot.getValue().toString();
-                //Toast.makeText(getActivity(), "Dato Actualizado", Toast.LENGTH_SHORT).show();
-//                EditHab.getText().clear();
-//                EditSense.getText().clear();
-//                EditValue.getText().clear();
 
 
             }
@@ -337,7 +318,7 @@ public class ControlFragment extends Fragment {
     public  void pintar (){
 
         switch (Singleton.getInstance().getModo()){
-            case "Switch":
+            case "Apagador":
                 adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
                 OpcionSeleccionada(adapterSpinner,spinner);
                 break;

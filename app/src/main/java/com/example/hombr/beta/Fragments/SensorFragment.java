@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.hombr.beta.R;
+import com.example.hombr.beta.Singletons.Singleton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -79,8 +80,9 @@ public class SensorFragment extends Fragment {
         listas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Singleton.getInstance().setTipo(listas.getItemAtPosition(position).toString());
                 FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new Recon2Fragment()).commit();
+                tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
 
             }
         });
