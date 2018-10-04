@@ -1,13 +1,18 @@
 package com.example.hombr.beta.Fragments;
 
 import android.app.Dialog;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.media.AudioAttributes;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -28,10 +33,12 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.hombr.beta.Activities.MenuActivity;
 import com.example.hombr.beta.Adapters.AdaptadorAcciones;
 import com.example.hombr.beta.Adapters.ListItemAcciones;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
+import com.example.hombr.beta.Singletons.config;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,6 +51,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ControlFragment extends Fragment {
+    private Vibrator v;
     private ListView list;
     private Button btn;
     private ImageView sala,comedor, cocina1,cocina2,estudio,pasillo1,pasillo2,pasillo3,bano,servicio;
@@ -154,9 +162,7 @@ public class ControlFragment extends Fragment {
                 dialogos();
             }
         });
-        //***********************
 
-        //Singleton.getInstance().setModo("Falso");
         return Rec;
     }
 
@@ -215,8 +221,9 @@ public class ControlFragment extends Fragment {
         ref.updateChildren(map);
         Intent intent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://ideorreas.mx/inmotica-domotica/"));
+        Intent home= new Intent(getContext(), MenuActivity.class);
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, home, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
         builder.setContentIntent(pendingIntent);
 
@@ -227,11 +234,16 @@ public class ControlFragment extends Fragment {
         builder.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() +" de la acción " +Singleton.getInstance().getModo() +" con el valor de " +Singleton.getInstance().getValor());
         builder.setSubText("Presiona para abrir el mapa");
 
-        NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
-                getActivity().NOTIFICATION_SERVICE);
-        notificationManager.notify(1, builder.build());
 
+        if (config.getInstance().isNotif()==true) {
 
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
+                    getActivity().NOTIFICATION_SERVICE);
+            notificationManager.notify(1, builder.build());
+            v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(500);
+
+        }
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -298,9 +310,7 @@ public class ControlFragment extends Fragment {
             ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    //Resultado.setText(dataSnapshot.getValue().toString());
-                    //nino=dataSnapshot.getValue().toString();
-                    //Toast.makeText(getActivity(), "Dato Actualizado", Toast.LENGTH_SHORT).show();
+
                     EditHab.getText().clear();
                     EditSense.getText().clear();
                     EditValue.getText().clear();
@@ -356,7 +366,6 @@ public class ControlFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 Singleton.getInstance().setValor((String)parent.getItemAtPosition(position));
-                Toast.makeText(getContext(), Singleton.getInstance().getValor(), Toast.LENGTH_SHORT).show();
             }
 
             @Override

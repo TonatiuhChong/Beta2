@@ -49,7 +49,6 @@ public class AdaptadorAcciones extends RecyclerView.Adapter<AdaptadorAcciones.Vi
             public void onClick(View v) {
                 Singleton.getInstance().setModo(listItem.getDesc());
                 p.pintar();
-                //Toast.makeText(context,Singleton.getInstance().getModo(), Toast.LENGTH_SHORT).show();
 
             }
         });

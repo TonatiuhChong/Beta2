@@ -26,7 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:paddingTop="50dp"
-        app:srcCompat="@mipmap/iconoprincipal_round" />
+        app:srcCompat="@mipmap/principal" />
 
     <TextView
         android:id="@+id/saludobienvenida"

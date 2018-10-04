@@ -24,6 +24,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.KeyEvent;
 import android.view.View;
@@ -39,17 +40,21 @@ import android.widget.Toast;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,15 +67,10 @@ import static android.Manifest.permission.READ_EXTERNAL_STORAGE;
  */
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener  {
 
-
     private static final int REQUEST_READ_CONTACTS = 0;
-
     private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
-
+            "foo@example.com:hello", "bar@example.com:world"};
     private UserLoginTask mAuthTask = null;
-
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView,mLoginFormView;
@@ -79,6 +79,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private static final int REGISTRADO = 777;
     private FirebaseAuth mAuth;
     private TextView olvido,Registrar;
+    private static final String TAG = "LoginActivity";
 
 
     @Override
@@ -261,21 +262,21 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         }
 
+//        if (requestCode == REGISTRADO) {
+//            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+//            try {
+//                // Google Sign In was successful, authenticate with Firebase
+//                GoogleSignInAccount account = task.getResult(ApiException.class);
+//                firebaseAuthWithGoogle(account);
+//            } catch (ApiException e) {
+//                // Google Sign In failed, update UI appropriately
+//                Log.w(TAG, "Google sign in failed", e);
+//                // ...
+//            }
+//        }
 
     }
 
-    private void google(GoogleSignInResult result) {
-        if (result.isSuccess()) {
-
-            Singleton.getInstance().setUser(result.getSignInAccount().getDisplayName());
-            Singleton.getInstance().setEmail(result.getSignInAccount().getEmail());
-            Singleton.getInstance().setFoto(result.getSignInAccount().getPhotoUrl());
-
-            goMainScreen();
-        }else {
-            Toast.makeText(this, R.string.NOTLOGIN, Toast.LENGTH_SHORT).show();
-        }
-    }
 
     private void goMainScreen() {
         Intent intent=new Intent(this,MenuActivity.class);
@@ -286,7 +287,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void handleSignInResult(GoogleSignInResult result) {
 
         if (result.isSuccess()) {
+
             GoogleSignInAccount account= result.getSignInAccount();
+
             Singleton.getInstance().setUser(account.getDisplayName());
             Singleton.getInstance().setEmail(account.getEmail());
             Singleton.getInstance().setFoto(account.getPhotoUrl());
@@ -554,21 +557,52 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-//    @Override
-//    protected void onStart() {
-//        super.onStart();
-//
-//        if(mAuth!=null){
-//            if(mAuth.getCurrentUser().getDisplayName()!=null){
-//                finish();
-//                startActivity(new Intent(this,RegisterActivity.class));
-//            }
-//            else {
-//                finish();
-//                startActivity(new Intent(this,MenuActivity.class));
-//            }
-//
-//        }
-//    }
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        updateUI(currentUser);
+
+    }
+
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
+        final GoogleSignInAccount account= acct;
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        mAuth.signInWithCredential(credential)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.d(TAG, "signInWithCredential:success");
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            Singleton.getInstance().setUser(account.getDisplayName());
+                            Singleton.getInstance().setEmail(account.getEmail());
+                            Singleton.getInstance().setFoto(account.getPhotoUrl());
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.w(TAG, "signInWithCredential:failure", task.getException());
+                            //updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+    }
+    private void updateUI(FirebaseUser user) {
+        if (user != null) {
+
+            Singleton.getInstance().setUser(user.getDisplayName());
+            Singleton.getInstance().setEmail(user.getEmail());
+            Singleton.getInstance().setFoto(user.getPhotoUrl());
+        } else {
+
+        }
+    }
 }
 

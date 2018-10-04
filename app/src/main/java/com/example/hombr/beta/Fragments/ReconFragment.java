@@ -94,7 +94,8 @@ public class ReconFragment extends Fragment {
         rp = (RecyclerView) Rec.findViewById(R.id.FSValuesFirebase);
         rp.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL,false));
         values= new ArrayList<>();
-        DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getTipo());
+        DatabaseReference ref2= FirebaseDatabase.getInstance().getReference().child("Habitaciones")
+                .child(Singleton.getInstance().getTipo());
         adapter = new AdaptadorSensoresValues(values,getActivity());
         rp.setAdapter(adapter);
         ref2.addValueEventListener(new ValueEventListener() {

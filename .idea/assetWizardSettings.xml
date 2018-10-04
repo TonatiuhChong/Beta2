@@ -23,7 +23,7 @@
                                           <PersistentState>
                                             <option name="values">
                                               <map>
-                                                <entry key="scalingPercent" value="71" />
+                                                <entry key="scalingPercent" value="56" />
                                               </map>
                                             </option>
                                           </PersistentState>
@@ -34,16 +34,37 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="fff2ff" />
-                                      <entry key="backgroundLayerName" value="ic_launcher_background" />
-                                      <entry key="foregroundImage" value="D:\OneDrive - Instituto Politecnico Nacional\w32\Añadir cámara-64-128-512px\icons8-añadir-cámara-512.png" />
-                                      <entry key="foregroundLayerName" value="addimagen1" />
-                                      <entry key="outputName" value="addimagen" />
+                                      <entry key="backgroundColor" value="ffffff" />
+                                      <entry key="foregroundImage" value="D:\OneDrive - Instituto Politecnico Nacional\w32\Automatización del hogar-64-128-512px\icons8-automatización-del-hogar-512.png" />
+                                      <entry key="foregroundLayerName" value="launcher" />
                                     </map>
                                   </option>
                                 </PersistentState>
                               </value>
                             </entry>
+                          </map>
+                        </option>
+                      </PersistentState>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </PersistentState>
+          </value>
+        </entry>
+        <entry key="vectorWizard">
+          <value>
+            <PersistentState>
+              <option name="children">
+                <map>
+                  <entry key="vectorAssetStep">
+                    <value>
+                      <PersistentState>
+                        <option name="values">
+                          <map>
+                            <entry key="assetSourceType" value="FILE" />
+                            <entry key="outputName" value="ic_baseline_fingerprint_24px" />
+                            <entry key="sourceFile" value="D:\Downloads\baseline-fingerprint-24px.svg" />
                           </map>
                         </option>
                       </PersistentState>

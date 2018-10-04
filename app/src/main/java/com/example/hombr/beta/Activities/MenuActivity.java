@@ -95,7 +95,7 @@ public class MenuActivity extends AppCompatActivity
         if (currentHour < 7) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.night));
         }
-        if (currentHour < 12 & currentHour > 8) {
+        if (currentHour < 12 & currentHour > 9) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.sunny));
 
         }
@@ -109,6 +109,7 @@ public class MenuActivity extends AppCompatActivity
             nave.setBackground(this.getResources().getDrawable(R.drawable.morning));
 
         }
+        else nave.setBackground(this.getResources().getDrawable(R.drawable.wallpaperpixel));
 
 
     }
@@ -200,6 +201,20 @@ public class MenuActivity extends AppCompatActivity
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        if (Singleton.getInstance().getEmail()== null){
+            FirebaseAuth.getInstance().signOut();
+            mAuth.signOut();
+            finish();
+            startActivity(new Intent(this,LoginActivity.class
+            ));
+
+        }
     }
 }
 

@@ -76,7 +76,7 @@ public class Recon2Fragment extends Fragment {
             public void onClick(View view) {
 //                VActivacion=!VActivacion;
                 Snackbar.make(view, "Acerquese a la camara para activar el reconocimiento Facial", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                        .setAction("Lo tengo", null).show();
 
                 DatabaseReference ActivarCamara= FirebaseDatabase.getInstance().getReference().child("Facial");
                 Map<String,Object> map= new HashMap<String, Object>();
