@@ -48,6 +48,7 @@ import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_CONTACTS;
 
 public class RegisterActivity extends AppCompatActivity {
@@ -89,15 +90,17 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which){
                                     case 0:
-                                        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED) {
-                                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-                                            }
+                                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
                                         }
+
                                         break;
                                     case 1:
-                                        showImageChooser();
+                                        Intent intent = new Intent();
+                                        intent.setType("image/*");
+                                        intent.setAction(Intent.ACTION_GET_CONTENT);
+                                        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
                                         break;
                                 }
                             }
@@ -203,64 +206,34 @@ public class RegisterActivity extends AppCompatActivity {
                     });
         }
     }
-    private void showImageChooser() {
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
-    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        switch(requestCode) {
+            case CHOOSE_IMAGE:
+                if(resultCode == RESULT_OK){
+                    uriProfileImage = data.getData();
+                    try {
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
+                        imageView.setImageBitmap(bitmap);
+                        uploadImageToFirebaseStorage();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
 
-        if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
-
-            uriProfileImage = data.getData();
-            try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
-                imageView.setImageBitmap(bitmap);
-                uploadImageToFirebaseStorage();
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.getData() != null){
-
-                uriProfileImage = data.getData();
-                try {
-                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
-                    imageView.setImageBitmap(bitmap);
-                    uploadImageToFirebaseStorage();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
                 }
 
-            }
+                break;
+            case REQUEST_IMAGE_CAPTURE:
+                if(resultCode == RESULT_OK){
+                    Bundle extras = data.getExtras();
+                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    imageView.setImageBitmap(imageBitmap);
+                        uploadImageToFirebaseStorage();
 
-
-        }
-
-        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date(1));
-            String imageFileName = "JPEG_" + timeStamp + "_";
-            File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            try {
-                File image = File.createTempFile(
-                        imageFileName,  /* prefix */
-                        ".jpg",         /* suffix */
-                        storageDir      /* directory */
-                );
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            imageView.setImageBitmap(imageBitmap);
-            uploadImageToFirebaseStorage();
-
+                }
+                break;
         }
 
 
