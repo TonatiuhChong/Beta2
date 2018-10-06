@@ -152,6 +152,13 @@
             android:background="@android:color/darker_gray" />
 
         <View
+            android:id="@+id/paredabajo"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_alignParentBottom="true"
+            android:background="@android:color/darker_gray" />
+
+        <View
             android:id="@+id/entradaestudio"
             android:layout_width="71dp"
             android:layout_height="2dp"
