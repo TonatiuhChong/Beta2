@@ -1,11 +1,16 @@
 package com.example.hombr.beta.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Patterns;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -15,6 +20,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,6 +40,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
@@ -184,14 +192,55 @@ public class MenuActivity extends AppCompatActivity
             startActivity(new Intent(this, ConfiguracionActivity.class));
 
         } else if (id == R.id.Compartir) {
-
-            Toast.makeText(getApplicationContext(), "Esta Página Sigue en Desarrollo", Toast.LENGTH_SHORT).show();
+            Intent share = new Intent(Intent.ACTION_SEND);
+            share.setType("text/plain");
+            share.putExtra(Intent.EXTRA_TEXT, "Quieres ser parte del club del cambio? Buscanos en Facebook! https://www.facebook.com/WeHouse-717686338586239/ ");
+            startActivity(Intent.createChooser(share, "Comparte WeHouse!"));
+            //Toast.makeText(getApplicationContext(), "Esta Página Sigue en Desarrollo", Toast.LENGTH_SHORT).show();
 
         } else if (id == R.id.Soporte) {
-            Toast.makeText(getApplicationContext(), "Esta Página Sigue en Desarrollo", Toast.LENGTH_SHORT).show();
+            AlertDialog.Builder builder;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+            } else {
+                builder = new AlertDialog.Builder(this);
+            }
+            final EditText input = new EditText(MenuActivity.this);
+
+            builder.setTitle("Solicitud de Comentarios de Aplicacion").setView(input)
+                    .setMessage("Escribe tu duda o comentario para contactarnos contigo! :)")
+                    .setPositiveButton("Petición", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                            // continue with delete
+                            String Comentario=input.getText().toString();
+                            if (Comentario.isEmpty()){
+                                input.setError("Campo Vacio");
+                                input.requestFocus();
+                            }if (Comentario.length()<10){
+                                input.setError("Escribe un poco mas ;)");
+                                input.requestFocus();
+                            }
+
+                            Intent mailIntent = new Intent(Intent.ACTION_VIEW);
+                            Uri data = Uri.parse("mailto:?subject=" + "Comentarios acerca WeHouse"+ "&body=" + Comentario + "&to=" + "zonitetzr@mail.com");
+                            mailIntent.setData(data);
+                            startActivity(Intent.createChooser(mailIntent, "Send mail..."));
+                            }
+                    })
+                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            // do nothing
+                            dialog.cancel();
+                        }
+                    })
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .show();
 
 
         }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
