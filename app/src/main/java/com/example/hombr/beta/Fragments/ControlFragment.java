@@ -158,7 +158,7 @@ public class ControlFragment extends Fragment {
         pasillo3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Pasillo 3");
+                Singleton.getInstance().setHabitacion("Entrada");
                 dialogos();
             }
         });
@@ -259,7 +259,7 @@ public class ControlFragment extends Fragment {
     }
 
 
-    private void actualizar() {
+  /*  private void actualizar() {
         String Habitacion=EditHab.getText().toString();
         String TipoSensor=EditSense.getText().toString();
         String valor=EditValue.getText().toString();
@@ -323,7 +323,7 @@ public class ControlFragment extends Fragment {
 
                 }
             });}
-    }
+    }*/
 
     public  void pintar (){
 
@@ -341,12 +341,20 @@ public class ControlFragment extends Fragment {
                 OpcionSeleccionada(adapterSpinner,spinner);
                 break;
             case "Puerta":
+                if(Singleton.getInstance().getHabitacion()=="Entrada"){
                 adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
-                OpcionSeleccionada(adapterSpinner,spinner);
+                OpcionSeleccionada(adapterSpinner,spinner);}
+                else{ adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                    OpcionSeleccionada(adapterSpinner,spinner);}
                 break;
             case "Ventana":
+                if(Singleton.getInstance().getHabitacion()=="Sala"){
                 adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, analogicos);
-                OpcionSeleccionada(adapterSpinner,spinner);
+                OpcionSeleccionada(adapterSpinner,spinner);}
+                else{
+                    adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                    OpcionSeleccionada(adapterSpinner,spinner);
+                }
                 break;
             case "Iluminación":
                 adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, analogicos);

@@ -98,15 +98,17 @@
 
             <Button
                 android:id="@+id/Login"
-                android:layout_width="172dp"
+                android:layout_width="0px"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Volver" />
 
             <Button
                 android:id="@+id/EntrarMenu"
                 style="@android:style/Widget.Holo.Button.Small"
-                android:layout_width="match_parent"
+                android:layout_width="0px"
                 android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:shadowColor="@color/colorPrimary"
                 android:text="Continuar"
                 android:textAlignment="center"

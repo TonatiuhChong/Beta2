@@ -5,7 +5,7 @@
     android:id="@+id/escenario"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/wallpaperpixel"
+    
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Activities.MenuActivity"
     tools:showIn="@layout/app_bar_menu">
