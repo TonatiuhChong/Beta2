@@ -26,6 +26,20 @@ public class Singleton {
 
     String user,password,email, habitacion,modo,tipo,valor,tsensores;
     Uri foto;
+    String info;
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public Singleton(String info) {
+
+        this.info = info;
+    }
 
     public String getUser() {
         return user;

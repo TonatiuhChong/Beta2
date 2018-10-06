@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.ControlFragment"
-    android:orientation="vertical">
+    >
 
 
     <TextView
@@ -20,7 +20,18 @@
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
         app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.098"
         tools:layout_editor_absoluteX="0dp" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Presiona un icono para interactuar con el sistema."
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="72dp" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -31,11 +42,12 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/firma"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.593"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
         app:layout_constraintVertical_bias="0.531">
 
         <ImageView
@@ -130,12 +142,12 @@
 
         <ImageView
             android:id="@+id/ImgHabSala"
-            android:layout_width="105dp"
-            android:layout_height="79dp"
+            android:layout_width="107dp"
+            android:layout_height="95dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
 
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="0dp"
             android:clickable="true"
             android:src="@drawable/sala" />
 
@@ -288,8 +300,7 @@
             android:layout_marginStart="-17dp"
             android:text="Cuarto de Servicio"
             android:textAlignment="center"
-            android:textSize="12dp
-" />
+            android:textSize="12dp" />
 
         <TextView
             android:id="@+id/textView11"

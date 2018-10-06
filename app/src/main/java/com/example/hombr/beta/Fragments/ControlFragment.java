@@ -76,8 +76,7 @@ public class ControlFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View Rec = inflater.inflate(R.layout.fragment_control, container, false);
         //*******
-//        Resultado = Rec.findViewById(R.id.Mirror);
-        //btn = Rec.findViewById(R.id.BtnActualizar);
+        Singleton.getInstance().setModo("Iluminación");
         //********Habitaciones
         sala=Rec.findViewById(R.id.ImgHabSala);
         comedor=Rec.findViewById(R.id.ImgHabComedor);
@@ -172,10 +171,27 @@ public class ControlFragment extends Fragment {
         dialog.setContentView(R.layout.dialogcasa);
         dialog.setTitle("Actividades");
         //********************************
-        TextView text = (TextView) dialog.findViewById(R.id.text);
+        TextView text = (TextView) dialog.findViewById(R.id.DialogoHabitacion);
+        final TextView info = (TextView) dialog.findViewById(R.id.InformacionDialogo);
         text.setText(Singleton.getInstance().getHabitacion());
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
         Button cancelButton =(Button) dialog.findViewById(R.id.dialogButtonCancel);
+
+        DatabaseReference nn=FirebaseDatabase.getInstance().getReference().child("Habitaciones")
+                .child(Singleton.getInstance().getHabitacion())
+                .child(Singleton.getInstance().getModo());
+        nn.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //info.setText("La accion de " + Singleton.getInstance().getModo().toUpperCase()+" Actualmente tiene el valor de "+dataSnapshot.getValue().toString().toUpperCase());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
         recyclerView1=(RecyclerView)dialog.findViewById(R.id.listviewAcciones);
         //recyclerView1.hasFixedSize(true);
         recyclerView1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
@@ -257,73 +273,6 @@ public class ControlFragment extends Fragment {
             }
         });
     }
-
-
-  /*  private void actualizar() {
-        String Habitacion=EditHab.getText().toString();
-        String TipoSensor=EditSense.getText().toString();
-        String valor=EditValue.getText().toString();
-
-        if (Habitacion.isEmpty()){
-            EditHab.setError("Ingresa o selecciona una habitacion");
-            EditHab.requestFocus();
-        }
-        if (TipoSensor.isEmpty()){
-            EditSense.setError("Ingresa un tipo de sensor");
-            EditSense.requestFocus();
-        }
-        if (valor.isEmpty()){
-            EditValue.setError("Ingresa el valor del sensor");
-            EditValue.requestFocus();
-        }
-
-        else{
-
-            Singleton.getInstance().setHabitacion(Habitacion);
-            Singleton.getInstance().setTipo(TipoSensor);
-            Singleton.getInstance().setValor(valor);
-
-
-            DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getHabitacion());
-            Map<String,Object> map= new HashMap<String, Object>();
-            map.put(TipoSensor,valor);
-            ref.updateChildren(map);
-            Intent intent = new Intent(Intent.ACTION_VIEW,
-                    Uri.parse("https://ideorreas.mx/inmotica-domotica/"));
-
-            PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
-            builder.setContentIntent(pendingIntent);
-
-            builder.setSmallIcon(R.drawable.ambiental);
-            builder.setAutoCancel(true);
-            builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notifications_black_24dp));
-            builder.setContentTitle("Cambio de Valor");
-            builder.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() +" de la acción " +Singleton.getInstance().getTipo() +" con el valor de " +Singleton.getInstance().getValor());
-            builder.setSubText("Presiona para abrir el mapa");
-
-            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
-                    getActivity().NOTIFICATION_SERVICE);
-            notificationManager.notify(1, builder.build());
-
-
-            ref.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-
-                    EditHab.getText().clear();
-                    EditSense.getText().clear();
-                    EditValue.getText().clear();
-
-
-                }
-
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            });}
-    }*/
 
     public  void pintar (){
 

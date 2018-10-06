@@ -12,6 +12,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -83,6 +84,7 @@ public class RegisterActivity extends AppCompatActivity {
                 AlertDialog.Builder builder= new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("Escoja una opcion")
                         .setItems(R.array.acciones, new DialogInterface.OnClickListener() {
+                            @RequiresApi(api = Build.VERSION_CODES.M)
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which){
@@ -212,6 +214,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == CHOOSE_IMAGE && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
             uriProfileImage = data.getData();
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
@@ -221,6 +224,22 @@ public class RegisterActivity extends AppCompatActivity {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+            if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK && data != null && data.getData() != null){
+
+                uriProfileImage = data.getData();
+                try {
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uriProfileImage);
+                    imageView.setImageBitmap(bitmap);
+                    uploadImageToFirebaseStorage();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {

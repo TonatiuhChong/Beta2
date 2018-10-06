@@ -7,14 +7,14 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/text"
+        android:id="@+id/DialogoHabitacion"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Habitacion"
-        android:textStyle="bold"
         android:textAlignment="center"
         android:textColor="@android:color/background_dark"
-        android:textSize="15dp"/>
+        android:textSize="15dp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/textView6"
@@ -38,12 +38,12 @@
 
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/InformacionDialogo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Información"
         android:textAlignment="center"
-        android:textStyle="italic"/>
+        android:textStyle="italic" />
 
     <Spinner
         android:id="@+id/spinner"
