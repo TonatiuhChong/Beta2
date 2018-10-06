@@ -14,9 +14,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:layout_marginTop="10dp"
-        android:text="Mapa del hogar"
+        android:text="Mapa del hogar :)"
         android:textAlignment="center"
-        android:textSize="18dp"
+        android:textSize="24dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/relativeLayout2"
         app:layout_constraintTop_toTopOf="parent"
@@ -31,16 +31,17 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="56dp"
         app:layout_constraintBottom_toTopOf="@+id/firma"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.593"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.531">
 
         <ImageView
             android:id="@+id/ImgHabCocina1"
             android:layout_width="109dp"
-            android:layout_height="96dp"
+            android:layout_height="75dp"
             android:layout_below="@+id/ImgHabSala"
             android:layout_toEndOf="@+id/ImgHabSala"
             android:clickable="true"
@@ -49,9 +50,10 @@
         <ImageView
             android:id="@+id/ImgHabPasillo1"
             android:layout_width="109dp"
-            android:layout_height="87dp"
+            android:layout_height="67dp"
             android:layout_alignStart="@+id/ImgHabSala"
             android:layout_below="@+id/ImgHabBano"
+            android:layout_marginTop="20dp"
             android:clickable="true"
             android:src="@drawable/pasillo" />
 
@@ -68,10 +70,11 @@
 
         <ImageView
             android:id="@+id/ImgHabServicio"
-            android:layout_width="108dp"
-            android:layout_height="38dp"
+            android:layout_width="105dp"
+            android:layout_height="32dp"
             android:layout_alignStart="@+id/ImgHabCocina1"
             android:layout_below="@+id/ImgHabCocina2"
+            android:layout_marginTop="15dp"
             android:clickable="true"
             android:src="@drawable/servicio" />
 
@@ -79,64 +82,62 @@
             android:id="@+id/ImgHabPasillo3"
             android:layout_width="76dp"
             android:layout_height="37dp"
-            android:layout_below="@+id/ImgHabCocina2"
+            android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/ImgHabCocina1"
             android:clickable="true"
             android:src="@drawable/entrada" />
 
         <ImageView
             android:id="@+id/ImgHabPasillo2"
-            android:layout_width="32dp"
+            android:layout_width="71dp"
             android:layout_height="102dp"
             android:layout_below="@+id/ImgHabPasillo1"
+            android:layout_marginEnd="-29dp"
             android:layout_toStartOf="@+id/ImgHabEstudio"
             android:clickable="true"
             android:src="@drawable/pasillo" />
 
         <ImageView
             android:id="@+id/ImgHabEstudio"
-            android:layout_width="75dp"
-            android:layout_height="65dp"
-            android:layout_below="@+id/ImgHabPasillo1"
-            android:layout_toStartOf="@+id/ImgHabCocina1"
+            android:layout_width="50dp"
+            android:layout_height="28dp"
+            android:layout_alignBottom="@+id/ImgHabCocina2"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="42dp"
             android:clickable="true"
             android:src="@drawable/estudio" />
 
         <ImageView
             android:id="@+id/ImgHabCocina2"
-            android:layout_width="109dp"
-            android:layout_height="97dp"
+            android:layout_width="103dp"
+            android:layout_height="78dp"
             android:layout_alignStart="@+id/ImgHabCocina1"
             android:layout_below="@+id/ImgHabCocina1"
+            android:layout_marginStart="5dp"
+            android:layout_marginTop="19dp"
             android:clickable="true"
             android:src="@drawable/cocina1" />
 
         <ImageView
             android:id="@+id/ImgHabComedor"
-            android:layout_width="109dp"
-            android:layout_height="96dp"
+            android:layout_width="105dp"
+            android:layout_height="79dp"
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/ImgHabCocina1"
+            android:layout_marginTop="17dp"
             android:clickable="true"
             android:src="@drawable/comedor" />
 
         <ImageView
             android:id="@+id/ImgHabSala"
-            android:layout_width="109dp"
-            android:layout_height="96dp"
+            android:layout_width="105dp"
+            android:layout_height="79dp"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
 
+            android:layout_marginTop="17dp"
             android:clickable="true"
             android:src="@drawable/sala" />
-
-        <View
-            android:id="@+id/pasillo2estudio"
-            android:layout_width="2dp"
-            android:layout_height="102dp"
-            android:layout_alignParentBottom="true"
-            android:layout_alignStart="@+id/ImgHabPasillo3"
-            android:background="@android:color/darker_gray" />
 
         <View
             android:id="@+id/paredizq"
@@ -160,19 +161,19 @@
 
         <View
             android:id="@+id/entradaestudio"
-            android:layout_width="71dp"
+            android:layout_width="77dp"
             android:layout_height="2dp"
-            android:layout_alignTop="@+id/ImgHabServicio"
-            android:layout_marginEnd="3dp"
+            android:layout_alignTop="@+id/ImgHabPasillo3"
+            android:layout_marginEnd="-2dp"
             android:layout_toStartOf="@+id/ImgHabCocina1"
             android:background="@android:color/darker_gray" />
 
         <View
             android:id="@+id/pasillo1estudio2"
-            android:layout_width="44dp"
+            android:layout_width="45dp"
             android:layout_height="2dp"
-            android:layout_alignBottom="@+id/ImgHabPasillo1"
-            android:layout_marginEnd="3dp"
+            android:layout_below="@+id/ImgHabPasillo1"
+            android:layout_marginEnd="-1dp"
             android:layout_toStartOf="@+id/ImgHabCocina1"
             android:background="@android:color/darker_gray" />
 
@@ -180,7 +181,7 @@
             android:id="@+id/banopasillo1"
             android:layout_width="70dp"
             android:layout_height="2dp"
-            android:layout_alignTop="@+id/ImgHabPasillo1"
+            android:layout_below="@+id/ImgHabBano"
             android:background="@android:color/darker_gray" />
 
         <View
@@ -221,6 +222,14 @@
             android:background="@android:color/darker_gray" />
 
         <View
+            android:id="@+id/estuiopasillo2"
+            android:layout_width="2dp"
+            android:layout_height="65dp"
+            android:layout_above="@+id/ImgHabPasillo3"
+            android:layout_alignStart="@+id/ImgHabPasillo3"
+            android:background="@android:color/darker_gray" />
+
+        <View
             android:id="@+id/comedorcocina1"
             android:layout_width="83dp"
             android:layout_height="2dp"
@@ -229,6 +238,67 @@
             android:layout_marginEnd="2dp"
             android:layout_marginTop="94dp"
             android:background="@android:color/darker_gray" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="104dp"
+            android:layout_height="wrap_content"
+            android:layout_alignEnd="@+id/ImgHabBano"
+            android:layout_marginEnd="-38dp"
+            android:text="Sala"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="105dp"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/comedorcocina1"
+            android:layout_marginStart="-22dp"
+            android:text="Comedor"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="101dp"
+            android:layout_height="19dp"
+            android:layout_alignStart="@+id/comedorcocina1"
+            android:layout_below="@+id/ImgHabCocina1"
+            android:layout_marginStart="-19dp"
+            android:text="Cocina"
+            android:textAlignment="center"
+            android:textSize="12dp" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="74dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ImgHabPasillo3"
+            android:layout_alignStart="@+id/ImgHabPasillo3"
+            android:layout_marginStart="4dp"
+            android:text="Estudio"
+            android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="102dp"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ImgHabServicio"
+            android:layout_alignStart="@+id/comedorcocina1"
+            android:layout_marginBottom="-15dp"
+            android:layout_marginStart="-17dp"
+            android:text="Cuarto de Servicio"
+            android:textAlignment="center"
+            android:textSize="12dp
+" />
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/ImgHabPasillo1"
+            android:layout_alignStart="@+id/ImgHabPasillo3"
+            android:layout_marginBottom="-20dp"
+            android:text="Pasillo1" />
 
     </RelativeLayout>
 
