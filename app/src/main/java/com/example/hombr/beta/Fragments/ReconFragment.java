@@ -103,8 +103,9 @@ public class ReconFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 values.removeAll(values);
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-//                    String valoress=snapshot.toString().split("value = ")[1];
-                    String valoress=snapshot.toString();
+                    String valoress=snapshot.toString().split("value = ")[1];
+                    valoress=valoress.split(" ")[0];
+                    //String valoress=snapshot.toString();
                     values.add(valoress);
 
 

@@ -52,8 +52,10 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/FSValuesFirebase"
-            android:layout_width="202dp"
-            android:layout_height="584dp" />
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent" />
+
+
 
 
     </LinearLayout>

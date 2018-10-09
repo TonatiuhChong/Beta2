@@ -62,9 +62,6 @@ public class Recon2Fragment extends Fragment {
         EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser2);
         PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser2);
         ImgUSer=(ImageView)Rec.findViewById(R.id.FragmentFotoUser2);
-
-
-
         NombreU.setText(Singleton.getInstance().getUser());
         EmailU.setText(Singleton.getInstance().getEmail());
         PerfilU.setText(Singleton.getInstance().getPassword());
