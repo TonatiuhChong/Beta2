@@ -77,6 +77,7 @@ public class ControlFragment extends Fragment {
         View Rec = inflater.inflate(R.layout.fragment_control, container, false);
         //*******
         Singleton.getInstance().setModo("Iluminación");
+        config.getInstance().setNotif(true);
         //********Habitaciones
         sala=Rec.findViewById(R.id.ImgHabSala);
         comedor=Rec.findViewById(R.id.ImgHabComedor);

@@ -13,10 +13,10 @@ import com.example.hombr.beta.R;
 import java.util.List;
 
 public class AdaptadorSensoresValues extends RecyclerView.Adapter<AdaptadorSensoresValues.ViewHolder> {
-    private List <ListItemValuesSensor> listItems2;
+    private List <String> listItems2;
     private Context context;
 
-    public AdaptadorSensoresValues(List<ListItemValuesSensor> listItems2, Context context) {
+    public AdaptadorSensoresValues(List<String> listItems2, Context context) {
         this.listItems2 = listItems2;
         this.context = context;
     }
@@ -30,13 +30,8 @@ public class AdaptadorSensoresValues extends RecyclerView.Adapter<AdaptadorSenso
 
     @Override
     public void onBindViewHolder( ViewHolder viewHolder, int i) {
-    ListItemValuesSensor listitem =listItems2.get(i);
-    viewHolder.ambiental.setText(listitem.getAmbiental());
-    viewHolder.iluminacion.setText(listitem.getIluminacion());
-    viewHolder.presencia.setText(listitem.getPresencia());
-    viewHolder.puerta.setText(listitem.getPuerta());
-    viewHolder.ventana.setText(listitem.getVentana());
-    viewHolder.cambio.setText(listitem.getApagador());
+        String campoActual =listItems2.get(i);
+    viewHolder.ambiental.setText(campoActual);
     }
 
     @Override
@@ -53,11 +48,7 @@ public class AdaptadorSensoresValues extends RecyclerView.Adapter<AdaptadorSenso
             super(itemView);
 
             ambiental=(TextView)itemView.findViewById(R.id.ambiental);
-            iluminacion=(TextView)itemView.findViewById(R.id.iluminacion);
-            presencia=(TextView)itemView.findViewById(R.id.presencia);
-            puerta=(TextView)itemView.findViewById(R.id.puerta);
-            ventana=(TextView)itemView.findViewById(R.id.ventana);
-            cambio=(TextView)itemView.findViewById(R.id.cambio);
+
 
         }
     }

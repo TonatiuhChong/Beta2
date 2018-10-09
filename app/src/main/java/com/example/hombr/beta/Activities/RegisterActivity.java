@@ -42,6 +42,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
@@ -229,8 +230,12 @@ public class RegisterActivity extends AppCompatActivity {
                 if(resultCode == RESULT_OK){
                     Bundle extras = data.getExtras();
                     Bitmap imageBitmap = (Bitmap) extras.get("data");
+                    ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                    imageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+                    String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), imageBitmap, "Title", null);
+                    uriProfileImage = Uri.parse(path);
                     imageView.setImageBitmap(imageBitmap);
-                        uploadImageToFirebaseStorage();
+                    uploadImageToFirebaseStorage();
 
                 }
                 break;

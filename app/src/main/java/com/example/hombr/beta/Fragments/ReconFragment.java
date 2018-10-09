@@ -57,7 +57,7 @@ public class ReconFragment extends Fragment {
     //----------------------------------------
     private RecyclerView rp;
     private RecyclerView.Adapter adapter;
-    private List<ListItemValuesSensor> values;
+    private List<String> values;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
@@ -103,7 +103,8 @@ public class ReconFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 values.removeAll(values);
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
-                    ListItemValuesSensor valoress=snapshot.getValue(ListItemValuesSensor.class);
+//                    String valoress=snapshot.toString().split("value = ")[1];
+                    String valoress=snapshot.toString();
                     values.add(valoress);
 
 
