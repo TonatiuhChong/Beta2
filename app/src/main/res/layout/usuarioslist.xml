@@ -8,21 +8,28 @@
             <TextView
                 android:id="@+id/FRNombreUsuario"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="16dp"
+                android:textAlignment="center"
+                android:textStyle="bold"/>
+
             <TextView
                 android:id="@+id/FREmailUsuario"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textStyle="italic"/>
 
 
     <TextView
         android:id="@+id/FRExtra1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
     <TextView
         android:id="@+id/FRExtra2"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:visibility="invisible"/>
 
 
     </LinearLayout>

@@ -1,7 +1,5 @@
 package com.example.hombr.beta.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
@@ -17,7 +15,6 @@ import android.widget.TextView;
 
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -82,7 +79,7 @@ public class SensorFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Singleton.getInstance().setTipo(listas.getItemAtPosition(position).toString());
                 FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+                tr.beginTransaction().replace(R.id.escenario, new SensoresDeHabitacion()).commit();
 
             }
         });

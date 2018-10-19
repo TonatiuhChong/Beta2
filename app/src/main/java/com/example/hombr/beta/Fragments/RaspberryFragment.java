@@ -1,13 +1,10 @@
 package com.example.hombr.beta.Fragments;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,7 +34,7 @@ public class RaspberryFragment extends Fragment {
                 map.put("Activacion",false);
                 ActivarCamara.updateChildren(map);
                 FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new Recon2Fragment()).commit();
+                tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
 
             }
         });

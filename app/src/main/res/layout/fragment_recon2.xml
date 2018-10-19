@@ -4,42 +4,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".Fragments.ReconFragment"
+    tools:context=".Fragments.SensoresDeHabitacion"
     android:orientation="vertical">
 
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
-            android:layout_margin="@dimen/fab_margin"
-            android:layout_marginEnd="5dp"
-            android:layout_marginTop="50dp"
-            android:src="@android:drawable/ic_input_add"
-            android:tint="@color/common_google_signin_btn_text_dark_default"
-            app:backgroundTint="@color/colorPrimaryDark"
-            app:elevation="@dimen/fab_margin"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <ImageView
             android:id="@+id/FragmentFotoUser2"
-            android:layout_width="100dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="100dp"
             android:layout_marginEnd="10dp"
+            android:layout_gravity="center"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/linearLayout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <LinearLayout
             android:id="@+id/linearLayout2"
-            android:layout_width="209dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
@@ -86,7 +75,24 @@
                 android:textSize="18sp" />
 
         </LinearLayout>
-    </android.support.constraint.ConstraintLayout>
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/fab_margin"
+            android:layout_marginEnd="5dp"
+            android:layout_marginTop="50dp"
+            android:src="@android:drawable/ic_input_add"
+            android:tint="@color/common_google_signin_btn_text_dark_default"
+            app:backgroundTint="@color/colorPrimaryDark"
+            app:elevation="@dimen/fab_margin"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            />
+
+    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -96,7 +102,8 @@
         android:layout_height="wrap_content"
         android:text="Usuarios Registrados"
         android:textAlignment="center"
-        android:textStyle=""/>
+        android:textStyle="bold"
+        android:textSize="24dp"/>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerusuarios"

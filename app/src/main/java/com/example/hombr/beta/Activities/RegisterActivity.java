@@ -1,5 +1,7 @@
 package com.example.hombr.beta.Activities;
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,6 +15,9 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -51,9 +56,12 @@ import java.util.List;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.READ_CONTACTS;
+import static com.google.android.gms.common.GooglePlayServicesUtil.getErrorDialog;
 
 public class RegisterActivity extends AppCompatActivity {
     private static final int CHOOSE_IMAGE = 101;
+    private static final int REQUEST_CAMERA = 1;
+    private static final int REQUEST_WRITE_EXTERNAL_STORAGE=123;
 
     String mCurrentPhotoPath;
     TextView textView,camara;
@@ -82,7 +90,7 @@ public class RegisterActivity extends AppCompatActivity {
         camara.setTypeface(fontbold);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(final View view) {
                 AlertDialog.Builder builder= new AlertDialog.Builder(RegisterActivity.this);
                 builder.setTitle("Escoja una opcion")
                         .setItems(R.array.acciones, new DialogInterface.OnClickListener() {
@@ -91,9 +99,57 @@ public class RegisterActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 switch (which){
                                     case 0:
-                                        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                        if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
-                                            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                        int hasWriteCameraPermission = checkSelfPermission(Manifest.permission.CAMERA);
+                                        if (hasWriteCameraPermission != PackageManager.PERMISSION_GRANTED) {
+                                            if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
+                                                Snackbar snackbar = Snackbar.make(view, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+                                                        .setAction(android.R.string.ok, new View.OnClickListener() {
+                                                            @Override
+                                                            @TargetApi(Build.VERSION_CODES.M)
+                                                            public void onClick(View v) {
+                                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+                                                            }
+                                                        });
+                                            } else {
+                                                requestPermissions(new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+                                            }
+                                            return;
+
+                                        }else if (hasWriteCameraPermission == PackageManager.PERMISSION_GRANTED){
+                                            if (ContextCompat.checkSelfPermission(RegisterActivity.this,
+                                                    Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                                                    != PackageManager.PERMISSION_GRANTED) {
+
+                                                // Permission is not granted
+                                                // Should we show an explanation?
+                                                if (ActivityCompat.shouldShowRequestPermissionRationale(RegisterActivity.this,
+                                                        Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                                                    Snackbar snackbar = Snackbar.make(view, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
+                                                            .setAction(android.R.string.ok, new View.OnClickListener() {
+                                                                @Override
+                                                                @TargetApi(Build.VERSION_CODES.M)
+                                                                public void onClick(View v) {
+                                                                    requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, REQUEST_WRITE_EXTERNAL_STORAGE);
+                                                                }
+                                                            });
+                                                } else {
+                                                    // No explanation needed; request the permission
+                                                    ActivityCompat.requestPermissions(RegisterActivity.this,
+                                                            new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                                            REQUEST_WRITE_EXTERNAL_STORAGE);
+
+                                                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                                                    // app-defined int constant. The callback method gets the
+                                                    // result of the request.
+                                                }
+                                            } else {
+                                                // Permission has already been granted
+                                            }
+                                            Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                                            if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                                                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                                            }
+
                                         }
 
                                         break;

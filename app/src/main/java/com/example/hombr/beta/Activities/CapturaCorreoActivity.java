@@ -19,7 +19,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
-public class Register2Activity extends AppCompatActivity implements View.OnClickListener{
+public class CapturaCorreoActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextEmail, editTextPassword,editTextPassword2;
     private TextView saludo,email,contra,contra2;
     private FirebaseAuth mAuth;
@@ -93,7 +93,7 @@ public class Register2Activity extends AppCompatActivity implements View.OnClick
                     Singleton.getInstance().setEmail(email);
                     Singleton.getInstance().setPassword(password);
                     finish();
-                    startActivity(new Intent(Register2Activity.this, RegisterActivity.class));
+                    startActivity(new Intent(CapturaCorreoActivity.this, RegisterActivity.class));
                 } else {
 
                     if (task.getException() instanceof FirebaseAuthUserCollisionException) {

@@ -48,7 +48,9 @@ public class AdaptadorAcciones extends RecyclerView.Adapter<AdaptadorAcciones.Vi
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setModo(listItem.getDesc());
+                //Si no funciona, poner el actualizador de datos aqui.
                 p.pintar();
+
 
             }
         });

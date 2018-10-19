@@ -7,10 +7,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Patterns;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -29,7 +27,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hombr.beta.ConfiguracionActivity;
 import com.example.hombr.beta.Fragments.ControlFragment;
-import com.example.hombr.beta.Fragments.Recon2Fragment;
 import com.example.hombr.beta.Fragments.ReconFragment;
 import com.example.hombr.beta.Fragments.SensorFragment;
 import com.example.hombr.beta.R;
@@ -40,8 +37,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
@@ -183,7 +178,7 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.ReconocimientoFacial) {
             // Handle the camera action
-            fm.beginTransaction().replace(R.id.escenario, new Recon2Fragment()).commit();
+            fm.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
         } else if (id == R.id.ControlDelHogar) {
             fm.beginTransaction().replace(R.id.escenario, new ControlFragment()).commit();
         } else if (id == R.id.Sensores) {

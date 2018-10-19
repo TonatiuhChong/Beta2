@@ -16,6 +16,8 @@ import android.os.Vibrator;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -56,11 +58,12 @@ public class ControlFragment extends Fragment {
     private Button btn;
     private ImageView sala,comedor, cocina1,cocina2,estudio,pasillo1,pasillo2,pasillo3,bano,servicio;
     private EditText EditHab,EditSense,EditValue;
-    String[] NAcciones = {"Apagador","Presencia","Ambiental","Puerta","Ventana","Iluminación"};
-    int [] images = {R.drawable.corriente,R.drawable.presencia,R.drawable.ambiental,R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion};
+    String[] NAcciones = {"Presencia","Ambiental","Puerta","Ventana","Luz (%)","AutoLuz"};
+    int [] images = {R.drawable.presencia,R.drawable.ambiental,R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
 
     String[] logicos = {"Apagar", "Encender"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
+    String[] iluminacionValores={"0","10","20","30","40","50","60","70","80","90","100"};
     String[] NO={"No aplica"};
 
     private Spinner spinner;
@@ -76,7 +79,7 @@ public class ControlFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View Rec = inflater.inflate(R.layout.fragment_control, container, false);
         //*******
-        Singleton.getInstance().setModo("Iluminación");
+        Singleton.getInstance().setModo("Luz");
         config.getInstance().setNotif(true);
         //********Habitaciones
         sala=Rec.findViewById(R.id.ImgHabSala);
@@ -89,6 +92,17 @@ public class ControlFragment extends Fragment {
         pasillo3=Rec.findViewById(R.id.ImgHabPasillo3);
         bano=Rec.findViewById(R.id.ImgHabBano);
         servicio=Rec.findViewById(R.id.ImgHabServicio);
+
+        TextView cambio=Rec.findViewById(R.id.CambioPiso);
+        cambio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager= getActivity().getSupportFragmentManager();
+                FragmentTransaction tx = manager.beginTransaction();
+                tx.replace(R.id.escenario,  new ControlFragment2());
+                tx.commit();
+            }
+        });
 
         sala.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -175,23 +189,13 @@ public class ControlFragment extends Fragment {
         TextView text = (TextView) dialog.findViewById(R.id.DialogoHabitacion);
         final TextView info = (TextView) dialog.findViewById(R.id.InformacionDialogo);
         text.setText(Singleton.getInstance().getHabitacion());
+
+        if(Singleton.getInstance().getAccionExtra()==null){info.setText("Seleccione una acción para ver sus detalles.");}
+        else{info.setText("La accion"+Singleton.getInstance().getModo()+"Actualmente tiene el valor de "+Singleton.getInstance().getAccionExtra());}
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
         Button cancelButton =(Button) dialog.findViewById(R.id.dialogButtonCancel);
 
-        DatabaseReference nn=FirebaseDatabase.getInstance().getReference().child("Habitaciones")
-                .child(Singleton.getInstance().getHabitacion())
-                .child(Singleton.getInstance().getModo());
-        nn.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //info.setText("La accion de " + Singleton.getInstance().getModo().toUpperCase()+" Actualmente tiene el valor de "+dataSnapshot.getValue().toString().toUpperCase());
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         recyclerView1=(RecyclerView)dialog.findViewById(R.id.listviewAcciones);
         //recyclerView1.hasFixedSize(true);
@@ -276,44 +280,63 @@ public class ControlFragment extends Fragment {
     }
 
     public  void pintar (){
+        DatabaseReference informe=FirebaseDatabase.getInstance().getReference()
+                .child(Singleton.getInstance().getHabitacion())
+                .child(Singleton.getInstance().getModo());
 
-        switch (Singleton.getInstance().getModo()){
-            case "Apagador":
-                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
-                OpcionSeleccionada(adapterSpinner,spinner);
-                break;
-            case "Presencia":
-                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
-                OpcionSeleccionada(adapterSpinner,spinner);
-                break;
-            case "Ambiental":
-                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
-                OpcionSeleccionada(adapterSpinner,spinner);
-                break;
-            case "Puerta":
-                if(Singleton.getInstance().getHabitacion()=="Entrada"){
-                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
-                OpcionSeleccionada(adapterSpinner,spinner);}
-                else{ adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
-                    OpcionSeleccionada(adapterSpinner,spinner);}
-                break;
-            case "Ventana":
-                if(Singleton.getInstance().getHabitacion()=="Sala"){
-                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, analogicos);
-                OpcionSeleccionada(adapterSpinner,spinner);}
-                else{
-                    adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
-                    OpcionSeleccionada(adapterSpinner,spinner);
+        informe.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                switch (Singleton.getInstance().getModo()){
+                    case "AutoLuz":
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                        OpcionSeleccionada(adapterSpinner,spinner);
+                        Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
+                        break;
+                    case "Presencia":
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                        OpcionSeleccionada(adapterSpinner,spinner);
+                        Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
+                        break;
+                    case "Ambiental":
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                        OpcionSeleccionada(adapterSpinner,spinner);
+                        Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
+                        break;
+                    case "Puerta":
+                        if(Singleton.getInstance().getHabitacion()=="Entrada"){
+                            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                            OpcionSeleccionada(adapterSpinner,spinner);
+                        }
+                        else{ adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                            OpcionSeleccionada(adapterSpinner,spinner);}
+                        break;
+                    case "Ventana":
+                        if(Singleton.getInstance().getHabitacion()=="Sala"){
+                            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, analogicos);
+                            OpcionSeleccionada(adapterSpinner,spinner);}
+                        else{
+                            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                            OpcionSeleccionada(adapterSpinner,spinner);
+                        }
+                        break;
+                    case "Luz (%)":
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, iluminacionValores);
+                        OpcionSeleccionada(adapterSpinner,spinner);
+                        Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
+                        break;
                 }
-                break;
-            case "Iluminación":
-                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, analogicos);
-                OpcionSeleccionada(adapterSpinner,spinner);
-                break;
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
-
-        }
 
     }
 

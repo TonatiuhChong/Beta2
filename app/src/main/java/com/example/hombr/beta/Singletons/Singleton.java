@@ -12,7 +12,15 @@ public class Singleton {
     private Singleton() {
     }
 
-    public Singleton(String user, String password, String email, String habitacion, String modo, String tipo, String valor, String tsensores, Uri foto) {
+    public String getAccionExtra() {
+        return accionExtra;
+    }
+
+    public void setAccionExtra(String accionExtra) {
+        this.accionExtra = accionExtra;
+    }
+
+    public Singleton(String user, String password, String email, String habitacion, String modo, String tipo, String valor, String tsensores, Uri foto, String accionExtra) {
         this.user = user;
         this.password = password;
         this.email = email;
@@ -22,9 +30,11 @@ public class Singleton {
         this.valor = valor;
         this.tsensores = tsensores;
         this.foto = foto;
+        this.accionExtra=accionExtra;
+
     }
 
-    String user,password,email, habitacion,modo,tipo,valor,tsensores;
+    String user,password,email, habitacion,modo,tipo,valor,tsensores,accionExtra;
     Uri foto;
     String info;
 
