@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.example.hombr.beta.Activities.MenuActivity;
 import com.example.hombr.beta.Adapters.AdaptadorAcciones;
+import com.example.hombr.beta.Adapters.AdaptadorAcciones2;
 import com.example.hombr.beta.Adapters.ListItemAcciones;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
@@ -51,9 +52,9 @@ public class ControlFragment2 extends Fragment {
     private Vibrator v;
     private ListView list;
     private Button btn;
-    private ImageView sala,comedor, cocina1,cocina2,estudio,pasillo1,pasillo2,pasillo3,bano,servicio;
+    private ImageView cuarto1,cuart2,cuarto3;
     private EditText EditHab,EditSense,EditValue;
-    String[] NAcciones = {"Presencia","Ambiental","Puerta","Ventana","Luz (%)","AutoLuz"};
+    String[] NAcciones = {"Presencia","Ambiental","Puerta","Ventana","Luz","AutoLuz"};
     int [] images = {R.drawable.presencia,R.drawable.ambiental,R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
 
     String[] logicos = {"Apagar", "Encender"};
@@ -85,8 +86,207 @@ public class ControlFragment2 extends Fragment {
                 tx.commit();
             }
         });
+        cuarto1=(ImageView)Rec.findViewById(R.id.cuartoyo);
+        cuarto1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Singleton.getInstance().setHabitacion("Cuarto1");
+                dialogos();
+            }
+        });
+        
+        cuart2=(ImageView)Rec.findViewById(R.id.cuartochali);
+        cuart2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Singleton.getInstance().setHabitacion("Cuarto2");
+                dialogos();
+            }
+        });
+        cuarto3=(ImageView)Rec.findViewById(R.id.cuartomama);
+        cuarto3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Singleton.getInstance().setHabitacion("Cuarto3");
+                dialogos();
+            }
+        });
 
         return Rec;
     }
 
+    private void dialogos() {
+
+        final Dialog dialog= new Dialog(getActivity());
+        dialog.setContentView(R.layout.dialogcasa);
+        dialog.setTitle("Actividades");
+        //********************************
+        TextView text = (TextView) dialog.findViewById(R.id.DialogoHabitacion);
+        final TextView info = (TextView) dialog.findViewById(R.id.InformacionDialogo);
+        text.setText(Singleton.getInstance().getHabitacion());
+
+        if(Singleton.getInstance().getAccionExtra()==null){info.setText("Seleccione una acción para ver sus detalles.");}
+        else{info.setText("La accion"+Singleton.getInstance().getModo()+"Actualmente tiene el valor de "+Singleton.getInstance().getAccionExtra());}
+        Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
+        Button cancelButton =(Button) dialog.findViewById(R.id.dialogButtonCancel);
+
+
+
+        recyclerView1=(RecyclerView)dialog.findViewById(R.id.listviewAcciones);
+        //recyclerView1.hasFixedSize(true);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
+        listItems=new ArrayList<>();
+        //spinner
+        spinner=(Spinner)dialog.findViewById(R.id.spinner);
+        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+        //Carga valores al list view custom
+        for (int i=0; i<images.length; i++){
+            ListItemAcciones listItem=new ListItemAcciones(
+                    NAcciones[i], images[i]
+            );
+
+            listItems.add(listItem);
+        }
+        adapter1=new AdaptadorAcciones2(listItems,getActivity(),this);
+        recyclerView1.setAdapter(adapter1);
+        dialogButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseConexion();
+                dialog.dismiss();
+
+            }
+        });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
     }
+
+    private void FirebaseConexion() {
+        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getHabitacion());
+        Map<String,Object> map= new HashMap<String, Object>();
+        map.put(Singleton.getInstance().getModo(),Singleton.getInstance().getValor());
+        ref.updateChildren(map);
+        Intent intent = new Intent(Intent.ACTION_VIEW,
+                Uri.parse("https://ideorreas.mx/inmotica-domotica/"));
+        Intent home= new Intent(getContext(), MenuActivity.class);
+
+        PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, home, 0);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
+        builder.setContentIntent(pendingIntent);
+
+        builder.setSmallIcon(R.drawable.ambiental);
+        builder.setAutoCancel(true);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notifications_black_24dp));
+        builder.setContentTitle("Cambio de Valor");
+        builder.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() +" de la acción " +Singleton.getInstance().getModo() +" con el valor de " +Singleton.getInstance().getValor());
+        builder.setSubText("Presiona para abrir el mapa");
+
+
+        if (config.getInstance().isNotif()==true) {
+
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
+                    getActivity().NOTIFICATION_SERVICE);
+            notificationManager.notify(1, builder.build());
+            v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
+            v.vibrate(500);
+
+        }
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public  void pintar (){
+        DatabaseReference informe=FirebaseDatabase.getInstance().getReference()
+                .child(Singleton.getInstance().getHabitacion())
+                .child(Singleton.getInstance().getModo());
+
+        informe.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                switch (Singleton.getInstance().getModo()){
+                    case "AutoLuz":
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                        OpcionSeleccionada(adapterSpinner,spinner);
+                        Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
+                        break;
+                    case "Presencia":
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                        OpcionSeleccionada(adapterSpinner,spinner);
+                        Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
+                        break;
+                    case "Ambiental":
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                        OpcionSeleccionada(adapterSpinner,spinner);
+                        Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
+                        break;
+                    case "Puerta":
+                        if(Singleton.getInstance().getHabitacion()=="Entrada"){
+                            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                            OpcionSeleccionada(adapterSpinner,spinner);
+                        }
+                        else{ adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                            OpcionSeleccionada(adapterSpinner,spinner);}
+                        break;
+                    case "Ventana":
+                        if(Singleton.getInstance().getHabitacion()=="Sala"){
+                            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, analogicos);
+                            OpcionSeleccionada(adapterSpinner,spinner);}
+                        else{
+                            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
+                            OpcionSeleccionada(adapterSpinner,spinner);
+                        }
+                        break;
+                    case "Luz":
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, iluminacionValores);
+                        OpcionSeleccionada(adapterSpinner,spinner);
+                        Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+    private void OpcionSeleccionada(ArrayAdapter adapterSpinner, Spinner spinner) {
+
+        spinner.setAdapter(adapterSpinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                Singleton.getInstance().setValor((String)parent.getItemAtPosition(position));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+}

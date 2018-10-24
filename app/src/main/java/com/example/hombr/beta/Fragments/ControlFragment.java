@@ -58,7 +58,7 @@ public class ControlFragment extends Fragment {
     private Button btn;
     private ImageView sala,comedor, cocina1,cocina2,estudio,pasillo1,pasillo2,pasillo3,bano,servicio;
     private EditText EditHab,EditSense,EditValue;
-    String[] NAcciones = {"Presencia","Ambiental","Puerta","Ventana","Luz (%)","AutoLuz"};
+    String[] NAcciones = {"Presencia","Ambiental","Puerta","Ventana","Luz","AutoLuz"};
     int [] images = {R.drawable.presencia,R.drawable.ambiental,R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
 
     String[] logicos = {"Apagar", "Encender"};
@@ -213,9 +213,7 @@ public class ControlFragment extends Fragment {
             listItems.add(listItem);
         }
         adapter1=new AdaptadorAcciones(listItems,getActivity(),this);
-
         recyclerView1.setAdapter(adapter1);
-
         dialogButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -321,7 +319,7 @@ public class ControlFragment extends Fragment {
                             OpcionSeleccionada(adapterSpinner,spinner);
                         }
                         break;
-                    case "Luz (%)":
+                    case "Luz":
                         adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, iluminacionValores);
                         OpcionSeleccionada(adapterSpinner,spinner);
                         Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());

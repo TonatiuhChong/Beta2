@@ -6,12 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <View
+        android:id="@+id/paredarriba9"
+        android:layout_width="61dp"
+        android:layout_height="2dp"
+        android:layout_below="@+id/paredizq2"
+        android:layout_toEndOf="@+id/paredizq2"
+        android:background="@android:color/darker_gray" />
+
     <TextView
         android:id="@+id/textView20"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
         android:text="Presiona un icono para interactuar con el sistema."
         android:textAlignment="center"
         android:textSize="24dp"
@@ -27,7 +34,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="8dp"
 
         android:background="@color/colorPrimary"
         android:text="Cambiar Piso"
@@ -50,8 +57,8 @@
         android:layout_width="287dp"
         android:layout_height="285dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="15dp"
-        android:layout_marginStart="15dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/firma2"
         app:layout_constraintEnd_toEndOf="parent"
@@ -77,6 +84,15 @@
             android:layout_alignParentEnd="true"
             android:layout_marginBottom="51dp"
             android:layout_marginEnd="61dp"
+            android:background="@android:color/darker_gray" />
+
+        <View
+            android:id="@+id/paredarriba10"
+            android:layout_width="62dp"
+            android:layout_height="2dp"
+            android:layout_below="@+id/paredizq9"
+            android:layout_marginEnd="14dp"
+            android:layout_toStartOf="@+id/cuartomama"
             android:background="@android:color/darker_gray" />
 
         <View
@@ -122,11 +138,25 @@
             android:background="@android:color/darker_gray" />
 
         <View
-            android:id="@+id/paredizq2"
+            android:id="@+id/paredizq5"
             android:layout_width="2dp"
-            android:layout_height="63dp"
+            android:layout_height="92dp"
+            android:layout_centerHorizontal="true"
+            android:background="@android:color/darker_gray" />
+
+        <View
+            android:id="@+id/paredizq8"
+            android:layout_width="2dp"
+            android:layout_height="124dp"
+            android:layout_alignTop="@+id/cuartochali"
+            android:layout_toEndOf="@+id/paredarriba5"
+            android:background="@android:color/darker_gray" />
+
+        <View
+            android:id="@+id/paredizq3"
+            android:layout_width="2dp"
+            android:layout_height="51dp"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="13dp"
             android:layout_marginStart="-61dp"
             android:layout_toEndOf="@+id/paredarriba8"
             android:background="@android:color/darker_gray" />
@@ -134,32 +164,40 @@
         <View
             android:id="@+id/paredizq9"
             android:layout_width="2dp"
-            android:layout_height="129dp"
+            android:layout_height="91dp"
 
+            android:layout_toEndOf="@+id/paredarriba5"
             android:background="@android:color/darker_gray" />
 
         <ImageView
-            android:id="@+id/imageView3"
-            android:layout_width="84dp"
-            android:layout_height="99dp"
+            android:id="@+id/cuartoyo"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/cuartochali"
+            android:layout_marginTop="28dp"
             app:srcCompat="@drawable/comedor"
             tools:layout_editor_absoluteX="97dp"
             tools:layout_editor_absoluteY="113dp" />
 
         <ImageView
-            android:id="@+id/imageView4"
-            android:layout_width="84dp"
-            android:layout_height="106dp"
-            android:layout_alignStart="@+id/paredarriba2"
+            android:id="@+id/cuartomama"
+            android:layout_width="55dp"
+            android:layout_height="50dp"
+            android:layout_alignBottom="@+id/paredizq9"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="74dp"
             app:srcCompat="@drawable/comedor"
             tools:layout_editor_absoluteX="209dp"
             tools:layout_editor_absoluteY="113dp" />
 
         <ImageView
-            android:id="@+id/imageView2"
-            android:layout_width="84dp"
-            android:layout_height="90dp"
-            android:layout_above="@+id/paredarriba8"
+            android:id="@+id/cuartochali"
+            android:layout_width="49dp"
+            android:layout_height="50dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@+id/textView25"
+            android:layout_marginStart="14dp"
             app:srcCompat="@drawable/comedor"
             tools:layout_editor_absoluteX="64dp"
             tools:layout_editor_absoluteY="223dp" />
@@ -168,26 +206,26 @@
             android:id="@+id/textView21"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/paredizq2"
-            android:layout_alignParentStart="true"
-            android:layout_marginStart="17dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/cuartoyo"
+            android:layout_marginTop="102dp"
             android:text="Cuarto 3" />
 
         <TextView
             android:id="@+id/textView24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/paredizq9"
-            android:layout_alignStart="@+id/textView21"
+            android:layout_alignParentBottom="true"
+            android:layout_alignStart="@+id/cuartoyo"
+            android:layout_marginBottom="25dp"
             android:text="Cuarto 1" />
 
         <TextView
             android:id="@+id/textView22"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_alignTop="@+id/textView24"
-            android:layout_marginEnd="81dp"
+            android:layout_alignEnd="@+id/cuartomama"
+            android:layout_alignTop="@+id/textView21"
             android:text="Cuarto 2" />
 
         <TextView
@@ -197,7 +235,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignStart="@+id/paredarriba2"
             android:layout_marginBottom="91dp"
-            android:text="Sala 2" />
+            android:text="Sala Piso 1" />
     </RelativeLayout>
 
     <TextView

@@ -6,10 +6,24 @@
     android:layout_gravity="center_horizontal">
 
     <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="no"
+        android:textSize="24sp"
+        android:visibility="invisible"/>
+
+    <TextView
         android:id="@+id/ambiental"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="HOLA"
-        android:textSize="32sp"/>
+        android:textSize="18sp"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="no"
+        android:textSize="18sp"
+        android:visibility="invisible"/>
+
 
 </LinearLayout>

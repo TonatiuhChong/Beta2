@@ -1,6 +1,5 @@
 package com.example.hombr.beta.Adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,20 +8,20 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.hombr.beta.Fragments.ControlFragment;
+import com.example.hombr.beta.Fragments.ControlFragment2;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
 
 import java.util.List;
 
-public class AdaptadorAcciones extends RecyclerView.Adapter<AdaptadorAcciones.ViewHolder> {
+public class AdaptadorAcciones2 extends RecyclerView.Adapter<AdaptadorAcciones2.ViewHolder> {
 
     private List<ListItemAcciones> listItems;
-    ControlFragment p;
+    ControlFragment2 p;
 
-    public AdaptadorAcciones(List<ListItemAcciones> listItems, Context context, ControlFragment p) {
+    public AdaptadorAcciones2(List<ListItemAcciones> listItems, Context context, ControlFragment2 p) {
         this.listItems = listItems;
         this.context = context;
         this.p= p;
