@@ -144,8 +144,10 @@ public class ControlFragment extends Fragment {
         bano.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Sanitario");
-                dialogos();
+//
+//                Singleton.getInstance().setHabitacion("Sanitario");
+//                dialogos();
+                Toast.makeText(getContext(), "No esta disponible", Toast.LENGTH_SHORT).show();
             }
         });
         pasillo1.setOnClickListener(new View.OnClickListener() {

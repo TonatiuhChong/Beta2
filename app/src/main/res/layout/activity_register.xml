@@ -36,7 +36,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="34dp"
-        android:src="@mipmap/cameraregister" />
+        android:src="@mipmap/cameraregister"
+        app:srcCompat="@drawable/camara" />
 
 <ScrollView
     android:layout_width="match_parent"

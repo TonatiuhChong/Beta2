@@ -45,7 +45,8 @@
             android:layout_below="@+id/ImgHabSala"
             android:layout_toEndOf="@+id/ImgHabSala"
             android:clickable="true"
-            android:src="@drawable/cocina1" />
+            android:src="@drawable/cocina1"
+            android:background="@color/secondary_text"/>
 
         <ImageView
             android:id="@+id/ImgHabPasillo1"
@@ -55,7 +56,8 @@
             android:layout_below="@+id/ImgHabBano"
             android:layout_marginTop="20dp"
             android:clickable="true"
-            android:src="@drawable/pasillo" />
+            android:src="@drawable/pasillo"
+            android:background="@color/secondary_text"/>
 
         <ImageView
             android:id="@+id/ImgHabBano"
@@ -85,7 +87,8 @@
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/ImgHabCocina1"
             android:clickable="true"
-            android:src="@drawable/entrada" />
+            android:src="@drawable/entrada"
+            android:background="@color/secondary_text"/>
 
         <ImageView
             android:id="@+id/ImgHabPasillo2"
@@ -116,7 +119,8 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="19dp"
             android:clickable="true"
-            android:src="@drawable/cocina1" />
+            android:src="@drawable/cocina1"
+            android:background="@color/secondary_text"/>
 
         <ImageView
             android:id="@+id/ImgHabComedor"
@@ -126,12 +130,14 @@
             android:layout_alignStart="@+id/ImgHabCocina1"
             android:layout_marginTop="17dp"
             android:clickable="true"
-            android:src="@drawable/comedor" />
+            android:src="@drawable/comedor"
+            android:background="@color/secondary_text"/>
 
         <ImageView
             android:id="@+id/ImgHabSala"
             android:layout_width="107dp"
             android:layout_height="95dp"
+            android:background="@color/secondary_text"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
 
