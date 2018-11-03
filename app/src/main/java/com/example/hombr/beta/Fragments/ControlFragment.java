@@ -37,6 +37,7 @@ import android.widget.Toast;
 
 import com.example.hombr.beta.Activities.MenuActivity;
 import com.example.hombr.beta.Adapters.AdaptadorAcciones;
+import com.example.hombr.beta.Adapters.AdaptadorSensoresValues;
 import com.example.hombr.beta.Adapters.ListItemAcciones;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
@@ -49,22 +50,30 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentSkipListSet;
 
 public class ControlFragment extends Fragment {
     private Vibrator v;
     private ListView list;
     private Button btn;
-    private ImageView sala,comedor, cocina1,cocina2,estudio,pasillo1,pasillo2,pasillo3,bano,servicio;
+    String[] AccionesValores = {"Presencia","Ambiental","Puerta","Ventana","Luz","AutoLuz"};
+    private List<String> values;
+    private ImageView Sala,Comedor, Cocina1,Cocina2,Estudio,Pasillo1,Pasillo2,Pasillo3,bano,servicio;
     private EditText EditHab,EditSense,EditValue;
     String[] NAcciones = {"Presencia","Ambiental","Puerta","Ventana","Luz","AutoLuz"};
     int [] images = {R.drawable.presencia,R.drawable.ambiental,R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
-
     String[] logicos = {"Apagar", "Encender"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
     String[] iluminacionValores={"0","10","20","30","40","50","60","70","80","90","100"};
     String[] NO={"No aplica"};
+
+    float var;
+    boolean sala, comedor, cocina1,cocina2,estudio,pasillo1,pasillo2,entrada,sala1, comedor1, cocina11,cocina21,estudio1,pasillo11,pasillo21,entrada1;
 
     private Spinner spinner;
     ArrayAdapter adapterSpinner;
@@ -82,14 +91,14 @@ public class ControlFragment extends Fragment {
         Singleton.getInstance().setModo("Luz");
         config.getInstance().setNotif(true);
         //********Habitaciones
-        sala=Rec.findViewById(R.id.ImgHabSala);
-        comedor=Rec.findViewById(R.id.ImgHabComedor);
-        cocina1=Rec.findViewById(R.id.ImgHabCocina1);
-        cocina2=Rec.findViewById(R.id.ImgHabCocina2);
-        estudio=Rec.findViewById(R.id.ImgHabEstudio);
-        pasillo1=Rec.findViewById(R.id.ImgHabPasillo1);
-        pasillo2=Rec.findViewById(R.id.ImgHabPasillo2);
-        pasillo3=Rec.findViewById(R.id.ImgHabPasillo3);
+        Sala=Rec.findViewById(R.id.ImgHabSala);
+        Comedor=Rec.findViewById(R.id.ImgHabComedor);
+        Cocina1=Rec.findViewById(R.id.ImgHabCocina1);
+        Cocina2=Rec.findViewById(R.id.ImgHabCocina2);
+        Estudio=Rec.findViewById(R.id.ImgHabEstudio);
+        Pasillo1=Rec.findViewById(R.id.ImgHabPasillo1);
+        Pasillo2=Rec.findViewById(R.id.ImgHabPasillo2);
+        Pasillo3=Rec.findViewById(R.id.ImgHabPasillo3);
         bano=Rec.findViewById(R.id.ImgHabBano);
         servicio=Rec.findViewById(R.id.ImgHabServicio);
 
@@ -104,7 +113,7 @@ public class ControlFragment extends Fragment {
             }
         });
 
-        sala.setOnClickListener(new View.OnClickListener() {
+        Sala.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setHabitacion("Sala");
@@ -112,7 +121,7 @@ public class ControlFragment extends Fragment {
 
             }
         });
-        comedor.setOnClickListener(new View.OnClickListener() {
+        Comedor.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
@@ -120,14 +129,14 @@ public class ControlFragment extends Fragment {
                 dialogos();
             }
         });
-        cocina1.setOnClickListener(new View.OnClickListener() {
+        Cocina1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setHabitacion("Cocina Parte 1");
                 dialogos();
             }
         });
-        cocina2.setOnClickListener(new View.OnClickListener() {
+        Cocina2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setHabitacion("Cocina Parte 2");
@@ -150,28 +159,28 @@ public class ControlFragment extends Fragment {
                 Toast.makeText(getContext(), "No esta disponible", Toast.LENGTH_SHORT).show();
             }
         });
-        pasillo1.setOnClickListener(new View.OnClickListener() {
+        Pasillo1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setHabitacion("Pasillo 1");
                 dialogos();
             }
         });
-        estudio.setOnClickListener(new View.OnClickListener() {
+        Estudio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setHabitacion("Estudio");
                 dialogos();
             }
         });
-        pasillo2.setOnClickListener(new View.OnClickListener() {
+        Pasillo2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setHabitacion("Pasillo 2");
                 dialogos();
             }
         });
-        pasillo3.setOnClickListener(new View.OnClickListener() {
+        Pasillo3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Singleton.getInstance().setHabitacion("Entrada");
@@ -179,6 +188,7 @@ public class ControlFragment extends Fragment {
             }
         });
 
+        datos();
         return Rec;
     }
 
@@ -196,13 +206,12 @@ public class ControlFragment extends Fragment {
         else{info.setText("La accion"+Singleton.getInstance().getModo()+"Actualmente tiene el valor de "+Singleton.getInstance().getAccionExtra());}
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
         Button cancelButton =(Button) dialog.findViewById(R.id.dialogButtonCancel);
-
-
-
         recyclerView1=(RecyclerView)dialog.findViewById(R.id.listviewAcciones);
         //recyclerView1.hasFixedSize(true);
         recyclerView1.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.HORIZONTAL,false));
         listItems=new ArrayList<>();
+
+
         //spinner
         spinner=(Spinner)dialog.findViewById(R.id.spinner);
         adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
@@ -233,6 +242,239 @@ public class ControlFragment extends Fragment {
         });
 
         dialog.show();
+    }
+
+    private void datos() {
+     DatabaseReference lec1=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Sala").child("Presencia");
+     DatabaseReference lec2=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Comedor").child("Presencia");
+     DatabaseReference lec3=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 1").child("Presencia");
+     DatabaseReference lec4=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 2").child("Presencia");
+     DatabaseReference lec5=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Pasillo 2").child("Presencia");
+     DatabaseReference lec6=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Pasillo 1").child("Presencia");
+     DatabaseReference lec7=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Estudio").child("Presencia");
+     DatabaseReference lec8=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Entrada").child("Presencia");
+     lec1.addValueEventListener(new ValueEventListener() {
+         @Override
+         public void onDataChange(DataSnapshot dataSnapshot) {
+
+             if((Boolean)dataSnapshot.getValue()==true){Sala.setBackgroundColor(getResources().getColor(R.color.Presencia));sala1=true;}
+             else {Sala.setBackgroundColor(0);sala=false;}
+         }
+
+         @Override
+         public void onCancelled(DatabaseError databaseError) {
+
+         }
+     });
+        lec2.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if((Boolean)dataSnapshot.getValue()==true){Comedor.setBackgroundColor(getResources().getColor(R.color.Presencia));comedor1=true;}
+                else {Comedor.setBackgroundColor(0);comedor1=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec3.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if((Boolean)dataSnapshot.getValue()==true){Cocina1.setBackgroundColor(getResources().getColor(R.color.Presencia));cocina11=true;
+                    if(cocina1==true&cocina11==true){
+                        Cocina1.setBackgroundColor(getResources().getColor(R.color.Mix1));
+                    }}
+                else {cocina11=false;Cocina1.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec4.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if((Boolean)dataSnapshot.getValue()==true){Cocina2.setBackgroundColor(getResources().getColor(R.color.Presencia));cocina21=true;}
+                else {Cocina2.setBackgroundColor(0);cocina21=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec5.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if((Boolean)dataSnapshot.getValue()==true){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Presencia));pasillo21=true;}
+                else {Pasillo2.setBackgroundColor(0);pasillo21=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec6.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if((Boolean)dataSnapshot.getValue()==true){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Presencia)); pasillo11=true;}
+                else {Pasillo1.setBackgroundColor(0);pasillo11=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec7.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if((Boolean)dataSnapshot.getValue()==true){Estudio.setBackgroundColor(getResources().getColor(R.color.Presencia));estudio1=true;}
+                else {Estudio.setBackgroundColor(0);estudio1=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec8.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if((Boolean)dataSnapshot.getValue()==true){Pasillo3.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                else {Pasillo3.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+///luz//////////////////////////////////////////////////////////////////////////////
+        DatabaseReference lec11=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Sala").child("Luz");
+        DatabaseReference lec21=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Comedor").child("Luz");
+        DatabaseReference lec31=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 1").child("Luz");
+        DatabaseReference lec41=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 2").child("Luz");
+        DatabaseReference lec51=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Pasillo 2").child("Luz");
+        DatabaseReference lec61=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Pasillo 1").child("Luz");
+        DatabaseReference lec71=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Estudio").child("Luz");
+
+        lec11.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>var){Sala.setBackgroundColor(getResources().getColor(R.color.Luz));sala=true;}
+                else {Sala.setBackgroundColor(0);sala=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec21.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                int p= Integer.parseInt(dataSnapshot.getValue().toString());
+                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Comedor.setBackgroundColor(getResources().getColor(R.color.Luz));comedor=true;}
+                else {Comedor.setBackgroundColor(0);comedor=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec31.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+            int p= Integer.parseInt(dataSnapshot.getValue().toString());
+            
+                if(p>10){
+                    Cocina1.setBackgroundColor(getResources().getColor(R.color.Luz));
+                    cocina1=true;
+                    if(cocina1==true&cocina11==true){
+                    Cocina1.setBackgroundColor(getResources().getColor(R.color.Mix1));
+                }}
+                else {Cocina1.setBackgroundColor(0);cocina1=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec41.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Cocina2.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {Cocina2.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec51.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {Pasillo2.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec61.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+            
+                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {Pasillo1.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec71.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Estudio.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {Estudio.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
+        
+
     }
 
     private void FirebaseConexion() {
@@ -296,12 +538,12 @@ public class ControlFragment extends Fragment {
                         break;
                     case "Presencia":
                         adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
-                        OpcionSeleccionada(adapterSpinner,spinner);
+                        //OpcionSeleccionada(adapterSpinner,spinner);
                         Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
                         break;
                     case "Ambiental":
                         adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);
-                        OpcionSeleccionada(adapterSpinner,spinner);
+                        //OpcionSeleccionada(adapterSpinner,spinner);
                         Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
                         break;
                     case "Puerta":
@@ -314,7 +556,7 @@ public class ControlFragment extends Fragment {
                         break;
                     case "Ventana":
                         if(Singleton.getInstance().getHabitacion()=="Sala"){
-                            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, analogicos);
+                            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
                             OpcionSeleccionada(adapterSpinner,spinner);}
                         else{
                             adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, NO);

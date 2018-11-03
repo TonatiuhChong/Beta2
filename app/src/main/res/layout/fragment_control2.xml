@@ -6,6 +6,35 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/colorPresencia4"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="8dp"
+        android:src="@color/Presencia"
+        app:layout_constraintTop_toBottomOf="@+id/textView20"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/colorPresencia5"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:src="@color/Luz"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorPresencia4" />
+
+    <ImageView
+        android:id="@+id/colorPresencia6"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="5dp"
+        android:src="@color/Mix1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorPresencia5" />
+
     <View
         android:id="@+id/paredarriba9"
         android:layout_width="61dp"
@@ -54,18 +83,19 @@
         tools:layout_editor_absoluteX="0dp" />
 
     <RelativeLayout
+        android:id="@+id/relativeLayout"
         android:layout_width="287dp"
         android:layout_height="285dp"
         android:layout_marginBottom="8dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginEnd="10dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/firma2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintHorizontal_bias="0.824"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView20"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintVertical_bias="0.078">
 
         <View
             android:id="@+id/paredarriba2"
@@ -175,10 +205,10 @@
             android:layout_alignParentTop="true"
             android:layout_alignStart="@+id/cuartochali"
             android:layout_marginTop="28dp"
+            android:background="@color/secondary_text"
             app:srcCompat="@drawable/dormir"
             tools:layout_editor_absoluteX="97dp"
-            tools:layout_editor_absoluteY="113dp"
-            android:background="@color/secondary_text"/>
+            tools:layout_editor_absoluteY="113dp" />
 
         <ImageView
             android:id="@+id/cuartomama"
@@ -187,10 +217,10 @@
             android:layout_alignBottom="@+id/paredizq9"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="74dp"
+            android:background="@color/secondary_text"
             app:srcCompat="@drawable/dormir"
             tools:layout_editor_absoluteX="209dp"
-            tools:layout_editor_absoluteY="113dp"
-            android:background="@color/secondary_text"/>
+            tools:layout_editor_absoluteY="113dp" />
 
         <ImageView
             android:id="@+id/cuartochali"
@@ -199,10 +229,10 @@
             android:layout_alignParentStart="true"
             android:layout_alignTop="@+id/textView25"
             android:layout_marginStart="14dp"
+            android:background="@color/secondary_text"
             app:srcCompat="@drawable/dormir"
             tools:layout_editor_absoluteX="64dp"
-            tools:layout_editor_absoluteY="223dp"
-            android:background="@color/secondary_text"/>
+            tools:layout_editor_absoluteY="223dp" />
 
         <TextView
             android:id="@+id/textView21"
@@ -269,5 +299,35 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="En uso"
+        app:layout_constraintStart_toEndOf="@+id/colorPresencia6"
+        app:layout_constraintTop_toBottomOf="@+id/colorPresencia5" />
+
+    <TextView
+        android:id="@+id/textView23"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Presencia detectada"
+        app:layout_constraintStart_toEndOf="@+id/colorPresencia5"
+        app:layout_constraintTop_toBottomOf="@+id/colorPresencia4" />
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:text="Luz Activada"
+        app:layout_constraintStart_toEndOf="@+id/colorPresencia4"
+        app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
 </android.support.constraint.ConstraintLayout>

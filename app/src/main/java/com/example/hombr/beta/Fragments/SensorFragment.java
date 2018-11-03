@@ -62,7 +62,7 @@ public class SensorFragment extends Fragment {
                 sensores.addAll(set);
                 arrayAdapter.notifyDataSetChanged();
                 Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
-                //Sensores.setText(@string/Habitacion"+" "+sensores.size());
+                Sensores.setText("@string/Habitacion"+" "+sensores.size());
 
             }
 
@@ -88,38 +88,7 @@ public class SensorFragment extends Fragment {
     }
 
 
-    private void lista(){
 
-        DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Habitaciones");
-
-        ref.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-    }
 }
 
 

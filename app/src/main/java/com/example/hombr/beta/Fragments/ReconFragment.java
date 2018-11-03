@@ -31,6 +31,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.multidots.fingerprintauth.FingerPrintAuthCallback;
+import com.multidots.fingerprintauth.FingerPrintAuthHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,12 +54,13 @@ public class ReconFragment extends Fragment {
 
 
 
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View Rec= inflater.inflate(R.layout.fragment_recon2,container,false);
-
+        FingerPrintAuthHelper mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(getActivity(), (FingerPrintAuthCallback) getContext());
         NombreU=(TextView)Rec.findViewById(R.id.FragmentNameUser2);
         EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser2);
         PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser2);

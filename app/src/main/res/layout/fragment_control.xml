@@ -33,10 +33,10 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/firma"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.593"
+        app:layout_constraintHorizontal_bias="0.744"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.531">
+        app:layout_constraintVertical_bias="0.192">
 
         <ImageView
             android:id="@+id/ImgHabCocina1"
@@ -45,8 +45,7 @@
             android:layout_below="@+id/ImgHabSala"
             android:layout_toEndOf="@+id/ImgHabSala"
             android:clickable="true"
-            android:src="@drawable/cocina1"
-            android:background="@color/secondary_text"/>
+            android:src="@drawable/cocina1" />
 
         <ImageView
             android:id="@+id/ImgHabPasillo1"
@@ -56,8 +55,7 @@
             android:layout_below="@+id/ImgHabBano"
             android:layout_marginTop="20dp"
             android:clickable="true"
-            android:src="@drawable/pasillo"
-            android:background="@color/secondary_text"/>
+            android:src="@drawable/pasillo" />
 
         <ImageView
             android:id="@+id/ImgHabBano"
@@ -87,16 +85,13 @@
             android:layout_alignParentBottom="true"
             android:layout_toStartOf="@+id/ImgHabCocina1"
             android:clickable="true"
-            android:src="@drawable/entrada"
-            android:background="@color/secondary_text"/>
+            android:src="@drawable/entrada" />
 
         <ImageView
             android:id="@+id/ImgHabPasillo2"
-            android:layout_width="71dp"
-            android:layout_height="102dp"
-            android:layout_below="@+id/ImgHabPasillo1"
-            android:layout_marginEnd="-29dp"
-            android:layout_toStartOf="@+id/ImgHabEstudio"
+            android:layout_width="32dp"
+            android:layout_height="25dp"
+            android:layout_alignBottom="@+id/ImgHabServicio"
             android:clickable="true"
             android:src="@drawable/pasillo" />
 
@@ -119,8 +114,7 @@
             android:layout_marginStart="5dp"
             android:layout_marginTop="19dp"
             android:clickable="true"
-            android:src="@drawable/cocina1"
-            android:background="@color/secondary_text"/>
+            android:src="@drawable/cocina1" />
 
         <ImageView
             android:id="@+id/ImgHabComedor"
@@ -130,17 +124,15 @@
             android:layout_alignStart="@+id/ImgHabCocina1"
             android:layout_marginTop="17dp"
             android:clickable="true"
-            android:src="@drawable/comedor"
-            android:background="@color/secondary_text"/>
+            android:src="@drawable/comedor" />
 
         <ImageView
             android:id="@+id/ImgHabSala"
             android:layout_width="107dp"
             android:layout_height="95dp"
-            android:background="@color/secondary_text"
+
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
-
             android:layout_marginTop="0dp"
             android:clickable="true"
             android:src="@drawable/sala" />
@@ -344,6 +336,63 @@
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="36dp"
         android:textStyle="bold"/>
+
+    <ImageView
+        android:id="@+id/colorPresencia"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:src="@color/Mix1"
+        app:layout_constraintTop_toBottomOf="@+id/colorPresencia3"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/colorPresencia3"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="5dp"
+        android:src="@color/Luz"
+        app:layout_constraintTop_toBottomOf="@+id/colorPresencia2"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <ImageView
+        android:id="@+id/colorPresencia2"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="20dp"
+        android:src="@color/Presencia"
+        app:layout_constraintTop_toBottomOf="@+id/textView5"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="20dp"
+        android:text="Presencia detectada"
+        app:layout_constraintStart_toEndOf="@+id/colorPresencia2"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+    <TextView
+        android:id="@+id/textView14"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:text="Luz Activada"
+        app:layout_constraintStart_toEndOf="@+id/colorPresencia3"
+        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+
+    <TextView
+        android:id="@+id/textView15"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginTop="5dp"
+        android:text="Alguien esta usando la sala"
+        app:layout_constraintStart_toEndOf="@+id/colorPresencia"
+        app:layout_constraintTop_toBottomOf="@+id/textView14" />
 
 
 </android.support.constraint.ConstraintLayout>

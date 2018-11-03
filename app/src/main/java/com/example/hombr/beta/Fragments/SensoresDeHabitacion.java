@@ -81,8 +81,9 @@ public class SensoresDeHabitacion extends Fragment {
                 }
                 sensores.clear();
                 sensores.addAll(set);
+
                 arrayAdapter.notifyDataSetChanged();
-                Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
+//                Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
 
             }
 
