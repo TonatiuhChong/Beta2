@@ -107,7 +107,7 @@
     <string name="VerificacionEmail">Email no verificado (Presiona para verificar)</string>
     <string name="RegistroUsuario">Escribe el nombre de tu usuario</string>
     <string name="TotalSensores">Sensores Activos: </string>
-    <string name="Totalhabitaciones">Habitaciones Activas</string>
+    <string name="Totalhabitaciones">Habitaciones Activas:</string>
     <string name="Sensores">Sensores</string>
     <string name="Seleccionahabitación">Selecciona Habitacion</string>
     <string name="NOTLOGIN">No se completo el inicio de sesión.</string>
@@ -119,4 +119,5 @@
     <string name="reconocimiento">Reconocimiento Facial</string>
     <string name="ControlHogar">Control del hogar</string>
     <string name="NOCERRO">No se completo el cierre de sesión</string>
+    <string name="Habitaciones">Habitaciones Activas</string>
 </resources>

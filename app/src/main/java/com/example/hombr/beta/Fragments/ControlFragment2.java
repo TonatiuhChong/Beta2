@@ -88,7 +88,7 @@ public class ControlFragment2 extends Fragment {
             public void onClick(View v) {
                 FragmentManager manager= getActivity().getSupportFragmentManager();
                 FragmentTransaction tx = manager.beginTransaction();
-                tx.replace(R.id.escenario,  new ControlFragment());
+                tx.replace(R.id.escenario,  new ControlFragment(),"Control1");
                 tx.commit();
                 getActivity().getSupportFragmentManager().popBackStack();
             }
@@ -118,6 +118,10 @@ public class ControlFragment2 extends Fragment {
                 dialogos();
             }
         });
+        Fragment frag= getActivity().getSupportFragmentManager().findFragmentByTag("Control2");
+        String tagg= frag.getTag();
+        Toast.makeText(getActivity(), tagg, Toast.LENGTH_SHORT).show();
+
 
         return Rec;
     }

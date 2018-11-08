@@ -82,7 +82,10 @@ public class SensoresDeHabitacion extends Fragment {
                 sensores.addAll(set);
 
                 arrayAdapter.notifyDataSetChanged();
-//                Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
+
+               Cuartos.setText("Habitación: " +Singleton.getInstance().getTipo());
+               Sensores.setText("Acciones Activas: "+ sensores.size());
+
 
             }
 
@@ -107,9 +110,8 @@ public class SensoresDeHabitacion extends Fragment {
                     valoress=valoress.split(" ")[0];
                     //String valoress=snapshot.toString();
                     values.add(valoress);
-
-
                 }
+
                 adapter.notifyDataSetChanged();
             }
 

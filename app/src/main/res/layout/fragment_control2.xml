@@ -26,16 +26,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/colorPresencia4" />
 
-    <ImageView
-        android:id="@+id/colorPresencia6"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="5dp"
-        android:src="@color/Mix1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/colorPresencia5" />
-
     <View
         android:id="@+id/paredarriba9"
         android:layout_width="61dp"
@@ -93,10 +83,10 @@
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/firma2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.824"
+        app:layout_constraintHorizontal_bias="0.905"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView20"
-        app:layout_constraintVertical_bias="0.078">
+        app:layout_constraintVertical_bias="0.051">
 
         <View
             android:id="@+id/paredarriba2"
@@ -302,22 +292,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:text="En uso"
-        app:layout_constraintStart_toEndOf="@+id/colorPresencia6"
-        app:layout_constraintTop_toBottomOf="@+id/colorPresencia5" />
-
-    <TextView
         android:id="@+id/textView23"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:text="Presencia detectada"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/colorPresencia5"
         app:layout_constraintTop_toBottomOf="@+id/colorPresencia4" />
 
@@ -328,7 +309,30 @@
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
         android:text="Luz Activada"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/colorPresencia4"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="201dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="5dp"
+        android:text="Modo Automatico (Se regula la iluminacion segun tiempo y luz)"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView23" />
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="192dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Auto"
+        android:textSize="20dp"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
 </android.support.constraint.ConstraintLayout>

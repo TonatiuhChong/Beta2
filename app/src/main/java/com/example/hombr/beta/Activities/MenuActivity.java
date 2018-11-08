@@ -3,6 +3,7 @@ package com.example.hombr.beta.Activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -89,8 +90,9 @@ public class MenuActivity extends AppCompatActivity
 
         FragmentManager manager= getSupportFragmentManager();
         FragmentTransaction tx = manager.beginTransaction();
-        tx.replace(R.id.escenario,  new ControlFragment(),"Control");
+        tx.replace(R.id.escenario,  new ControlFragment(),"Control1");
         tx.commit();
+        getSupportFragmentManager().popBackStack();
 
 
         Calendar now = Calendar.getInstance();
@@ -181,10 +183,13 @@ public class MenuActivity extends AppCompatActivity
         if (id == R.id.ReconocimientoFacial) {
             // Handle the camera action
             fm.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
         } else if (id == R.id.ControlDelHogar) {
             fm.beginTransaction().replace(R.id.escenario, new ControlFragment()).commit();
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         } else if (id == R.id.Sensores) {
             fm.beginTransaction().replace(R.id.escenario, new SensorFragment()).commit();
+            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Mix1)));
         } else if (id == R.id.Configuracion) {
             startActivity(new Intent(this, ConfiguracionActivity.class));
 

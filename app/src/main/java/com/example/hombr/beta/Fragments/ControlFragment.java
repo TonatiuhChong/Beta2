@@ -39,6 +39,7 @@ import com.example.hombr.beta.Activities.MenuActivity;
 import com.example.hombr.beta.Adapters.AdaptadorAcciones;
 import com.example.hombr.beta.Adapters.AdaptadorSensoresValues;
 import com.example.hombr.beta.Adapters.ListItemAcciones;
+import com.example.hombr.beta.NotificationHelper;
 import com.example.hombr.beta.R;
 import com.example.hombr.beta.Singletons.Singleton;
 import com.example.hombr.beta.Singletons.config;
@@ -87,6 +88,9 @@ public class ControlFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View Rec = inflater.inflate(R.layout.fragment_control, container, false);
+        getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.colorPrimary));
+        getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.colorPrimary));
+
         //*******
         Singleton.getInstance().setModo("Luz");
         config.getInstance().setNotif(true);
@@ -150,8 +154,9 @@ public class ControlFragment extends Fragment {
         servicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Servicio");
-                dialogos();
+//                Singleton.getInstance().setHabitacion("Servicio");
+//                dialogos();
+                Toast.makeText(getActivity(), "No esta disponible", Toast.LENGTH_SHORT).show();
             }
         });
         bano.setOnClickListener(new View.OnClickListener() {
@@ -191,6 +196,13 @@ public class ControlFragment extends Fragment {
                 dialogos();
             }
         });
+
+        Fragment frag= getActivity().getSupportFragmentManager().findFragmentByTag("Control1");
+//        String tagg= frag.getTag();
+//        Toast.makeText(getActivity(), tagg, Toast.LENGTH_SHORT).show();
+
+
+
 
             datos();
 
@@ -279,7 +291,6 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                    Toast.makeText(getActivity(), "Control1", Toast.LENGTH_SHORT).show();
                 if((Boolean)dataSnapshot.getValue()==true){Comedor.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {Comedor.setBackgroundColor(0);}
 
@@ -497,15 +508,22 @@ public class ControlFragment extends Fragment {
         Intent home= new Intent(getContext(), MenuActivity.class);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(getActivity(), 0, home, 0);
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
-        builder.setContentIntent(pendingIntent);
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            // only for gingerbread and newer versions
+            NotificationHelper l=new NotificationHelper(getActivity());
+            l.createNotification("Cambio de Valor","Se ha actualizado en " + Singleton.getInstance().getHabitacion() + " de la acción " + Singleton.getInstance().getModo() + " con el valor de " + Singleton.getInstance().getValor());
 
-        builder.setSmallIcon(R.drawable.ambiental);
-        builder.setAutoCancel(true);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notifications_black_24dp));
-        builder.setContentTitle("Cambio de Valor");
-        builder.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() +" de la acción " +Singleton.getInstance().getModo() +" con el valor de " +Singleton.getInstance().getValor());
-        builder.setSubText("Presiona para abrir el mapa");
+        }
+        else {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(getActivity());
+            builder.setContentIntent(pendingIntent);
+
+            builder.setSmallIcon(R.drawable.ambiental);
+            builder.setAutoCancel(true);
+            builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_notifications_black_24dp));
+            builder.setContentTitle("Cambio de Valor");
+            builder.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() + " de la acción " + Singleton.getInstance().getModo() + " con el valor de " + Singleton.getInstance().getValor());
+            builder.setSubText("Presiona para abrir el mapa");
 
 
         if (config.getInstance().isNotif()==true) {
@@ -516,7 +534,7 @@ public class ControlFragment extends Fragment {
             v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
             v.vibrate(500);
 
-        }
+        }}
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

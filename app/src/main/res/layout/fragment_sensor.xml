@@ -7,47 +7,55 @@
     tools:context=".Fragments.SensorFragment">
 
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="384dp"
-        android:layout_height="69dp"
-        android:orientation="horizontal">
+
 
         <TextView
             android:id="@+id/FragmentoSensorCuarto"
             style="@android:style/TextAppearance.DeviceDefault.Widget.TextView"
-            android:layout_width="183dp"
-            android:layout_height="match_parent"
-            android:text="@string/Totalhabitaciones" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/Totalhabitaciones"
+            android:textColor="@color/colorPrimary"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold"/>
 
 
-        <TextView
-            android:id="@+id/FragmentoSensorCantidad"
-            style="@android:style/TextAppearance.DeviceDefault.Widget.TextView"
-            android:layout_width="203dp"
-            android:layout_height="match_parent"
-            android:text="@string/TotalSensores" />
-
-    </LinearLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@android:color/darker_gray"/>
+        android:background="@android:color/black"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selecciona una habitacion para ver su contenido"
+        android:textSize="22dp"
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"/>
+
     <TextView
         android:id="@+id/FSsensores"
         style="@android:style/Widget.TextView.SpinnerItem"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/Sensores"
+        android:text="@string/Habitaciones"
         android:textAlignment="center"
-        android:textColor="@android:color/background_dark"
+        android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="69dp" />
+        tools:layout_editor_absoluteY="69dp"
+        />
     <ListView
         android:id="@+id/FragmentListaSensores"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></ListView>
+        android:layout_height="wrap_content"
+        android:textColor="@color/colorPrimary"
+        android:textAlignment="center"
+
+        >
+
+    </ListView>
 
 </LinearLayout>

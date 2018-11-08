@@ -10,27 +10,36 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="25dp"
         android:orientation="horizontal">
 
         <TextView
             android:id="@+id/FS2TotalSHab"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sensores totales registrados" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textSize="20dp"
+            android:text="Habitación: "
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/FS2TotalSens"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Total Habitaciones" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="@color/colorPrimary" />
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            android:text="Total Acciones:"
+            android:textColor="@color/colorPrimary" />
 
     </LinearLayout>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@color/colorPrimary" />
+
+
 
     <TextView
         android:id="@+id/FS2Hab"
@@ -45,14 +54,16 @@
 
         <ListView
             android:id="@+id/FSkeysFirebase"
-            android:layout_width="152dp"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content">
 
         </ListView>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/FSValuesFirebase"
-            android:layout_width="fill_parent"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="match_parent" />
 
 

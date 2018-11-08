@@ -41,8 +41,13 @@ public class SensorFragment extends Fragment {
 
         View Rec = inflater.inflate(R.layout.fragment_sensor, container, false);
 
+        getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.Mix1));
+        getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.Mix1));
+
+
+
         Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
-        Sensores = (TextView) Rec.findViewById(R.id.FragmentoSensorCantidad);
+
         listas = (ListView) Rec.findViewById(R.id.FragmentListaSensores);
         TextView prueba=(TextView)Rec.findViewById(R.id.FSsensores);
 
@@ -62,7 +67,7 @@ public class SensorFragment extends Fragment {
                 sensores.addAll(set);
                 arrayAdapter.notifyDataSetChanged();
                 Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
-                Sensores.setText("@string/Habitacion"+" "+sensores.size());
+
 
             }
 
@@ -79,7 +84,8 @@ public class SensorFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Singleton.getInstance().setTipo(listas.getItemAtPosition(position).toString());
                 FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new SensoresDeHabitacion()).commit();
+                tr.beginTransaction().replace(R.id.escenario, new SensoresDeHabitacion(),"Sensores").commit();
+                getActivity().getSupportFragmentManager().popBackStack();
 
             }
         });

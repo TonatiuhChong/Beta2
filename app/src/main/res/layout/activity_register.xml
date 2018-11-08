@@ -27,7 +27,7 @@
         android:text="Selecciona tu foto de perfil"
         android:textAlignment="center"
         android:textSize="18dp"
-        />
+        android:textColor="@color/colorPrimary" />
 
     <ImageView
         android:id="@+id/Foto"
@@ -43,8 +43,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -55,7 +53,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/Rusuario"
         android:layout_alignParentStart="true"
-        android:text="@string/RegistroUsuario" />
+        android:text="@string/RegistroUsuario"
+        android:textColor="@color/colorPrimary"/>
 
     <EditText
         android:id="@+id/Rusuario"
@@ -63,7 +62,8 @@
         android:layout_height="wrap_content"
         android:layout_above="@+id/VerificarEmail"
         android:layout_alignParentStart="true"
-        android:hint="Escribe tu nombre de usuario" />
+        android:hint="Escribe tu nombre de usuario"
+        android:textColor="@color/colorPrimary"/>
 
 
     <TextView
@@ -74,7 +74,8 @@
         android:layout_alignParentStart="true"
         android:clickable="true"
         android:text="@string/VerificacionEmail"
-        android:textAlignment="center" />
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"/>
 
     <Button
         android:id="@+id/Registrar"

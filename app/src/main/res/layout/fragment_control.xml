@@ -19,7 +19,8 @@
         android:textAlignment="center"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CambioPiso" />
+        app:layout_constraintTop_toBottomOf="@+id/CambioPiso"
+        android:textColor="@color/colorPrimary"/>
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -335,17 +336,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:textSize="36dp"
-        android:textStyle="bold"/>
-
-    <ImageView
-        android:id="@+id/colorPresencia"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="5dp"
-        android:src="@color/Mix1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/colorPresencia3" />
+        android:textStyle="bold"
+        android:textColor="@color/colorPrimary"/>
 
     <ImageView
         android:id="@+id/colorPresencia3"
@@ -374,6 +366,7 @@
         android:layout_marginStart="12dp"
         android:layout_marginTop="20dp"
         android:text="Presencia detectada"
+        android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/colorPresencia2"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
@@ -385,28 +378,31 @@
         android:layout_marginTop="5dp"
         android:text="Luz Activada"
         app:layout_constraintStart_toEndOf="@+id/colorPresencia3"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/textView12"
+        android:textColor="@color/colorPrimary"/>
 
     <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="20dp"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="5dp"
-        android:text="Alguien esta usando la sala"
-        app:layout_constraintStart_toEndOf="@+id/colorPresencia"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="192dp"
-        android:layout_height="41dp"
+        android:id="@+id/textView13"
+        android:layout_width="201dp"
+        android:layout_height="45dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="8dp"
-        android:text="Auto"
-        android:textSize="14dp"
+        android:text="Modo Automatico (Se regula la iluminacion segun tiempo y luz)"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/textView14"
+        android:textColor="@color/colorPrimary"/>
+
+    <Switch
+        android:id="@+id/AutoPlantaBaja"
+        android:layout_width="192dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:text="Auto"
+        android:textSize="20dp"
+        android:textColor="@color/colorPrimary"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView13" />
 
 
 </android.support.constraint.ConstraintLayout>

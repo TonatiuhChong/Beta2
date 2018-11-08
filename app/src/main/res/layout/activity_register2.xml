@@ -23,7 +23,8 @@
         android:layout_height="59dp"
         android:text="@string/SaludoRegistro"
         android:textAlignment="center"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:textColor="@color/colorPrimary"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -36,7 +37,8 @@
             android:layout_width="match_parent"
             android:layout_height="31dp"
             android:text="@string/RegistroEmail"
-            android:textAlignment="center" />
+            android:textAlignment="center"
+            android:textColor="@color/colorPrimary"/>
 
         <EditText
             android:id="@+id/REmail"
@@ -44,10 +46,11 @@
             android:layout_height="wrap_content"
             android:hint="Email"
             android:inputType="textEmailAddress"
-            android:textColor="@color/design_default_color_primary_dark"
+            android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="142dp" />
+            tools:layout_editor_absoluteY="142dp"
+            />
 
         <TextView
             android:id="@+id/RefPassword"
@@ -57,7 +60,8 @@
             android:text="@string/RegistroPassword"
             android:textAlignment="center"
             tools:layout_editor_absoluteX="28dp"
-            tools:layout_editor_absoluteY="231dp" />
+            tools:layout_editor_absoluteY="231dp"
+            android:textColor="@color/colorPrimary"/>
 
         <EditText
             android:id="@+id/Password"
@@ -65,10 +69,10 @@
             android:layout_height="wrap_content"
             android:hint="Escribe tu contraseña"
             android:inputType="textPassword"
-            android:textColor="@color/design_default_color_primary_dark"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="39dp"
-            tools:layout_editor_absoluteY="188dp" />
+            tools:layout_editor_absoluteY="188dp"
+            android:textColor="@color/colorPrimary"/>
 
         <TextView
             android:id="@+id/RefPassword2"
@@ -77,7 +81,8 @@
             android:text="@string/RegistroPassword"
             android:textAlignment="center"
             tools:layout_editor_absoluteX="16dp"
-            tools:layout_editor_absoluteY="185dp" />
+            tools:layout_editor_absoluteY="185dp"
+            android:textColor="@color/colorPrimary"/>
 
         <EditText
             android:id="@+id/Password2"
@@ -85,7 +90,7 @@
             android:layout_height="wrap_content"
             android:hint="Escribe nuevamente tu contraseña"
             android:inputType="textPassword"
-            android:textColor="@color/design_default_color_primary_dark"
+            android:textColor="@color/colorPrimary"
             android:textSize="18sp"
             tools:layout_editor_absoluteX="16dp"
             tools:layout_editor_absoluteY="279dp" />

@@ -2,14 +2,14 @@
 <resources>
 <color name="colorPrimary">#795548</color>
 <color name="colorPrimaryDark">#5D4037</color>
-<color name="primary_light">#D7CCC8</color>
-<color name="colorAccent">#FF5252</color>
+<color name="primary_light">#464443</color>
+<color name="colorAccent">#ff5252</color>
 <color name="primary_text">#212121</color>
 <color name="secondary_text">#b3d19f</color>
 <color name="icons">#FFFFFF</color>
 <color name="Presencia">#b3d19f</color>
 <color name="Luz">#46a1fc</color>
-<color name="Mix1">#b98005</color>
+<color name="Mix1">#2e1a4b</color>
 <color name="divider">#BDBDBD</color>
 </resources>
 

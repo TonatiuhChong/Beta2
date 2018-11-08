@@ -61,6 +61,10 @@ public class ReconFragment extends Fragment {
 
         View Rec= inflater.inflate(R.layout.fragment_recon2,container,false);
 
+        getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.primary_light));
+        getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.primary_light));
+
+
         NombreU=(TextView)Rec.findViewById(R.id.FragmentNameUser2);
         EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser2);
         PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser2);
@@ -71,6 +75,7 @@ public class ReconFragment extends Fragment {
         Glide.with(this).load(Singleton.getInstance().getFoto()).apply(RequestOptions.circleCropTransform()).into(ImgUSer);
 
         FloatingActionButton fab = (FloatingActionButton) Rec.findViewById(R.id.fab2);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
