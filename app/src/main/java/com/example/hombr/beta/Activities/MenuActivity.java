@@ -85,9 +85,11 @@ public class MenuActivity extends AppCompatActivity
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+        ControlFragment fragmento=new ControlFragment();
+
         FragmentManager manager= getSupportFragmentManager();
         FragmentTransaction tx = manager.beginTransaction();
-        tx.replace(R.id.escenario,  new ControlFragment());
+        tx.replace(R.id.escenario,  new ControlFragment(),"Control");
         tx.commit();
 
 

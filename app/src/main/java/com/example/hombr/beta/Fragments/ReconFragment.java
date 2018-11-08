@@ -60,7 +60,7 @@ public class ReconFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View Rec= inflater.inflate(R.layout.fragment_recon2,container,false);
-        FingerPrintAuthHelper mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(getActivity(), (FingerPrintAuthCallback) getContext());
+
         NombreU=(TextView)Rec.findViewById(R.id.FragmentNameUser2);
         EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser2);
         PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser2);

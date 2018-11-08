@@ -49,7 +49,6 @@ import java.util.Set;
 
 public class SensoresDeHabitacion extends Fragment {
 
-
     private TextView Cuartos;
     private TextView Sensores;
     private ArrayAdapter<String> arrayAdapter;

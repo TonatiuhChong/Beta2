@@ -29,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.hombr.beta.Activities.MenuActivity;
 import com.example.hombr.beta.Adapters.AdaptadorAcciones;
@@ -75,6 +76,11 @@ public class ControlFragment2 extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View Rec = inflater.inflate(R.layout.fragment_control2, container, false);
 
+        final ControlFragment2 test=(ControlFragment2)getActivity().getSupportFragmentManager().findFragmentByTag("Control");
+        if (test != null && test.isVisible()){
+
+        Toast.makeText(getActivity(), "Control2", Toast.LENGTH_SHORT).show();}
+
 
         Button volver=(Button) Rec.findViewById(R.id.VolverPiso);
         volver.setOnClickListener(new View.OnClickListener() {
@@ -84,6 +90,7 @@ public class ControlFragment2 extends Fragment {
                 FragmentTransaction tx = manager.beginTransaction();
                 tx.replace(R.id.escenario,  new ControlFragment());
                 tx.commit();
+                getActivity().getSupportFragmentManager().popBackStack();
             }
         });
         cuarto1=(ImageView)Rec.findViewById(R.id.cuartoyo);
@@ -111,7 +118,7 @@ public class ControlFragment2 extends Fragment {
                 dialogos();
             }
         });
-        datos();
+
         return Rec;
     }
 
@@ -129,8 +136,6 @@ public class ControlFragment2 extends Fragment {
         else{info.setText("La accion"+Singleton.getInstance().getModo()+"Actualmente tiene el valor de "+Singleton.getInstance().getAccionExtra());}
         Button dialogButton = (Button) dialog.findViewById(R.id.dialogButtonOK);
         Button cancelButton =(Button) dialog.findViewById(R.id.dialogButtonCancel);
-
-
 
         recyclerView1=(RecyclerView)dialog.findViewById(R.id.listviewAcciones);
         //recyclerView1.hasFixedSize(true);
@@ -294,6 +299,8 @@ public class ControlFragment2 extends Fragment {
         DatabaseReference lec1=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cuarto1").child("Presencia");
         DatabaseReference lec2=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cuarto2").child("Presencia");
         DatabaseReference lec3=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cuarto3").child("Presencia");
+
+
 
         lec1.addValueEventListener(new ValueEventListener() {
             @Override

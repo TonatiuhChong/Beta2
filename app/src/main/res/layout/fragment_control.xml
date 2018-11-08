@@ -341,28 +341,31 @@
         android:id="@+id/colorPresencia"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:src="@color/Mix1"
-        app:layout_constraintTop_toBottomOf="@+id/colorPresencia3"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorPresencia3" />
 
     <ImageView
         android:id="@+id/colorPresencia3"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="5dp"
         android:src="@color/Luz"
-        app:layout_constraintTop_toBottomOf="@+id/colorPresencia2"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/colorPresencia2" />
 
     <ImageView
         android:id="@+id/colorPresencia2"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
         android:src="@color/Presencia"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        tools:layout_editor_absoluteX="16dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <TextView
         android:id="@+id/textView12"
@@ -393,6 +396,17 @@
         android:text="Alguien esta usando la sala"
         app:layout_constraintStart_toEndOf="@+id/colorPresencia"
         app:layout_constraintTop_toBottomOf="@+id/textView14" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="192dp"
+        android:layout_height="41dp"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="8dp"
+        android:text="Auto"
+        android:textSize="14dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView15" />
 
 
 </android.support.constraint.ConstraintLayout>
