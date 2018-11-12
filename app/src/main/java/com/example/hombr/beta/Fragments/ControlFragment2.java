@@ -55,8 +55,8 @@ public class ControlFragment2 extends Fragment {
     private Button btn;
     private ImageView cuarto1,cuart2,cuarto3;
     private EditText EditHab,EditSense,EditValue;
-    String[] NAcciones = {"Presencia","Ambiental","Puerta","Ventana","Luz","AutoLuz"};
-    int [] images = {R.drawable.presencia,R.drawable.ambiental,R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
+    String[] NAcciones = {"Puerta","Ventana","Luz","AutoLuz"};
+    int [] images = {R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
 
     String[] logicos = {"Apagar", "Encender"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
@@ -120,7 +120,7 @@ public class ControlFragment2 extends Fragment {
         });
         Fragment frag= getActivity().getSupportFragmentManager().findFragmentByTag("Control2");
         String tagg= frag.getTag();
-        Toast.makeText(getActivity(), tagg, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getActivity(), tagg, Toast.LENGTH_SHORT).show();
 
 
         return Rec;

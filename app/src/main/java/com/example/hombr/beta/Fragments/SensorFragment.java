@@ -1,5 +1,7 @@
 package com.example.hombr.beta.Fragments;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
@@ -45,51 +47,68 @@ public class SensorFragment extends Fragment {
         getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.Mix1));
 
 
+if (Singleton.getInstance().isActivacioncontrol()==true) {
+    Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
 
-        Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
+    listas = (ListView) Rec.findViewById(R.id.FragmentListaSensores);
+    TextView prueba = (TextView) Rec.findViewById(R.id.FSsensores);
 
-        listas = (ListView) Rec.findViewById(R.id.FragmentListaSensores);
-        TextView prueba=(TextView)Rec.findViewById(R.id.FSsensores);
+    arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sensores);
+    listas.setAdapter(arrayAdapter);
 
-        arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sensores);
-        listas.setAdapter(arrayAdapter);
+    DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Habitaciones");
+    ref.addValueEventListener(new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            Set<String> set = new HashSet<String>();
+            Iterator i = dataSnapshot.getChildren().iterator();
+            while (i.hasNext()) {
+                set.add(((DataSnapshot) i.next()).getKey());
+            }
+            sensores.clear();
+            sensores.addAll(set);
+            arrayAdapter.notifyDataSetChanged();
+            Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Habitaciones");
-        ref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Set<String> set = new HashSet<String>();
-                Iterator i = dataSnapshot.getChildren().iterator();
-                while (i.hasNext()) {
-                    set.add(((DataSnapshot) i.next()).getKey());
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    });
+
+
+    listas.setClickable(true);
+    listas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            Singleton.getInstance().setTipo(listas.getItemAtPosition(position).toString());
+            FragmentManager tr = getActivity().getSupportFragmentManager();
+            tr.beginTransaction().replace(R.id.escenario, new SensoresDeHabitacion(), "Sensores").commit();
+            getActivity().getSupportFragmentManager().popBackStack();
+
+        }
+    });
+}else {
+
+    final AlertDialog.Builder alert= new AlertDialog.Builder(getActivity());
+    alert.setTitle("Acceso restringido").setMessage("Necesitas usar el reconocimiento facial para accesar al control")
+            .setPositiveButton("Ir", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    FragmentManager tr= getActivity().getSupportFragmentManager();
+                    tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
                 }
-                sensores.clear();
-                sensores.addAll(set);
-                arrayAdapter.notifyDataSetChanged();
-                Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
+            }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
 
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-
-        listas.setClickable(true);
-        listas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Singleton.getInstance().setTipo(listas.getItemAtPosition(position).toString());
-                FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new SensoresDeHabitacion(),"Sensores").commit();
-                getActivity().getSupportFragmentManager().popBackStack();
-
-            }
-        });
-
+        }
+    });
+    alert.show();
+}
         return Rec;
     }
 

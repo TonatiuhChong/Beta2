@@ -145,11 +145,13 @@ public class MenuActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.CerrarSesion) {
+
             FirebaseAuth.getInstance().signOut();
             Singleton.getInstance().setFoto(null);
             Singleton.getInstance().setPassword(null);
             Singleton.getInstance().setEmail(null);
             Singleton.getInstance().setUser(null);
+            Singleton.getInstance().setActivacioncontrol(false);
             Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {

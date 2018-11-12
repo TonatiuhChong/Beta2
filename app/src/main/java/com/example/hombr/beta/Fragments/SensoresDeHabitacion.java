@@ -62,13 +62,23 @@ public class SensoresDeHabitacion extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,  Bundle savedInstanceState) {
 
         View Rec= inflater.inflate(R.layout.fragment_recon,container,false);
+        ImageView volver =(ImageView)Rec.findViewById(R.id.volver);
         Cuartos = (TextView) Rec.findViewById(R.id.FS2TotalSHab);
         Sensores = (TextView) Rec.findViewById(R.id.FS2TotalSens);
         ListView listas = (ListView) Rec.findViewById(R.id.FSkeysFirebase);
         arrayAdapter = new ArrayAdapter<String>(getContext(), android.R.layout.simple_list_item_1, sensores);
+
+
+        volver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager tr= getActivity().getSupportFragmentManager();
+                tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+            }
+        });
+
+
         listas.setAdapter(arrayAdapter);
-
-
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getTipo());
         ref.addValueEventListener(new ValueEventListener() {
             @Override

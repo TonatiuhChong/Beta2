@@ -20,7 +20,15 @@ public class Singleton {
         this.accionExtra = accionExtra;
     }
 
-    public Singleton(String user, String password, String email, String habitacion, String modo, String tipo, String valor, String tsensores, Uri foto, String accionExtra) {
+    public boolean isActivacioncontrol() {
+        return activacioncontrol;
+    }
+
+    public void setActivacioncontrol(boolean activacioncontrol) {
+        this.activacioncontrol = activacioncontrol;
+    }
+
+    public Singleton(String user, String password, String email, String habitacion, String modo, String tipo, String valor, String tsensores, Uri foto, String accionExtra, boolean activacioncontrol) {
         this.user = user;
         this.password = password;
         this.email = email;
@@ -31,12 +39,14 @@ public class Singleton {
         this.tsensores = tsensores;
         this.foto = foto;
         this.accionExtra=accionExtra;
+        this.activacioncontrol=activacioncontrol;
 
     }
 
     String user,password,email, habitacion,modo,tipo,valor,tsensores,accionExtra;
     Uri foto;
     String info;
+    boolean  activacioncontrol;
 
     public String getInfo() {
         return info;

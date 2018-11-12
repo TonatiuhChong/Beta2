@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
@@ -52,9 +53,6 @@ public class ReconFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private List<ListItemUsuarios> usuarios;
 
-
-
-
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -75,25 +73,36 @@ public class ReconFragment extends Fragment {
         Glide.with(this).load(Singleton.getInstance().getFoto()).apply(RequestOptions.circleCropTransform()).into(ImgUSer);
 
         FloatingActionButton fab = (FloatingActionButton) Rec.findViewById(R.id.fab2);
+DatabaseReference reconocimiento=FirebaseDatabase.getInstance().getReference().child("Facial").child("Reconocido");
+reconocimiento.addValueEventListener(new ValueEventListener() {
+    @Override
+    public void onDataChange(DataSnapshot dataSnapshot) {
+   if ((Boolean) dataSnapshot.getValue()==true){
+       Singleton.getInstance().setActivacioncontrol(true);
+   }else{
 
+   }
+    }
+
+    @Override
+    public void onCancelled(DatabaseError databaseError) {
+
+    }
+});
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                VActivacion=!VActivacion;
                 Snackbar.make(view, "Acerquese a la camara para activar el reconocimiento Facial", Snackbar.LENGTH_LONG)
                         .setAction("Lo tengo", null).show();
+                if (Singleton.getInstance().isActivacioncontrol()==true) {
+                    Toast.makeText(getActivity(), "Reconocimiento validado", Toast.LENGTH_SHORT).show();
+                }
+                else{
 
-                DatabaseReference ActivarCamara= FirebaseDatabase.getInstance().getReference().child("Facial");
-                Map<String,Object> map= new HashMap<String, Object>();
-                map.put("Activacion",VActivacion);
-                ActivarCamara.updateChildren(map);
-                //
-                Map<String,Object> UserFire= new HashMap<String, Object>();
-                UserFire.put("UsuarioActivado",Singleton.getInstance().getUser());
-                ActivarCamara.updateChildren(UserFire);
-                //
-                FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
+                    FragmentManager tr= getActivity().getSupportFragmentManager();
+                    tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
+
+                }
             }
         });
         rv=(RecyclerView)Rec.findViewById(R.id.recyclerusuarios);

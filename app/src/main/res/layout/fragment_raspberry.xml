@@ -1,15 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Fragments.RaspberryFragment"
     android:orientation="vertical">
 
+    <ImageView
+        android:id="@+id/volver"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/colorAccent"
+        android:src="@android:drawable/ic_menu_revert" />
 
-    <Button
-        android:id="@+id/button3"
+
+
+    <TextView
+        android:id="@+id/textView13"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="volver" />
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:text="Posicionate enfrente de la camara. Presiona comenzar y espera 15 segundos."
+        android:textStyle="italic" />
+
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/face_scan" />
+
+    <Button
+        android:id="@+id/IniciarRecon"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Activar"
+        android:background="@android:color/holo_blue_light"/>
+
+
 </LinearLayout>

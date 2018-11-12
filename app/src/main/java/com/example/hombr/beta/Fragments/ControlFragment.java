@@ -1,10 +1,12 @@
 package com.example.hombr.beta.Fragments;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.media.AudioAttributes;
@@ -13,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.VibrationEffect;
 import android.os.Vibrator;
+import android.preference.Preference;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -62,12 +65,12 @@ public class ControlFragment extends Fragment {
     private Vibrator v;
     private ListView list;
     private Button btn;
-    String[] AccionesValores = {"Presencia","Ambiental","Puerta","Ventana","Luz","AutoLuz"};
+    String[] AccionesValores = {"Puerta","Ventana","Luz","AutoLuz"};
     private List<String> values;
     private ImageView Sala,Comedor, Cocina1,Cocina2,Estudio,Pasillo1,Pasillo2,Pasillo3,bano,servicio;
     private EditText EditHab,EditSense,EditValue;
-    String[] NAcciones = {"Presencia","Ambiental","Puerta","Ventana","Luz","AutoLuz"};
-    int [] images = {R.drawable.presencia,R.drawable.ambiental,R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
+    String[] NAcciones = {"Puerta","Ventana","Luz","AutoLuz"};
+    int [] images = {R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
     String[] logicos = {"Apagar", "Encender"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
     String[] iluminacionValores={"0","10","20","30","40","50","60","70","80","90","100"};
@@ -106,111 +109,129 @@ public class ControlFragment extends Fragment {
         bano=Rec.findViewById(R.id.ImgHabBano);
         servicio=Rec.findViewById(R.id.ImgHabServicio);
 
-        TextView cambio=Rec.findViewById(R.id.CambioPiso);
-        cambio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final ControlFragment test=(ControlFragment)getActivity().getSupportFragmentManager().findFragmentByTag("Control");
-                FragmentManager manager= getActivity().getSupportFragmentManager();
-                FragmentTransaction tx = manager.beginTransaction();
-                tx.replace(R.id.escenario,  new ControlFragment2(),"Control2");
 
-                tx.commit();
+        if (Singleton.getInstance().isActivacioncontrol()==true) {
 
-                getActivity().getSupportFragmentManager().popBackStack();
-            }
-        });
+            TextView cambio = Rec.findViewById(R.id.CambioPiso);
+            cambio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    final ControlFragment test = (ControlFragment) getActivity().getSupportFragmentManager().findFragmentByTag("Control");
+                    FragmentManager manager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction tx = manager.beginTransaction();
+                    tx.replace(R.id.escenario, new ControlFragment2(), "Control2");
 
-        Sala.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Sala");
-                dialogos();
+                    tx.commit();
 
-            }
-        });
-        Comedor.setOnClickListener(new View.OnClickListener() {
+                    getActivity().getSupportFragmentManager().popBackStack();
+                }
+            });
 
-            @Override
-            public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Comedor");
-                dialogos();
-            }
-        });
-        Cocina1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Cocina Parte 1");
-                dialogos();
-            }
-        });
-        Cocina2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Cocina Parte 2");
-                dialogos();
-            }
-        });
-        servicio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+            Sala.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Singleton.getInstance().setHabitacion("Sala");
+                    dialogos();
+
+                }
+            });
+            Comedor.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    Singleton.getInstance().setHabitacion("Comedor");
+                    dialogos();
+                }
+            });
+            Cocina1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Singleton.getInstance().setHabitacion("Cocina Parte 1");
+                    dialogos();
+                }
+            });
+            Cocina2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Singleton.getInstance().setHabitacion("Cocina Parte 2");
+                    dialogos();
+                }
+            });
+            servicio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //                Singleton.getInstance().setHabitacion("Servicio");
 //                dialogos();
-                Toast.makeText(getActivity(), "No esta disponible", Toast.LENGTH_SHORT).show();
-            }
-        });
-        bano.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+                    Toast.makeText(getActivity(), "No esta disponible", Toast.LENGTH_SHORT).show();
+                }
+            });
+            bano.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //
 //                Singleton.getInstance().setHabitacion("Sanitario");
 //                dialogos();
-                Toast.makeText(getContext(), "No esta disponible", Toast.LENGTH_SHORT).show();
-            }
-        });
-        Pasillo1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Pasillo 1");
-                dialogos();
-            }
-        });
-        Estudio.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Estudio");
-                dialogos();
-            }
-        });
-        Pasillo2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Pasillo 2");
-                dialogos();
-            }
-        });
-        Pasillo3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Singleton.getInstance().setHabitacion("Entrada");
-                dialogos();
-            }
-        });
+                    Toast.makeText(getContext(), "No esta disponible", Toast.LENGTH_SHORT).show();
+                }
+            });
+            Pasillo1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Singleton.getInstance().setHabitacion("Pasillo 1");
+                    dialogos();
+                }
+            });
+            Estudio.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Singleton.getInstance().setHabitacion("Estudio");
+                    dialogos();
+                }
+            });
+            Pasillo2.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Singleton.getInstance().setHabitacion("Pasillo 2");
+                    dialogos();
+                }
+            });
+            Pasillo3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Singleton.getInstance().setHabitacion("Entrada");
+                    dialogos();
+                }
+            });
 
-        Fragment frag= getActivity().getSupportFragmentManager().findFragmentByTag("Control1");
-//        String tagg= frag.getTag();
-//        Toast.makeText(getActivity(), tagg, Toast.LENGTH_SHORT).show();
-
-
-
+            Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("Control1");
+//
 
             datos();
 
+        }
+        else{
+            final AlertDialog.Builder alert= new AlertDialog.Builder(getActivity());
+            alert.setTitle("Acceso restringido").setMessage("Necesitas usar el reconocimiento facial para accesar al control")
+                    .setPositiveButton("Ir", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            FragmentManager tr= getActivity().getSupportFragmentManager();
+                            tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+                        }
+                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
 
+                }
+            });
+            alert.show();
+
+        }
         return Rec;
     }
 
     private void dialogos() {
+
 
         final Dialog dialog= new Dialog(getActivity());
         dialog.setContentView(R.layout.dialogcasa);

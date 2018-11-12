@@ -365,8 +365,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    showProgress(true);
+
                     if (task.isSuccessful()) {
+                        showProgress(true);
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                         if(user.getDisplayName()!=null){
                         Singleton.getInstance().setUser(user.getDisplayName());
