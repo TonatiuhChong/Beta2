@@ -1,9 +1,11 @@
 package com.example.hombr.beta.Activities;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.ColorDrawable;
+import android.hardware.fingerprint.FingerprintManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,21 +41,41 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.multidots.fingerprintauth.FingerPrintAuthCallback;
+import com.multidots.fingerprintauth.FingerPrintAuthHelper;
 
 import java.util.Calendar;
 
 public class MenuActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener, FingerPrintAuthCallback {
     private TextView Usuario, Email;
     private ImageView Fusuario;
     private GoogleApiClient googleApiClient;
     private FirebaseAuth mAuth = FirebaseAuth.getInstance();
     private static final String TAG = "MenuActivity";
+    private FingerPrintAuthHelper mFingerPrintAuthHelper;
+    private Dialog finger;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        mFingerPrintAuthHelper.startAuth();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        //FINGER
+        mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
+         finger = new Dialog(this);
+        finger.setContentView(R.layout.fingers);
+        finger.show();
+        //
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -102,6 +124,10 @@ public class MenuActivity extends AppCompatActivity
         if (currentHour < 7) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.night));
         }
+        if (currentHour > 7 & currentHour < 9) {
+            nave.setBackground(this.getResources().getDrawable(R.drawable.morning));
+
+        }
         if (currentHour < 12 & currentHour > 9) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.sunny));
 
@@ -112,10 +138,7 @@ public class MenuActivity extends AppCompatActivity
         if (currentHour > 19) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.night));
         }
-        if (currentHour > 7 & currentHour < 9) {
-            nave.setBackground(this.getResources().getDrawable(R.drawable.morning));
 
-        }
         else nave.setBackground(this.getResources().getDrawable(R.drawable.wallpaperpixel));
 
 
@@ -257,6 +280,13 @@ public class MenuActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        mFingerPrintAuthHelper.stopAuth();
+
+    }
+
+    @Override
     protected void onStart() {
         super.onStart();
 
@@ -268,6 +298,46 @@ public class MenuActivity extends AppCompatActivity
             ));
 
         }
+    }
+
+    @Override
+    public void onNoFingerPrintHardwareFound() {
+    AlertDialog.Builder gg;
+    gg=new AlertDialog.Builder(this);
+    final EditText edit= new EditText( MenuActivity.this);
+    gg.setTitle("Verificación").setView(edit)
+            .setMessage("Pon tu nombre")
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (Singleton.getInstance().getUser()==edit.getText().toString()){
+                        Toast.makeText(MenuActivity.this, "Aceptado ", Toast.LENGTH_SHORT).show();
+                        Singleton.getInstance().setActivacioncontrol(true);
+                    }
+                }
+            });
+    }
+
+    @Override
+    public void onNoFingerPrintRegistered() {
+
+    }
+
+    @Override
+    public void onBelowMarshmallow() {
+
+    }
+
+    @Override
+    public void onAuthSuccess(FingerprintManager.CryptoObject cryptoObject) {
+        finger.dismiss();
+        Singleton.getInstance().setActivacioncontrol(true);
+
+    }
+
+    @Override
+    public void onAuthFailed(int errorCode, String errorMessage) {
+
     }
 }
 

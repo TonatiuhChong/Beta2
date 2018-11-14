@@ -204,8 +204,6 @@ public class ControlFragment extends Fragment {
             });
 
             Fragment frag = getActivity().getSupportFragmentManager().findFragmentByTag("Control1");
-//
-
             datos();
 
         }
