@@ -71,6 +71,7 @@ public class RegisterActivity extends AppCompatActivity {
     String profileImageUrl;
     FirebaseAuth mAuth;
     static final int REQUEST_IMAGE_CAPTURE = 1;
+boolean  verificaremail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -170,8 +171,9 @@ public class RegisterActivity extends AppCompatActivity {
         findViewById(R.id.Registrar).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(verificaremail==true){
                 saveUserInformation();
-            }
+            }}
         });
     }
 
@@ -199,8 +201,10 @@ public class RegisterActivity extends AppCompatActivity {
             }
 
             if (user.isEmailVerified()) {
+                verificaremail=true;
                 textView.setText("Email Verified");
-            } else {
+            }
+
                 textView.setText("Email Not Verified (Click to Verify)");
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -213,7 +217,7 @@ public class RegisterActivity extends AppCompatActivity {
                         });
                     }
                 });
-            }
+
         }
     }
     private void saveUserInformation() {

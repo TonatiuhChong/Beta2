@@ -51,6 +51,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.multidots.fingerprintauth.FingerPrintAuthHelper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -209,19 +210,13 @@ public class ControlFragment extends Fragment {
         }
         else{
             final AlertDialog.Builder alert= new AlertDialog.Builder(getActivity());
-            alert.setTitle("Acceso restringido").setMessage("Necesitas usar el reconocimiento facial para accesar al control")
-                    .setPositiveButton("Ir", new DialogInterface.OnClickListener() {
+            alert.setTitle("Acceso restringido").setMessage("Abre reconocimiento facial para activar ")
+                    .setPositiveButton("Entiendo", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            FragmentManager tr= getActivity().getSupportFragmentManager();
-                            tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
-                        }
-                    }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
 
-                }
-            });
+                        }
+                    });
             alert.show();
 
         }
@@ -283,7 +278,6 @@ public class ControlFragment extends Fragment {
 
     private void datos() {
         final ControlFragment test=(ControlFragment)getActivity().getSupportFragmentManager().findFragmentByTag("Control");
-
      DatabaseReference lec1=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Sala").child("Presencia");
      DatabaseReference lec2=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Comedor").child("Presencia");
      DatabaseReference lec3=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 1").child("Presencia");

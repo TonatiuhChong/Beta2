@@ -279,8 +279,6 @@ public class ControlFragment2 extends Fragment {
             }
         });
 
-
-
     }
 
     private void OpcionSeleccionada(ArrayAdapter adapterSpinner, Spinner spinner) {

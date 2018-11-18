@@ -69,12 +69,17 @@ public class MenuActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
-        //FINGER
-        mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
-         finger = new Dialog(this);
-        finger.setContentView(R.layout.fingers);
-        finger.show();
-        //
+
+
+        if (Singleton.getInstance().isActivacioncontrol()==false){
+            //FINGER
+            mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
+            finger = new Dialog(this);
+            finger.setContentView(R.layout.fingers);
+            finger.show();
+            //
+        }
+
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -124,15 +129,15 @@ public class MenuActivity extends AppCompatActivity
         if (currentHour < 7) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.night));
         }
-        if (currentHour > 7 & currentHour < 9) {
+        if (currentHour > 7 && currentHour < 9) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.morning));
 
         }
-        if (currentHour < 12 & currentHour > 9) {
+        if (currentHour < 12 && currentHour > 9) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.sunny));
 
         }
-        if (currentHour < 19 & currentHour > 12) {
+        if (currentHour < 19 && currentHour > 12) {
             nave.setBackground(this.getResources().getDrawable(R.drawable.afternoon));
         }
         if (currentHour > 19) {
@@ -207,8 +212,20 @@ public class MenuActivity extends AppCompatActivity
         int id = item.getItemId();
         if (id == R.id.ReconocimientoFacial) {
             // Handle the camera action
-            fm.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
-            getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+            if (Singleton.getInstance().isActivacioncontrol()==false){
+                //FINGER
+                mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
+                finger = new Dialog(this);
+                finger.setContentView(R.layout.fingers);
+                finger.show();
+                id=R.id.ControlDelHogar;
+                //
+            }
+            if (Singleton.getInstance().isActivacioncontrol()==true) {
+                fm.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+            }
+
         } else if (id == R.id.ControlDelHogar) {
             fm.beginTransaction().replace(R.id.escenario, new ControlFragment()).commit();
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));

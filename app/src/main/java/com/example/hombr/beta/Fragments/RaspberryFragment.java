@@ -32,7 +32,6 @@ public class RaspberryFragment extends Fragment {
          btn = (ImageView) Rec.findViewById(R.id.volver);
          Button recon=(Button)Rec.findViewById(R.id.IniciarRecon);
 
-
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

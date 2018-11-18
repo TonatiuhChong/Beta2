@@ -94,19 +94,15 @@ if (Singleton.getInstance().isActivacioncontrol()==true) {
 }else {
 
     final AlertDialog.Builder alert= new AlertDialog.Builder(getActivity());
-    alert.setTitle("Acceso restringido").setMessage("Necesitas usar el reconocimiento facial para accesar al control")
-            .setPositiveButton("Ir", new DialogInterface.OnClickListener() {
+    alert.setTitle("Acceso restringido").setMessage("Abre reconocimiento facial para activar")
+            .setPositiveButton("Entiendo", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     FragmentManager tr= getActivity().getSupportFragmentManager();
                     tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
                 }
-            }).setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
+            });
 
-        }
-    });
     alert.show();
 }
         return Rec;
