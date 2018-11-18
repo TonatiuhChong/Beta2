@@ -58,7 +58,7 @@ public class ControlFragment2 extends Fragment {
     String[] NAcciones = {"Puerta","Ventana","Luz","AutoLuz"};
     int [] images = {R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
 
-    String[] logicos = {"Apagar", "Encender"};
+    String[] logicos = {"Cerrar", "Abrir"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
     String[] iluminacionValores={"0","10","20","30","40","50","60","70","80","90","100"};
     String[] NO={"No aplica"};
@@ -289,7 +289,9 @@ public class ControlFragment2 extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 Singleton.getInstance().setValor((String)parent.getItemAtPosition(position));
+
             }
 
             @Override
