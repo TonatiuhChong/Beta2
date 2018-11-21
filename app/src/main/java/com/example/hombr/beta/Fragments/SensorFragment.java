@@ -48,7 +48,7 @@ public class SensorFragment extends Fragment {
 
 
 if (Singleton.getInstance().isActivacioncontrol()==true) {
-    Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
+//    Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
 
     listas = (ListView) Rec.findViewById(R.id.FragmentListaSensores);
     TextView prueba = (TextView) Rec.findViewById(R.id.FSsensores);
@@ -68,7 +68,7 @@ if (Singleton.getInstance().isActivacioncontrol()==true) {
             sensores.clear();
             sensores.addAll(set);
             arrayAdapter.notifyDataSetChanged();
-            Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
+            //Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
 
 
         }

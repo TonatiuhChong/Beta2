@@ -53,6 +53,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.multidots.fingerprintauth.FingerPrintAuthHelper;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,7 +73,7 @@ public class ControlFragment extends Fragment {
     private EditText EditHab,EditSense,EditValue;
     String[] NAcciones = {"Puerta","Ventana","Luz","AutoLuz"};
     int [] images = {R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
-    String[] logicos = {"Apagar", "Encender"};
+    String[] logicos = {"Cerrar", "Abrir"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
     String[] iluminacionValores={"0","10","20","30","40","50","60","70","80","90","100"};
     String[] NO={"No aplica"};
@@ -396,125 +397,128 @@ public class ControlFragment extends Fragment {
             }
         });
 ///luz//////////////////////////////////////////////////////////////////////////////
-//        DatabaseReference lec11=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Sala").child("Luz");
-//        DatabaseReference lec21=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Comedor").child("Luz");
-//        DatabaseReference lec31=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 1").child("Luz");
-//        DatabaseReference lec41=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 2").child("Luz");
-//        DatabaseReference lec51=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Pasillo 2").child("Luz");
-//        DatabaseReference lec61=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Pasillo 1").child("Luz");
-//        DatabaseReference lec71=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Estudio").child("Luz");
-//
-//        lec11.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//
-//                if(Integer.parseInt(dataSnapshot.getValue().toString())>var){Sala.setBackgroundColor(getResources().getColor(R.color.Luz));sala=true;}
-//                else {Sala.setBackgroundColor(0);sala=false;}
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        lec21.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                int p= Integer.parseInt(dataSnapshot.getValue().toString());
-//                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Comedor.setBackgroundColor(getResources().getColor(R.color.Luz));comedor=true;}
-//                else {Comedor.setBackgroundColor(0);comedor=false;}
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        lec31.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//            int p= Integer.parseInt(dataSnapshot.getValue().toString());
-//
-//                if(p>10){
-//                    Cocina1.setBackgroundColor(getResources().getColor(R.color.Luz));
-//                    cocina1=true;
-//                    if(cocina1==true&cocina11==true){
-//                    Cocina1.setBackgroundColor(getResources().getColor(R.color.Mix1));
-//                }}
-//                else {Cocina1.setBackgroundColor(0);cocina1=false;}
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        lec41.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Cocina2.setBackgroundColor(getResources().getColor(R.color.Luz));}
-//                else {Cocina2.setBackgroundColor(0);}
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        lec51.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//
-//                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Luz));}
-//                else {Pasillo2.setBackgroundColor(0);}
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        lec61.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//
-//                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Luz));}
-//                else {Pasillo1.setBackgroundColor(0);}
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
-//        lec71.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Estudio.setBackgroundColor(getResources().getColor(R.color.Luz));}
-//                else {Estudio.setBackgroundColor(0);}
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
+        DatabaseReference lec11=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Sala").child("Luz");
+        DatabaseReference lec21=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Comedor").child("Luz");
+        DatabaseReference lec31=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 1").child("Luz");
+        DatabaseReference lec41=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cocina Parte 2").child("Luz");
+        DatabaseReference lec51=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Pasillo 2").child("Luz");
+        DatabaseReference lec61=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Pasillo 1").child("Luz");
+        DatabaseReference lec71=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Estudio").child("Luz");
+
+        lec11.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
 
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>var){Sala.setBackgroundColor(getResources().getColor(R.color.Luz));sala=true;}
+                else {Sala.setBackgroundColor(0);sala=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec21.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                int p= Integer.parseInt(dataSnapshot.getValue().toString());
+                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Comedor.setBackgroundColor(getResources().getColor(R.color.Luz));comedor=true;}
+                else {Comedor.setBackgroundColor(0);comedor=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec31.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+            int p= Integer.parseInt(dataSnapshot.getValue().toString());
+
+                if(p>10){
+                    Cocina1.setBackgroundColor(getResources().getColor(R.color.Luz));
+                    cocina1=true;
+                    if(cocina1==true&cocina11==true){
+                    Cocina1.setBackgroundColor(getResources().getColor(R.color.Mix1));
+                }}
+                else {Cocina1.setBackgroundColor(0);cocina1=false;}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec41.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Cocina2.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {Cocina2.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec51.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-        
+                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {Pasillo2.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec61.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {Pasillo1.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec71.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Estudio.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {Estudio.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 
     private void FirebaseConexion() {
+
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getHabitacion());
         Map<String,Object> map= new HashMap<String, Object>();
-        map.put(Singleton.getInstance().getModo(),Singleton.getInstance().getValor());
+        if (Singleton.getInstance().getModo()=="Luz"){
+            int p;
+            p=Integer.parseInt(Singleton.getInstance().getValor());
+            map.put(Singleton.getInstance().getModo(),p);
+        }else {
+            map.put(Singleton.getInstance().getModo(),Singleton.getInstance().getValor());
+        }
+
         ref.updateChildren(map);
         Intent intent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://ideorreas.mx/inmotica-domotica/"));
@@ -538,7 +542,6 @@ public class ControlFragment extends Fragment {
             builder.setContentText("Se ha actualizado en " + Singleton.getInstance().getHabitacion() + " de la acción " + Singleton.getInstance().getModo() + " con el valor de " + Singleton.getInstance().getValor());
             builder.setSubText("Presiona para abrir el mapa");
 
-
         if (config.getInstance().isNotif()==true) {
 
             NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(
@@ -551,7 +554,6 @@ public class ControlFragment extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
 
             }
 
@@ -629,6 +631,7 @@ public class ControlFragment extends Fragment {
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
                 Singleton.getInstance().setValor((String)parent.getItemAtPosition(position));
             }
 

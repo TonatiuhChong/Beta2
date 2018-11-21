@@ -12,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="70dp"
         android:background="@color/colorAccent"
-        android:src="@android:drawable/ic_menu_revert" />
+        android:src="@android:drawable/ic_menu_revert"
+        android:visibility="invisible" />
 
 
 
@@ -37,8 +38,8 @@
         android:id="@+id/IniciarRecon"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Activar"
-        android:background="@android:color/holo_blue_light"/>
+        android:background="@android:color/holo_blue_light"
+        android:text="Comenzar" />
 
 
 </LinearLayout>

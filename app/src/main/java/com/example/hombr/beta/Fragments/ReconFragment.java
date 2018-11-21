@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,10 +49,12 @@ public class ReconFragment extends Fragment {
 
     private TextView NombreU,EmailU,PerfilU;
     private ImageView ImgUSer;
-    public  Boolean VActivacion=Boolean.TRUE;
+    public  Boolean VActivacion=Boolean.FALSE;
     private RecyclerView rv;
     private RecyclerView.Adapter adapter;
     private List<ListItemUsuarios> usuarios;
+    private ArrayList<String> sensores = new ArrayList<>();
+    private FloatingActionButton fab;
 
     @Nullable
     @Override
@@ -62,7 +65,6 @@ public class ReconFragment extends Fragment {
         getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.primary_light));
         getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.primary_light));
 
-
         NombreU=(TextView)Rec.findViewById(R.id.FragmentNameUser2);
         EmailU=(TextView)Rec.findViewById(R.id.FragmentEmailUser2);
         PerfilU=(TextView)Rec.findViewById(R.id.FragmentValueUser2);
@@ -72,17 +74,37 @@ public class ReconFragment extends Fragment {
         PerfilU.setText(Singleton.getInstance().getPassword());
         Glide.with(this).load(Singleton.getInstance().getFoto()).apply(RequestOptions.circleCropTransform()).into(ImgUSer);
 
-        FloatingActionButton fab = (FloatingActionButton) Rec.findViewById(R.id.fab2);
-DatabaseReference reconocimiento=FirebaseDatabase.getInstance().getReference().child("Facial").child("Reconocido");
+         fab = (FloatingActionButton) Rec.findViewById(R.id.fab2);
+
+DatabaseReference reconocimiento=FirebaseDatabase.getInstance().getReference().child("Facial").child("UsuariosActivados");
 reconocimiento.addValueEventListener(new ValueEventListener() {
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-   if ((Boolean) dataSnapshot.getValue()==true){
-       Singleton.getInstance().setActivacioncontrol(true);
-   }else{
+        Set<String> set = new HashSet<String>();
+        Iterator i = dataSnapshot.getChildren().iterator();
+        while (i.hasNext()) {
+            set.add(((DataSnapshot) i.next()).getKey());
+        }
+        sensores.clear();
+        sensores.addAll(set);
 
-   }
-    }
+        for (String pair: sensores){
+
+            if (pair.contains(Singleton.getInstance().getUser())){
+            fab.setEnabled(false);
+            Singleton.getInstance().setActivacioncontrol(true);
+            break;}
+            else{
+                fab.setEnabled(true);
+//                Toast.makeText(getActivity(), "No", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+
+        }
+
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
@@ -94,15 +116,11 @@ reconocimiento.addValueEventListener(new ValueEventListener() {
             public void onClick(View view) {
                 Snackbar.make(view, "Acerquese a la camara para activar el reconocimiento Facial", Snackbar.LENGTH_LONG)
                         .setAction("Lo tengo", null).show();
-                if (Singleton.getInstance().isActivacioncontrol()==true) {
-                    Toast.makeText(getActivity(), "Reconocimiento validado", Toast.LENGTH_SHORT).show();
-                }
-                else{
 
-                    FragmentManager tr= getActivity().getSupportFragmentManager();
+                FragmentManager tr= getActivity().getSupportFragmentManager();
                     tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
 
-                }
+
             }
         });
         rv=(RecyclerView)Rec.findViewById(R.id.recyclerusuarios);

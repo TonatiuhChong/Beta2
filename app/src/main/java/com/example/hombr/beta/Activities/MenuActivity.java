@@ -144,7 +144,7 @@ public class MenuActivity extends AppCompatActivity
             nave.setBackground(this.getResources().getDrawable(R.drawable.night));
         }
 
-        else nave.setBackground(this.getResources().getDrawable(R.drawable.wallpaperpixel));
+//        else nave.setBackground(this.getResources().getDrawable(R.drawable.wallpaperpixel));
 
 
     }
@@ -337,12 +337,38 @@ public class MenuActivity extends AppCompatActivity
 
     @Override
     public void onNoFingerPrintRegistered() {
-
+        AlertDialog.Builder gg;
+        gg=new AlertDialog.Builder(this);
+        final EditText edit= new EditText( MenuActivity.this);
+        gg.setTitle("Verificación").setView(edit)
+                .setMessage("Pon tu nombre")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Singleton.getInstance().getUser()==edit.getText().toString()){
+                            Toast.makeText(MenuActivity.this, "Aceptado ", Toast.LENGTH_SHORT).show();
+                            Singleton.getInstance().setActivacioncontrol(true);
+                        }
+                    }
+                });
     }
 
     @Override
     public void onBelowMarshmallow() {
-
+        AlertDialog.Builder gg;
+        gg=new AlertDialog.Builder(this);
+        final EditText edit= new EditText( MenuActivity.this);
+        gg.setTitle("Verificación").setView(edit)
+                .setMessage("Pon tu nombre")
+                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (Singleton.getInstance().getUser()==edit.getText().toString()){
+                            Toast.makeText(MenuActivity.this, "Aceptado ", Toast.LENGTH_SHORT).show();
+                            Singleton.getInstance().setActivacioncontrol(true);
+                        }
+                    }
+                });
     }
 
     @Override

@@ -7,18 +7,17 @@
     tools:context=".Fragments.SensorFragment">
 
 
-
-
-        <TextView
-            android:id="@+id/FragmentoSensorCuarto"
-            style="@android:style/TextAppearance.DeviceDefault.Widget.TextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Totalhabitaciones"
-            android:textColor="@color/colorPrimary"
-            android:textAlignment="center"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
+    <TextView
+        android:id="@+id/FragmentoSensorCuarto"
+        style="@android:style/TextAppearance.DeviceDefault.Widget.TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/Totalhabitaciones"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:visibility="invisible" />
 
 
     <View

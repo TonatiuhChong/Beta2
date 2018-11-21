@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 
 public class CapturaCorreoActivity extends AppCompatActivity implements View.OnClickListener{
     private EditText editTextEmail, editTextPassword,editTextPassword2;
@@ -90,8 +91,17 @@ public class CapturaCorreoActivity extends AppCompatActivity implements View.OnC
             public void onComplete(@NonNull Task<AuthResult> task) {
 
                 if (task.isSuccessful()) {
+                    final FirebaseUser user= mAuth.getCurrentUser();
                     Singleton.getInstance().setEmail(email);
                     Singleton.getInstance().setPassword(password);
+
+                    user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(CapturaCorreoActivity.this, "Verificacion Enviada", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                     finish();
                     startActivity(new Intent(CapturaCorreoActivity.this, RegisterActivity.class));
                 } else {
