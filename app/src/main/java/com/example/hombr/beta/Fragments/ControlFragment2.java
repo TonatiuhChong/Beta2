@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,11 +58,12 @@ public class ControlFragment2 extends Fragment {
     private EditText EditHab,EditSense,EditValue;
     String[] NAcciones = {"Puerta","Ventana","Luz","AutoLuz"};
     int [] images = {R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
-
+    String[] logicos2 = {"Activar", "Desactivar"};
     String[] logicos = {"Cerrar", "Abrir"};
     String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
     String[] iluminacionValores={"0","10","20","30","40","50","60","70","80","90","100"};
     String[] NO={"No aplica"};
+    String[]hab={"Cuarto1","Cuarto2","Cuarto3"};
 
     private Spinner spinner;
     ArrayAdapter adapterSpinner;
@@ -120,7 +122,34 @@ public class ControlFragment2 extends Fragment {
         });
         Fragment frag= getActivity().getSupportFragmentManager().findFragmentByTag("Control2");
         String tagg= frag.getTag();
-//        Toast.makeText(getActivity(), tagg, Toast.LENGTH_SHORT).show();
+
+        Switch regulador=(Switch) Rec.findViewById(R.id.AutoLuzAlta);
+
+        regulador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean on=((Switch)v).isChecked();
+
+                if(on){
+
+                    for (int p=0;p<hab.length;p++){
+                        DatabaseReference auto=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(hab[p].toString());
+                        Map<String,Object> map= new HashMap<String, Object>();
+                        map.put("AutoLuz",true);
+                        auto.updateChildren(map);
+                    }}
+                else{
+
+                    for (int p=0;p<hab.length;p++){
+                        DatabaseReference auto=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(hab[p].toString());
+                        Map<String,Object> map= new HashMap<String, Object>();
+                        map.put("AutoLuz",false);
+                        auto.updateChildren(map);
+                    }
+
+                }
+            }
+        });
 
 
         return Rec;
@@ -180,7 +209,24 @@ public class ControlFragment2 extends Fragment {
     private void FirebaseConexion() {
         DatabaseReference ref= FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(Singleton.getInstance().getHabitacion());
         Map<String,Object> map= new HashMap<String, Object>();
-        map.put(Singleton.getInstance().getModo(),Singleton.getInstance().getValor());
+        if (Singleton.getInstance().getModo()=="Luz"){
+            int p;
+            p=Integer.parseInt(Singleton.getInstance().getValor());
+            map.put(Singleton.getInstance().getModo(),p);
+
+        }else if(Singleton.getInstance().getModo()=="AutoLuz"){
+            if (Singleton.getInstance().getValor()=="Cerrar"){
+                map.put(Singleton.getInstance().getModo(),false);
+            }
+            else {
+                map.put(Singleton.getInstance().getModo(),true);
+            }
+        }
+
+        else {
+            map.put(Singleton.getInstance().getModo(),Singleton.getInstance().getValor());
+        }
+
         ref.updateChildren(map);
         Intent intent = new Intent(Intent.ACTION_VIEW,
                 Uri.parse("https://ideorreas.mx/inmotica-domotica/"));
@@ -232,7 +278,7 @@ public class ControlFragment2 extends Fragment {
 
                 switch (Singleton.getInstance().getModo()){
                     case "AutoLuz":
-                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos2);
                         OpcionSeleccionada(adapterSpinner,spinner);
                         Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
 

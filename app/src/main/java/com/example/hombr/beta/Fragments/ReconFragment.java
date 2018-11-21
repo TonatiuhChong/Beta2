@@ -62,6 +62,8 @@ public class ReconFragment extends Fragment {
 
         View Rec= inflater.inflate(R.layout.fragment_recon2,container,false);
 
+        Toast.makeText(getActivity(), "Se esta validando su usuario", Toast.LENGTH_SHORT).show();
+
         getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.primary_light));
         getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.primary_light));
 
@@ -93,6 +95,7 @@ reconocimiento.addValueEventListener(new ValueEventListener() {
             if (pair.contains(Singleton.getInstance().getUser())){
             fab.setEnabled(false);
             Singleton.getInstance().setActivacioncontrol(true);
+                Toast.makeText(getActivity(), "Usuario Verificado", Toast.LENGTH_SHORT).show();
             break;}
             else{
                 fab.setEnabled(true);

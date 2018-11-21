@@ -13,14 +13,14 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:textStyle="bold"
-        android:textSize="24dp"
-        android:text="Presiona un icono para interactuar con el sistema."
+        android:text="Presiona una habitación"
         android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="24dp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/CambioPiso"
-        android:textColor="@color/colorPrimary"/>
+        app:layout_constraintTop_toBottomOf="@+id/CambioPiso" />
 
     <RelativeLayout
         android:id="@+id/relativeLayout2"
@@ -31,12 +31,11 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintBottom_toTopOf="@+id/firma"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5"
-        app:layout_constraintVertical_bias="0.209">
+        app:layout_constraintTop_toBottomOf="@+id/AutoLuzAlta">
 
         <ImageView
             android:id="@+id/ImgHabCocina1"
@@ -381,7 +380,7 @@
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
     <Switch
-        android:id="@+id/AutoPlantaBaja"
+        android:id="@+id/AutoLuzAlta"
         android:layout_width="192dp"
         android:layout_height="41dp"
         android:layout_marginEnd="5dp"

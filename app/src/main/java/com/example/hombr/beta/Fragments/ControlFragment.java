@@ -2,20 +2,16 @@ package com.example.hombr.beta.Fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.media.AudioAttributes;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.VibrationEffect;
 import android.os.Vibrator;
-import android.preference.Preference;
 import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -30,17 +26,18 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hombr.beta.Activities.MenuActivity;
 import com.example.hombr.beta.Adapters.AdaptadorAcciones;
-import com.example.hombr.beta.Adapters.AdaptadorSensoresValues;
 import com.example.hombr.beta.Adapters.ListItemAcciones;
 import com.example.hombr.beta.NotificationHelper;
 import com.example.hombr.beta.R;
@@ -51,17 +48,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.multidots.fingerprintauth.FingerPrintAuthHelper;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.concurrent.ConcurrentSkipListSet;
 
 public class ControlFragment extends Fragment {
     private Vibrator v;
@@ -74,9 +65,10 @@ public class ControlFragment extends Fragment {
     String[] NAcciones = {"Puerta","Ventana","Luz","AutoLuz"};
     int [] images = {R.drawable.puerta,R.drawable.ventana,R.drawable.iluminacion, R.drawable.corriente};
     String[] logicos = {"Cerrar", "Abrir"};
-    String[] analogicos = {"Apagar", "Bajo", "Medio", "Alto", "Encendido Completo"};
+    String[] logicos2 = {"Activar", "Desactivar"};
     String[] iluminacionValores={"0","10","20","30","40","50","60","70","80","90","100"};
     String[] NO={"No aplica"};
+    String[]hab={"Sala","Comedor","Cocina Parte 1","Cocina Parte 2","Pasillo 1","Pasillo 2","Estudio"};
 
     float var;
     boolean sala, comedor, cocina1,cocina2,estudio,pasillo1,pasillo2,entrada,sala1, comedor1, cocina11,cocina21,estudio1,pasillo11,pasillo21,entrada1;
@@ -110,6 +102,34 @@ public class ControlFragment extends Fragment {
         Pasillo3=Rec.findViewById(R.id.ImgHabPasillo3);
         bano=Rec.findViewById(R.id.ImgHabBano);
         servicio=Rec.findViewById(R.id.ImgHabServicio);
+
+        Switch regulador=(Switch) Rec.findViewById(R.id.AutoLuzAlta);
+
+        regulador.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean on=((Switch)v).isChecked();
+
+                if(on){
+
+                    for (int p=0;p<hab.length;p++){
+                        DatabaseReference auto=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(hab[p].toString());
+                        Map<String,Object> map= new HashMap<String, Object>();
+                        map.put("AutoLuz",true);
+                        auto.updateChildren(map);
+                    }}
+                else{
+
+                    for (int p=0;p<hab.length;p++){
+                        DatabaseReference auto=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(hab[p].toString());
+                        Map<String,Object> map= new HashMap<String, Object>();
+                        map.put("AutoLuz",false);
+                        auto.updateChildren(map);
+                    }
+
+                }
+            }
+        });
 
 
         if (Singleton.getInstance().isActivacioncontrol()==true) {
@@ -362,8 +382,8 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if((Boolean)dataSnapshot.getValue()==true){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Presencia)); pasillo11=true;}
-                else {Pasillo1.setBackgroundColor(0);pasillo11=false;}
+                if((Boolean)dataSnapshot.getValue()==true){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                else {Pasillo1.setBackgroundColor(0);}
             }
 
             @Override
@@ -374,7 +394,7 @@ public class ControlFragment extends Fragment {
         lec7.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if((Boolean)dataSnapshot.getValue()==true){Estudio.setBackgroundColor(getResources().getColor(R.color.Presencia));estudio1=true;}
+                if((Boolean)dataSnapshot.getValue()==true){Estudio.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {Estudio.setBackgroundColor(0);estudio1=false;}
             }
 
@@ -470,7 +490,7 @@ public class ControlFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Luz));}
                 else {Pasillo2.setBackgroundColor(0);}
             }
 
@@ -483,7 +503,7 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Luz));}
                 else {Pasillo1.setBackgroundColor(0);}
             }
 
@@ -495,7 +515,7 @@ public class ControlFragment extends Fragment {
         lec71.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Estudio.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Estudio.setBackgroundColor(getResources().getColor(R.color.Luz));}
                 else {Estudio.setBackgroundColor(0);}
             }
 
@@ -515,7 +535,17 @@ public class ControlFragment extends Fragment {
             int p;
             p=Integer.parseInt(Singleton.getInstance().getValor());
             map.put(Singleton.getInstance().getModo(),p);
-        }else {
+
+        }else if(Singleton.getInstance().getModo()=="AutoLuz"){
+            if (Singleton.getInstance().getValor()=="Cerrar"){
+                map.put(Singleton.getInstance().getModo(),false);
+            }
+            else {
+                map.put(Singleton.getInstance().getModo(),true);
+            }
+        }
+
+        else {
             map.put(Singleton.getInstance().getModo(),Singleton.getInstance().getValor());
         }
 
@@ -575,7 +605,7 @@ public class ControlFragment extends Fragment {
 
                 switch (Singleton.getInstance().getModo()){
                     case "AutoLuz":
-                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos);
+                        adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1, logicos2);
                         OpcionSeleccionada(adapterSpinner,spinner);
                         Singleton.getInstance().setAccionExtra((String) dataSnapshot.getValue());
                         break;
