@@ -41,6 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.hombr.beta.R;
+import com.example.hombr.beta.Singletons.Acmin;
 import com.example.hombr.beta.Singletons.Singleton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -374,6 +375,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         Singleton.getInstance().setEmail(user.getEmail());
                         Singleton.getInstance().setPassword(password);
                         Singleton.getInstance().setFoto(user.getPhotoUrl());
+                        Acmin.getInstance().setUserAcmin(user.getDisplayName());
 
                         finish();
                         goMainScreen();}
@@ -593,6 +595,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                             Singleton.getInstance().setUser(account.getDisplayName());
                             Singleton.getInstance().setEmail(account.getEmail());
                             Singleton.getInstance().setFoto(account.getPhotoUrl());
+                        String uss=account.getDisplayName();
+                            Acmin.getInstance().setUserAcmin(account.getDisplayName());
+                            Toast.makeText(LoginActivity.this, uss, Toast.LENGTH_SHORT).show();
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -610,6 +615,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             Singleton.getInstance().setUser(user.getDisplayName());
             Singleton.getInstance().setEmail(user.getEmail());
             Singleton.getInstance().setFoto(user.getPhotoUrl());
+            Acmin.getInstance().setUserAcmin(user.getDisplayName());
         } else {
 
         }

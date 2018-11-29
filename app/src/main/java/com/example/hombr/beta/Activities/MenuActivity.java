@@ -21,6 +21,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,10 +30,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.example.hombr.beta.ConfiguracionActivity;
+import com.example.hombr.beta.Fragments.AdminFragment;
 import com.example.hombr.beta.Fragments.ControlFragment;
 import com.example.hombr.beta.Fragments.ReconFragment;
 import com.example.hombr.beta.Fragments.SensorFragment;
 import com.example.hombr.beta.R;
+import com.example.hombr.beta.Singletons.Acmin;
 import com.example.hombr.beta.Singletons.Singleton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -57,11 +60,12 @@ public class MenuActivity extends AppCompatActivity
     private static final String TAG = "MenuActivity";
     private FingerPrintAuthHelper mFingerPrintAuthHelper;
     private Dialog finger;
+    String p;
 
     @Override
     protected void onResume() {
         super.onResume();
-
+if(Singleton.getInstance().isActivacioncontrol()==false)
         mFingerPrintAuthHelper.startAuth();
     }
 
@@ -70,12 +74,19 @@ public class MenuActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
 
-
+        this.getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         if (Singleton.getInstance().isActivacioncontrol()==false){
             //FINGER
             mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
             finger = new Dialog(this);
             finger.setContentView(R.layout.fingers);
+            finger.setCancelable(false);
             finger.show();
             //
         }
@@ -95,7 +106,6 @@ public class MenuActivity extends AppCompatActivity
 
         View hView = navigationView.getHeaderView(0);
         LinearLayout nave = (LinearLayout) hView.findViewById(R.id.Wall);
-
 
         Usuario = (TextView) hView.findViewById(R.id.TxtUsuario);
         Email = (TextView) hView.findViewById(R.id.TxtEmail);
@@ -117,10 +127,21 @@ public class MenuActivity extends AppCompatActivity
 
         FragmentManager manager= getSupportFragmentManager();
         FragmentTransaction tx = manager.beginTransaction();
-        tx.replace(R.id.escenario,  new ControlFragment(),"Control1");
-        tx.commit();
-        getSupportFragmentManager().popBackStack();
 
+         p= Acmin.getInstance().getUserAcmin();
+         switch (p){
+             case "MANAGER":
+                 getWindow().setNavigationBarColor(getResources().getColor(R.color.admin));
+                 getWindow().setStatusBarColor(getResources().getColor(R.color.admin));
+                 tx.replace(R.id.escenario,  new AdminFragment(),"Control1");
+                 tx.commit();
+                 getSupportFragmentManager().popBackStack();
+             break;
+             default:
+                 tx.replace(R.id.escenario, new ReconFragment()).commit();
+                 getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+             break;
+         }
 
         Calendar now = Calendar.getInstance();
         int currentHour = now.get(Calendar.HOUR_OF_DAY);
@@ -180,6 +201,10 @@ public class MenuActivity extends AppCompatActivity
             Singleton.getInstance().setEmail(null);
             Singleton.getInstance().setUser(null);
             Singleton.getInstance().setActivacioncontrol(false);
+
+            Acmin.getInstance().setContadoragregar(0);
+            Acmin.getInstance().setTotalagregar(0);
+            Acmin.getInstance().setUserAcmin(null);
             Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
                 @Override
                 public void onResult(@NonNull Status status) {
@@ -210,6 +235,7 @@ public class MenuActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         FragmentManager fm = getSupportFragmentManager();
         int id = item.getItemId();
+
         if (id == R.id.ReconocimientoFacial) {
             // Handle the camera action
             if (Singleton.getInstance().isActivacioncontrol()==false){
@@ -217,32 +243,53 @@ public class MenuActivity extends AppCompatActivity
                 mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
                 finger = new Dialog(this);
                 finger.setContentView(R.layout.fingers);
+                finger.setCancelable(false);
                 finger.show();
                 id=R.id.ControlDelHogar;
                 //
             }
             if (Singleton.getInstance().isActivacioncontrol()==true) {
-                fm.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
-                getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+                getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
+                switch (p){
+                    case "MANAGER":
+                        fm.beginTransaction().replace(R.id.escenario,  new AdminFragment(),"ACMIN").commit();
+                        getSupportFragmentManager().popBackStack();
+                    break;
+                    default:
+                        fm.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+                        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+                    break;
+                }
             }
 
         } else if (id == R.id.ControlDelHogar) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
             fm.beginTransaction().replace(R.id.escenario, new ControlFragment()).commit();
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         } else if (id == R.id.Sensores) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
             fm.beginTransaction().replace(R.id.escenario, new SensorFragment()).commit();
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Mix1)));
         } else if (id == R.id.Configuracion) {
+            finish();
             startActivity(new Intent(this, ConfiguracionActivity.class));
 
         } else if (id == R.id.Compartir) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
             Intent share = new Intent(Intent.ACTION_SEND);
             share.setType("text/plain");
             share.putExtra(Intent.EXTRA_TEXT, "Quieres ser parte del club del cambio? Buscanos en Facebook! https://www.facebook.com/WeHouse-717686338586239/ ");
             startActivity(Intent.createChooser(share, "Comparte WeHouse!"));
-            //Toast.makeText(getApplicationContext(), "Esta Página Sigue en Desarrollo", Toast.LENGTH_SHORT).show();
+
 
         } else if (id == R.id.Soporte) {
+            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+            getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
             AlertDialog.Builder builder;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
@@ -295,14 +342,6 @@ public class MenuActivity extends AppCompatActivity
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        mFingerPrintAuthHelper.stopAuth();
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -333,6 +372,7 @@ public class MenuActivity extends AppCompatActivity
                     }
                 }
             });
+    gg.show();
     }
 
     @Override
@@ -369,6 +409,7 @@ public class MenuActivity extends AppCompatActivity
                         }
                     }
                 });
+       gg.show();
     }
 
     @Override
@@ -382,6 +423,8 @@ public class MenuActivity extends AppCompatActivity
     public void onAuthFailed(int errorCode, String errorMessage) {
 
     }
+
+
 }
 
 

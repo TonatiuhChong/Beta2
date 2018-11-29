@@ -180,9 +180,18 @@ boolean  verificaremail;
     @Override
     protected void onStart() {
         super.onStart();
-        if (mAuth.getCurrentUser() == null) {
+        if (mAuth.getCurrentUser() == null ) {
             finish();
             startActivity(new Intent(this, MenuActivity.class));
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        if (mAuth.getCurrentUser()!=null){
+            loadUserInformation();
         }
     }
 

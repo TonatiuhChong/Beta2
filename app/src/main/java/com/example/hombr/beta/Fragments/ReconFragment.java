@@ -54,14 +54,15 @@ public class ReconFragment extends Fragment {
     private RecyclerView.Adapter adapter;
     private List<ListItemUsuarios> usuarios;
     private ArrayList<String> sensores = new ArrayList<>();
-    private FloatingActionButton fab;
+
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
         View Rec= inflater.inflate(R.layout.fragment_recon2,container,false);
-
+        final Typeface fontbold = Typeface.createFromAsset(getActivity().getAssets(), "font/googlebold.ttf");
         Toast.makeText(getActivity(), "Se esta validando su usuario", Toast.LENGTH_SHORT).show();
 
         getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.primary_light));
@@ -76,7 +77,6 @@ public class ReconFragment extends Fragment {
         PerfilU.setText(Singleton.getInstance().getPassword());
         Glide.with(this).load(Singleton.getInstance().getFoto()).apply(RequestOptions.circleCropTransform()).into(ImgUSer);
 
-         fab = (FloatingActionButton) Rec.findViewById(R.id.fab2);
 
 DatabaseReference reconocimiento=FirebaseDatabase.getInstance().getReference().child("Facial").child("UsuariosActivados");
 reconocimiento.addValueEventListener(new ValueEventListener() {
@@ -91,41 +91,38 @@ reconocimiento.addValueEventListener(new ValueEventListener() {
         sensores.addAll(set);
 
         for (String pair: sensores){
-
-            if (pair.contains(Singleton.getInstance().getUser())){
-            fab.setEnabled(false);
+            if (pair.contains(Singleton.getInstance().getUser()) || PerfilU.getText()=="Aprendiendo"){
+//            fab.setEnabled(false);
             Singleton.getInstance().setActivacioncontrol(true);
                 Toast.makeText(getActivity(), "Usuario Verificado", Toast.LENGTH_SHORT).show();
             break;}
             else{
-                fab.setEnabled(true);
-//                Toast.makeText(getActivity(), "No", Toast.LENGTH_SHORT).show();
-
+//                fab.setEnabled(true);
             }
 
         }
 
 
         }
-
 
     @Override
     public void onCancelled(DatabaseError databaseError) {
 
     }
 });
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Acerquese a la camara para activar el reconocimiento Facial", Snackbar.LENGTH_LONG)
-                        .setAction("Lo tengo", null).show();
-
-                FragmentManager tr= getActivity().getSupportFragmentManager();
-                    tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
-
-
-            }
-        });
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Acerquese a la camara para activar el reconocimiento Facial", Snackbar.LENGTH_LONG)
+//                        .setAction("Lo tengo", null).show();
+//
+//                FragmentManager tr= getActivity().getSupportFragmentManager();
+//                tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment(), "Control2")
+//                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+//                        .addToBackStack(null).commit();
+//
+//            }
+//        });
         rv=(RecyclerView)Rec.findViewById(R.id.recyclerusuarios);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL,false));
         usuarios=new ArrayList<>();
@@ -150,6 +147,29 @@ reconocimiento.addValueEventListener(new ValueEventListener() {
 
             }
         });
+
+
+//        DatabaseReference listo= FirebaseDatabase.getInstance().getReference().child("Facial").child("EntrenamientoHecho");
+//        listo.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (PerfilU!=null){
+//                if ((Boolean)dataSnapshot.getValue()==true ){
+//                    PerfilU.setTypeface(fontbold);
+//                    PerfilU.setText("Completo");
+//                }
+//                else {
+//                    PerfilU.setTypeface(fontbold);
+//                    PerfilU.setText("Aprendiendo");
+//                }
+//            }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
 
         return Rec;
     }

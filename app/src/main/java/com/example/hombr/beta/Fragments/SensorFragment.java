@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,7 +49,7 @@ public class SensorFragment extends Fragment {
 
 
 if (Singleton.getInstance().isActivacioncontrol()==true) {
-//    Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
+    Cuartos = (TextView) Rec.findViewById(R.id.FragmentoSensorCuarto);
 
     listas = (ListView) Rec.findViewById(R.id.FragmentListaSensores);
     TextView prueba = (TextView) Rec.findViewById(R.id.FSsensores);
@@ -68,7 +69,7 @@ if (Singleton.getInstance().isActivacioncontrol()==true) {
             sensores.clear();
             sensores.addAll(set);
             arrayAdapter.notifyDataSetChanged();
-            //Cuartos.setText(getResources().getString(R.string.Totalhabitaciones) + " " + sensores.size());
+            Cuartos.setText("Total Habitaciones" + " " + sensores.size());
 
 
         }
@@ -86,8 +87,10 @@ if (Singleton.getInstance().isActivacioncontrol()==true) {
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
             Singleton.getInstance().setTipo(listas.getItemAtPosition(position).toString());
             FragmentManager tr = getActivity().getSupportFragmentManager();
-            tr.beginTransaction().replace(R.id.escenario, new SensoresDeHabitacion(), "Sensores").commit();
-            getActivity().getSupportFragmentManager().popBackStack();
+            tr.beginTransaction().replace(R.id.escenario, new SensoresDeHabitacion(), "Valores")
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null).commit();
+//            getActivity().getSupportFragmentManager().popBackStack();
 
         }
     });

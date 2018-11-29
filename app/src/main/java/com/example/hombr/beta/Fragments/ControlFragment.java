@@ -105,11 +105,13 @@ public class ControlFragment extends Fragment {
 
         Switch regulador=(Switch) Rec.findViewById(R.id.AutoLuzAlta);
 
+        if(config.getInstance().isAutoluz()==true)regulador.setChecked(true);
+        else regulador.setChecked(false);
         regulador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean on=((Switch)v).isChecked();
-
+                config.getInstance().setAutoluz(true);
                 if(on){
 
                     for (int p=0;p<hab.length;p++){
@@ -119,7 +121,7 @@ public class ControlFragment extends Fragment {
                         auto.updateChildren(map);
                     }}
                 else{
-
+                    config.getInstance().setAutoluz(false);
                     for (int p=0;p<hab.length;p++){
                         DatabaseReference auto=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(hab[p].toString());
                         Map<String,Object> map= new HashMap<String, Object>();
@@ -141,11 +143,11 @@ public class ControlFragment extends Fragment {
                     final ControlFragment test = (ControlFragment) getActivity().getSupportFragmentManager().findFragmentByTag("Control");
                     FragmentManager manager = getActivity().getSupportFragmentManager();
                     FragmentTransaction tx = manager.beginTransaction();
-                    tx.replace(R.id.escenario, new ControlFragment2(), "Control2");
+                    tx.replace(R.id.escenario, new ControlFragment2(), "Control2")
+                    .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                    .addToBackStack(null).commit();
 
-                    tx.commit();
-
-                    getActivity().getSupportFragmentManager().popBackStack();
+//                    getActivity().getSupportFragmentManager().popBackStack();
                 }
             });
 
@@ -182,17 +184,13 @@ public class ControlFragment extends Fragment {
             servicio.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                Singleton.getInstance().setHabitacion("Servicio");
-//                dialogos();
+
                     Toast.makeText(getActivity(), "No esta disponible", Toast.LENGTH_SHORT).show();
                 }
             });
             bano.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//
-//                Singleton.getInstance().setHabitacion("Sanitario");
-//                dialogos();
                     Toast.makeText(getContext(), "No esta disponible", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -312,9 +310,10 @@ public class ControlFragment extends Fragment {
          @Override
          public void onDataChange(DataSnapshot dataSnapshot) {
 
-             if((Boolean)dataSnapshot.getValue()==true){Sala.setBackgroundColor(getResources().getColor(R.color.Presencia));sala1=true;}
+             if((Boolean)dataSnapshot.getValue() && Sala!=null){Sala.setBackgroundColor(getResources().getColor(R.color.Presencia));sala1=true;}
              else {Sala.setBackgroundColor(0);sala=false;}
          }
+
 
          @Override
          public void onCancelled(DatabaseError databaseError) {
@@ -325,7 +324,7 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if((Boolean)dataSnapshot.getValue()==true){Comedor.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                if((Boolean)dataSnapshot.getValue()==true&& Sala!=null){Comedor.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {Comedor.setBackgroundColor(0);}
 
 
@@ -340,7 +339,7 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if((Boolean)dataSnapshot.getValue()==true){Cocina1.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                if((Boolean)dataSnapshot.getValue()==true && Sala!=null){Cocina1.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                  else {Cocina1.setBackgroundColor(0);cocina21=false;}
 
 
@@ -355,7 +354,7 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if((Boolean)dataSnapshot.getValue()==true){Cocina2.setBackgroundColor(getResources().getColor(R.color.Presencia));cocina21=true;}
+                if((Boolean)dataSnapshot.getValue()==true && Sala!=null){Cocina2.setBackgroundColor(getResources().getColor(R.color.Presencia));cocina21=true;}
                 else {Cocina2.setBackgroundColor(0);cocina21=false;}
             }
 
@@ -369,7 +368,7 @@ public class ControlFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                if((Boolean)dataSnapshot.getValue()==true){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Presencia));pasillo21=true;}
+                if((Boolean)dataSnapshot.getValue()==true && Sala!=null){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Presencia));pasillo21=true;}
                 else {Pasillo2.setBackgroundColor(0);pasillo21=false;}
             }
 
@@ -382,7 +381,7 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if((Boolean)dataSnapshot.getValue()==true){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                if((Boolean)dataSnapshot.getValue()==true && Sala!=null){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {Pasillo1.setBackgroundColor(0);}
             }
 
@@ -394,7 +393,7 @@ public class ControlFragment extends Fragment {
         lec7.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if((Boolean)dataSnapshot.getValue()==true){Estudio.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                if((Boolean)dataSnapshot.getValue()==true && Sala!=null){Estudio.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {Estudio.setBackgroundColor(0);estudio1=false;}
             }
 
@@ -407,7 +406,7 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if((Boolean)dataSnapshot.getValue()==true){Pasillo3.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                if((Boolean)dataSnapshot.getValue()==true && Sala!=null){Pasillo3.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {Pasillo3.setBackgroundColor(0);}
             }
 
@@ -430,7 +429,7 @@ public class ControlFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                if(Integer.parseInt(dataSnapshot.getValue().toString())>var){Sala.setBackgroundColor(getResources().getColor(R.color.Luz));sala=true;}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>var && Sala!=null){Sala.setBackgroundColor(getResources().getColor(R.color.Luz));sala=true;}
                 else {Sala.setBackgroundColor(0);sala=false;}
             }
 
@@ -444,7 +443,7 @@ public class ControlFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 int p= Integer.parseInt(dataSnapshot.getValue().toString());
-                if(Integer.parseInt(dataSnapshot.getValue().toString())<10){Comedor.setBackgroundColor(getResources().getColor(R.color.Luz));comedor=true;}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10 && Comedor!=null){Comedor.setBackgroundColor(getResources().getColor(R.color.Luz));comedor=true;}
                 else {Comedor.setBackgroundColor(0);comedor=false;}
             }
 
@@ -458,7 +457,7 @@ public class ControlFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
             int p= Integer.parseInt(dataSnapshot.getValue().toString());
 
-                if(p>10){
+                if(p>10 && Cocina1!=null){
                     Cocina1.setBackgroundColor(getResources().getColor(R.color.Luz));
                     cocina1=true;
                     if(cocina1==true&cocina11==true){
@@ -476,7 +475,7 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Cocina2.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10  && Cocina2!=null){Cocina2.setBackgroundColor(getResources().getColor(R.color.Luz));}
                 else {Cocina2.setBackgroundColor(0);}
             }
 
@@ -490,7 +489,7 @@ public class ControlFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10  && Pasillo2!=null){Pasillo2.setBackgroundColor(getResources().getColor(R.color.Luz));}
                 else {Pasillo2.setBackgroundColor(0);}
             }
 
@@ -503,7 +502,7 @@ public class ControlFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10  && Pasillo1!=null){Pasillo1.setBackgroundColor(getResources().getColor(R.color.Luz));}
                 else {Pasillo1.setBackgroundColor(0);}
             }
 
@@ -515,7 +514,7 @@ public class ControlFragment extends Fragment {
         lec71.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                if(Integer.parseInt(dataSnapshot.getValue().toString())>10){Estudio.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10  && Estudio!=null){Estudio.setBackgroundColor(getResources().getColor(R.color.Luz));}
                 else {Estudio.setBackgroundColor(0);}
             }
 
@@ -537,11 +536,13 @@ public class ControlFragment extends Fragment {
             map.put(Singleton.getInstance().getModo(),p);
 
         }else if(Singleton.getInstance().getModo()=="AutoLuz"){
-            if (Singleton.getInstance().getValor()=="Cerrar"){
+            if (Singleton.getInstance().getValor()=="Desactivar"){
                 map.put(Singleton.getInstance().getModo(),false);
+//                Toast.makeText(getActivity(), "gg", Toast.LENGTH_SHORT).show();
             }
             else {
                 map.put(Singleton.getInstance().getModo(),true);
+  //              Toast.makeText(getActivity(), "pp", Toast.LENGTH_SHORT).show();
             }
         }
 

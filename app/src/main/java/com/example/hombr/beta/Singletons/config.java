@@ -10,7 +10,23 @@ public class config {
     private config() {
     }
 
-    boolean notif;
+    boolean notif,autoluz,autoluz2;
+
+    public boolean isAutoluz2() {
+        return autoluz2;
+    }
+
+    public void setAutoluz2(boolean autoluz2) {
+        this.autoluz2 = autoluz2;
+    }
+
+    public boolean isAutoluz() {
+        return autoluz;
+    }
+
+    public void setAutoluz(boolean autoluz) {
+        this.autoluz = autoluz;
+    }
 
     public config(boolean notif) {
         this.notif = notif;

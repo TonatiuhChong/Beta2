@@ -383,14 +383,15 @@
         android:id="@+id/AutoLuzAlta"
         android:layout_width="192dp"
         android:layout_height="41dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="364dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:text="Auto"
         android:textColor="@color/colorPrimary"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toEndOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/textView5" />
 
 

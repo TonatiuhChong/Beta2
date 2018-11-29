@@ -1,13 +1,16 @@
 package com.example.hombr.beta.Adapters;
 
 import java.net.URI;
+import java.util.List;
 
 public class ListItemUsuarios {
 
     String name, email, password,reconocimiento;
+
     public ListItemUsuarios(){}
 
     public String getName() {
+
         return name;
     }
 

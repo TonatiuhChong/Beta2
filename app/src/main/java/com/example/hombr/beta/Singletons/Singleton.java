@@ -2,6 +2,9 @@ package com.example.hombr.beta.Singletons;
 
 import android.net.Uri;
 
+import java.lang.reflect.Array;
+import java.util.List;
+
 public class Singleton {
     private static final Singleton ourInstance = new Singleton();
 
@@ -28,7 +31,12 @@ public class Singleton {
         this.activacioncontrol = activacioncontrol;
     }
 
-    public Singleton(String user, String password, String email, String habitacion, String modo, String tipo, String valor, String tsensores, Uri foto, String accionExtra, boolean activacioncontrol) {
+    private  Singleton sin;
+    private void  reset(){
+        sin=new Singleton();
+    }
+
+    public Singleton(String user, String password, String email, String habitacion, String modo, String tipo, String valor, Uri foto, String accionExtra, boolean activacioncontrol) {
         this.user = user;
         this.password = password;
         this.email = email;
@@ -36,14 +44,29 @@ public class Singleton {
         this.modo = modo;
         this.tipo = tipo;
         this.valor = valor;
-        this.tsensores = tsensores;
         this.foto = foto;
         this.accionExtra=accionExtra;
         this.activacioncontrol=activacioncontrol;
 
+
     }
 
-    String user,password,email, habitacion,modo,tipo,valor,tsensores,accionExtra;
+    String user,password,email, habitacion,modo,tipo,valor,accionExtra;
+    String[] agregar;
+
+    public String[] getAgregar() {
+        return agregar;
+    }
+
+    public void setAgregar(String[] agregar) {
+        this.agregar = agregar;
+    }
+
+    public Singleton(String[] agregar) {
+
+        this.agregar = agregar;
+    }
+
     Uri foto;
     String info;
     boolean  activacioncontrol;
@@ -116,15 +139,6 @@ public class Singleton {
     public void setValor(String valor) {
         this.valor = valor;
     }
-
-    public String getTsensores() {
-        return tsensores;
-    }
-
-    public void setTsensores(String tsensores) {
-        this.tsensores = tsensores;
-    }
-
     public Uri getFoto() {
         return foto;
     }

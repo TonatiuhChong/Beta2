@@ -10,7 +10,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.hombr.beta.R;
+import com.example.hombr.beta.Singletons.Singleton;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +37,11 @@ public class AdaptadorUsuarios extends RecyclerView.Adapter<AdaptadorUsuarios.Vi
     ListItemUsuarios listitem =listItems2.get(i);
     viewHolder.email.setText(listitem.getEmail());
     viewHolder.nombre.setText(listitem.getName());
-//    viewHolder.nivel.setText(listitem.getPassword());
+    //    viewHolder.nivel.setText(listitem.getPassword());
 //    viewHolder.extra.setText(listitem.getReconocimiento()   );
 //    viewHolder.fotito.setImageResource(listitem.getFotoUsuario());
     }
+
 
     @Override
     public int getItemCount() {

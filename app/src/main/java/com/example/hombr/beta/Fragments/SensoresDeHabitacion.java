@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -39,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -73,7 +75,9 @@ public class SensoresDeHabitacion extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentManager tr= getActivity().getSupportFragmentManager();
-                tr.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
+                tr.beginTransaction().replace(R.id.escenario, new SensorFragment(), "Control2")
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .addToBackStack(null).commit();
             }
         });
 
@@ -90,6 +94,7 @@ public class SensoresDeHabitacion extends Fragment {
                 }
                 sensores.clear();
                 sensores.addAll(set);
+                Collections.sort(sensores);
 
                 arrayAdapter.notifyDataSetChanged();
 
@@ -118,7 +123,6 @@ public class SensoresDeHabitacion extends Fragment {
                 for(DataSnapshot snapshot: dataSnapshot.getChildren()){
                     String valoress=snapshot.toString().split("value = ")[1];
                     valoress=valoress.split(" ")[0];
-                    //String valoress=snapshot.toString();
                     values.add(valoress);
                 }
 

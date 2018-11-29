@@ -90,9 +90,10 @@ public class ControlFragment2 extends Fragment {
             public void onClick(View v) {
                 FragmentManager manager= getActivity().getSupportFragmentManager();
                 FragmentTransaction tx = manager.beginTransaction();
-                tx.replace(R.id.escenario,  new ControlFragment(),"Control1");
-                tx.commit();
-                getActivity().getSupportFragmentManager().popBackStack();
+                tx.replace(R.id.escenario, new ControlFragment(), "Control2")
+                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
+                        .addToBackStack(null).commit();
+
             }
         });
         cuarto1=(ImageView)Rec.findViewById(R.id.cuartoyo);
@@ -125,13 +126,15 @@ public class ControlFragment2 extends Fragment {
 
         Switch regulador=(Switch) Rec.findViewById(R.id.AutoLuzAlta);
 
+        if(config.getInstance().isAutoluz2()==true)regulador.setChecked(true);
+        else regulador.setChecked(false);
         regulador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 boolean on=((Switch)v).isChecked();
 
                 if(on){
-
+                    config.getInstance().setAutoluz2(true);
                     for (int p=0;p<hab.length;p++){
                         DatabaseReference auto=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(hab[p].toString());
                         Map<String,Object> map= new HashMap<String, Object>();
@@ -139,7 +142,7 @@ public class ControlFragment2 extends Fragment {
                         auto.updateChildren(map);
                     }}
                 else{
-
+                    config.getInstance().setAutoluz2(false);
                     for (int p=0;p<hab.length;p++){
                         DatabaseReference auto=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child(hab[p].toString());
                         Map<String,Object> map= new HashMap<String, Object>();
@@ -265,6 +268,7 @@ public class ControlFragment2 extends Fragment {
 
             }
         });
+        datos();
     }
 
     public  void pintar (){
@@ -350,13 +354,11 @@ public class ControlFragment2 extends Fragment {
         DatabaseReference lec2=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cuarto2").child("Presencia");
         DatabaseReference lec3=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cuarto3").child("Presencia");
 
-
-
         lec1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                if((Boolean)dataSnapshot.getValue()==true){cuarto1.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                if((Boolean)dataSnapshot.getValue()==true && cuarto1 != null){cuarto1.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {cuarto1.setBackgroundColor(0);}
             }
 
@@ -370,7 +372,7 @@ public class ControlFragment2 extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
 
 
-                if((Boolean)dataSnapshot.getValue()==true){cuart2.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                if((Boolean)dataSnapshot.getValue()==true && cuart2 != null){cuart2.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {cuart2.setBackgroundColor(0);}
             }
 
@@ -383,8 +385,7 @@ public class ControlFragment2 extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-
-                if((Boolean)dataSnapshot.getValue()==true){cuarto3.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                if((Boolean)dataSnapshot.getValue()==true && cuarto3 != null){cuarto3.setBackgroundColor(getResources().getColor(R.color.Presencia));}
                 else {cuarto3.setBackgroundColor(0);}
             }
 
@@ -394,6 +395,51 @@ public class ControlFragment2 extends Fragment {
             }
         });
 
+//LUCES
+        DatabaseReference lec11=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cuarto1").child("Luz");
+        DatabaseReference lec21=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cuarto2").child("Luz");
+        DatabaseReference lec31=FirebaseDatabase.getInstance().getReference().child("Habitaciones").child("Cuarto3").child("Luz");
+
+        lec11.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10&& cuarto1 != null){cuarto1.setBackgroundColor(getResources().getColor(R.color.Luz));}
+                else {cuarto1.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec21.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10 && cuart2 != null){cuart2.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                else {cuart2.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        lec31.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                if(Integer.parseInt(dataSnapshot.getValue().toString())>10 && cuarto3 != null){cuarto3.setBackgroundColor(getResources().getColor(R.color.Presencia));}
+                else {cuarto3.setBackgroundColor(0);}
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
     }
 

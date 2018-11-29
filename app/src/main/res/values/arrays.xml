@@ -4,4 +4,9 @@
         <item>Cámara</item>
         <item>Seleccionar de la galeria</item>
     </string-array>
+    <string-array name="cagada">
+        <item>mames</item>
+        <item>la</item>
+        <item>berga</item>
+    </string-array>
 </resources>

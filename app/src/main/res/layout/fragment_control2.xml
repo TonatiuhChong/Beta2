@@ -12,6 +12,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
+        android:background="@color/Presencia"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
@@ -38,7 +39,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="Presiona un icono para interactuar con el sistema."
+        android:text="Presiona una habitación"
         android:textAlignment="center"
         android:textSize="24dp"
         android:textStyle="bold"
@@ -217,6 +218,7 @@
             android:layout_alignTop="@+id/textView25"
             android:layout_marginStart="14dp"
             app:srcCompat="@drawable/dormir"
+            android:textColor="@color/colorPrimary"
             tools:layout_editor_absoluteX="64dp"
             tools:layout_editor_absoluteY="223dp" />
 
@@ -292,7 +294,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
-        android:text="Presencia detectada"
+        android:text="Luz Activada"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/colorPresencia5"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
@@ -303,7 +305,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="5dp"
         android:layout_marginTop="20dp"
-        android:text="Luz Activada"
+        android:text="Presencia detectada"
         android:textColor="@color/colorPrimary"
         app:layout_constraintStart_toEndOf="@+id/colorPresencia4"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
@@ -312,14 +314,14 @@
         android:id="@+id/AutoLuzAlta"
         android:layout_width="192dp"
         android:layout_height="0dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="372dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:text="Auto"
         android:textColor="@color/colorPrimary"
         android:textSize="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/textView23"
         app:layout_constraintTop_toBottomOf="@+id/textView20" />
 
 </android.support.constraint.ConstraintLayout>
