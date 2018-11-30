@@ -123,7 +123,6 @@ if(Singleton.getInstance().isActivacioncontrol()==false)
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        ControlFragment fragmento=new ControlFragment();
 
         FragmentManager manager= getSupportFragmentManager();
         FragmentTransaction tx = manager.beginTransaction();
@@ -138,95 +137,13 @@ if(Singleton.getInstance().isActivacioncontrol()==false)
                  getSupportFragmentManager().popBackStack();
              break;
              default:
-                 tx.replace(R.id.escenario, new ReconFragment()).commit();
+                 tx.replace(R.id.escenario, new ReconFragment()).addToBackStack(null).commit();
                  getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+                 getSupportFragmentManager().popBackStack();
              break;
          }
+Wallpaper(nave);
 
-        Calendar now = Calendar.getInstance();
-        int currentHour = now.get(Calendar.HOUR_OF_DAY);
-
-
-        if (currentHour < 7) {
-            nave.setBackground(this.getResources().getDrawable(R.drawable.night));
-        }
-        if (currentHour > 7 && currentHour < 9) {
-            nave.setBackground(this.getResources().getDrawable(R.drawable.morning));
-
-        }
-        if (currentHour < 12 && currentHour > 9) {
-            nave.setBackground(this.getResources().getDrawable(R.drawable.sunny));
-
-        }
-        if (currentHour < 19 && currentHour > 12) {
-            nave.setBackground(this.getResources().getDrawable(R.drawable.afternoon));
-        }
-        if (currentHour > 19) {
-            nave.setBackground(this.getResources().getDrawable(R.drawable.night));
-        }
-
-//        else nave.setBackground(this.getResources().getDrawable(R.drawable.wallpaperpixel));
-
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.CerrarSesion) {
-
-            FirebaseAuth.getInstance().signOut();
-            Singleton.getInstance().setFoto(null);
-            Singleton.getInstance().setPassword(null);
-            Singleton.getInstance().setEmail(null);
-            Singleton.getInstance().setUser(null);
-            Singleton.getInstance().setActivacioncontrol(false);
-
-            Acmin.getInstance().setContadoragregar(0);
-            Acmin.getInstance().setTotalagregar(0);
-            Acmin.getInstance().setUserAcmin(null);
-            Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
-                @Override
-                public void onResult(@NonNull Status status) {
-                    if (status.isSuccess()) {
-                        goLogInScreen();
-                    } else {
-                        Toast.makeText(MenuActivity.this, R.string.NOCERRO, Toast.LENGTH_SHORT).show();
-                    }
-                }
-            });
-            return true;
-
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    private void goLogInScreen() {
-        finish();
-        Intent intent = new Intent(this, LoginActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        startActivity(intent);
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -424,6 +341,93 @@ if(Singleton.getInstance().isActivacioncontrol()==false)
 
     }
 
+
+    private void Wallpaper(LinearLayout nave) {
+
+        Calendar now = Calendar.getInstance();
+        int currentHour = now.get(Calendar.HOUR_OF_DAY);
+
+
+        if (currentHour < 7) {
+            nave.setBackground(this.getResources().getDrawable(R.drawable.night));
+        }
+        if (currentHour > 7 && currentHour < 9) {
+            nave.setBackground(this.getResources().getDrawable(R.drawable.morning));
+
+        }
+        if (currentHour < 12 && currentHour > 9) {
+            nave.setBackground(this.getResources().getDrawable(R.drawable.sunny));
+
+        }
+        if (currentHour < 19 && currentHour > 12) {
+            nave.setBackground(this.getResources().getDrawable(R.drawable.afternoon));
+        }
+        if (currentHour > 19) {
+            nave.setBackground(this.getResources().getDrawable(R.drawable.night));
+        }
+
+        else nave.setBackground(this.getResources().getDrawable(R.drawable.wallpaperpixel));
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.CerrarSesion) {
+
+            FirebaseAuth.getInstance().signOut();
+            Singleton.getInstance().setFoto(null);
+            Singleton.getInstance().setPassword(null);
+            Singleton.getInstance().setEmail(null);
+            Singleton.getInstance().setUser(null);
+            Singleton.getInstance().setActivacioncontrol(false);
+
+            Acmin.getInstance().setContadoragregar(0);
+            Acmin.getInstance().setTotalagregar(0);
+            Acmin.getInstance().setUserAcmin(null);
+            Auth.GoogleSignInApi.signOut(googleApiClient).setResultCallback(new ResultCallback<Status>() {
+                @Override
+                public void onResult(@NonNull Status status) {
+                    if (status.isSuccess()) {
+                        goLogInScreen();
+                    } else {
+                        Toast.makeText(MenuActivity.this, R.string.NOCERRO, Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+            return true;
+
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    private void goLogInScreen() {
+        finish();
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 
 }
 

@@ -39,7 +39,8 @@ public class RaspberryFragment extends Fragment {
     private String p;
     private int q,w;
     private TextView nombre;
-    FragmentManager fm;
+    private FragmentManager pp;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,16 +56,15 @@ public class RaspberryFragment extends Fragment {
          p=Singleton.getInstance().getAgregar()[q];
          nombre.setText(p);
 
-         fm = getActivity().getSupportFragmentManager();
-
+pp=getActivity().getSupportFragmentManager();
 
          recon.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
                  DatabaseReference refe= FirebaseDatabase.getInstance().getReference().child("Facial");
                  Map<String,Object> map= new HashMap<String, Object>();
+                 map.put("Error","inicap");//Carga modo espera
                  map.put("UsuarioActivado",p);//Cargar Usuario
-                 refe.updateChildren(map);
                  map.put("Captura",true);//activar
                  refe.updateChildren(map);
 
@@ -82,16 +82,18 @@ public class RaspberryFragment extends Fragment {
 
                              if(q==w-1) {
                                  Acmin.getInstance().setContadoragregar(0);
-                                 Toast.makeText(getActivity(), "CAPTURA COMPLETA!", Toast.LENGTH_SHORT).show();
-                                 fm.beginTransaction().replace(R.id.escenario, new AdminFragment()).commit();
-                                 getActivity().getSupportFragmentManager().popBackStack();
+                                 DatabaseReference comenzar=FirebaseDatabase.getInstance().getReference().child("Facial");
+                                 Map<String,Object> map= new HashMap<String, Object>();
+                                 map.put("ProcesoFinalizado","En Proceso");
+                                 comenzar.updateChildren(map);
+                                 pp.beginTransaction().replace(R.id.escenario, new AdminFragment()).commit();
+
                              }
 
                                else {
                                  q++;
                                  Acmin.getInstance().setContadoragregar(q);
-                                 fm.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
-                                 getActivity().getSupportFragmentManager().popBackStack();
+                                 pp.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
                              }
 
 

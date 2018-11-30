@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -76,13 +77,14 @@ public class AdminFragment extends Fragment {
     private boolean[] checkedboolean;
     private String[]myArray;
     public String[]item;
+    public  String[] Activados;
     private ProgressDialog Entrenando;
 
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View Vista = inflater.inflate(R.layout.admin,container,false);
+        final View Vista = inflater.inflate(R.layout.admin,container,false);
 
         getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.admin));
         getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.admin));
@@ -106,6 +108,30 @@ public class AdminFragment extends Fragment {
         Entrenando=new ProgressDialog(getActivity());
         Entrenando.setMessage("Entrenando modelo SVM");
         Entrenando.setCancelable(false);
+
+        DatabaseReference Error= FirebaseDatabase.getInstance().getReference().child("Facial").child("Error");
+        Error.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                switch ((String)dataSnapshot.getValue()){
+                    case "Captura":
+                        Snackbar.make(Vista,"Error en "+ (String)dataSnapshot.getValue(),Snackbar.LENGTH_SHORT).show();
+                        break;
+
+                    case "Train":
+                        Snackbar.make(Vista,"Error en "+ (String)dataSnapshot.getValue(),Snackbar.LENGTH_SHORT).show();
+                        break;
+                    default:
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         DatabaseReference config =FirebaseDatabase.getInstance().getReference().child("Facial").child("Configurado");
@@ -175,7 +201,7 @@ public class AdminFragment extends Fragment {
             public void onClick(View v) {
 
                 AlertDialog.Builder pp= new AlertDialog.Builder(v.getContext());
-                pp.setTitle("mames");
+                pp.setTitle("Usuarios inactivos");
                 pp.setMultiChoiceItems(myArray, null, new DialogInterface.OnMultiChoiceClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which, boolean isChecked) {
@@ -203,7 +229,6 @@ public class AdminFragment extends Fragment {
 
                         }
 
-                        Toast.makeText(getActivity(), Integer.toString(item.length), Toast.LENGTH_SHORT).show();
                         int q,w;
                         Acmin.getInstance().setTotalagregar(item.length);//totales
                         Acmin.getInstance().setContadoragregar(0);//Contador
@@ -218,7 +243,10 @@ public class AdminFragment extends Fragment {
             }
         });
 
-
+        if (Spinner!=null){
+            adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sensores);
+            Spinner.setAdapter(adapterSpinner);
+        }
 
         agregarUser.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -231,9 +259,8 @@ public class AdminFragment extends Fragment {
                 int a=item.length+sensores.size();
                 map.put("NumeroUsuarios",a);
                 auto.updateChildren(map);
-
                 fm.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
-
+                getActivity().getSupportFragmentManager().popBackStack();
 
             }
         });
@@ -258,9 +285,9 @@ public class AdminFragment extends Fragment {
                                 Map<String,Object> map= new HashMap<String, Object>();
                                 map.put("Captura",false);
                                 map.put("Configurado",false);
-                                map.put("NombreRostroReconocido","Desconocido");
-                                map.put("ProcesoFinalizado",false);
-                                map.put("RostroValidado","Desconocido");
+                                map.put("Detener",false);
+                                map.put("Error","STOP");
+                                map.put("ProcesoFinalizado",true);
                                 map.put("UsuarioActivado","Desconocido");
                                 borrado.updateChildren(map);
                             }
@@ -273,12 +300,13 @@ DatabaseReference CheckIfIsFinished =FirebaseDatabase.getInstance().getReference
 CheckIfIsFinished.addValueEventListener(new ValueEventListener() {
     @Override
     public void onDataChange(DataSnapshot dataSnapshot) {
-        if ((Boolean) dataSnapshot.getValue()==false){
-
+        if (dataSnapshot.getValue()=="En Proceso"){
+            if (Entrenando!=null)
             Entrenando.show();
 
         }
         else {
+            if (Entrenando!=null)
             Entrenando.dismiss();
         }
     }
@@ -304,9 +332,7 @@ CheckIfIsFinished.addValueEventListener(new ValueEventListener() {
                 }
                 sensores.clear();
                 sensores.addAll(set);
-                adapterSpinner = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1,sensores);
-                Spinner.setAdapter(adapterSpinner);
-
+                Activados =sensores.toArray(new String[sensores.size()]);
             }
 
             @Override

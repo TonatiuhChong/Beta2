@@ -198,6 +198,21 @@ boolean  verificaremail;
     private void loadUserInformation() {
         final FirebaseUser user = mAuth.getCurrentUser();
 
+        //reload verification
+
+        user.reload().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+           if(user.isEmailVerified()){
+               verificaremail=true;
+               textView.setText("Email Verificado");
+           }
+
+            }
+        });
+
+
+        //finish verification
         if (user != null) {
             if (user.getPhotoUrl() != null) {
                 Glide.with(this)
@@ -211,10 +226,10 @@ boolean  verificaremail;
 
             if (user.isEmailVerified()) {
                 verificaremail=true;
-                textView.setText("Email Verified");
+                textView.setText("Email Verificado");
             }
 
-                textView.setText("Email Not Verified (Click to Verify)");
+                textView.setText("Email no verificado");
                 textView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
