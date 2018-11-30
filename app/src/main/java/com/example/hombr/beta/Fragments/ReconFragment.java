@@ -63,7 +63,6 @@ public class ReconFragment extends Fragment {
 
         View Rec= inflater.inflate(R.layout.fragment_recon2,container,false);
         final Typeface fontbold = Typeface.createFromAsset(getActivity().getAssets(), "font/googlebold.ttf");
-        Toast.makeText(getActivity(), "Se esta validando su usuario", Toast.LENGTH_SHORT).show();
 
         getActivity().getWindow().setNavigationBarColor(getResources().getColor(R.color.primary_light));
         getActivity().getWindow().setStatusBarColor(getResources().getColor(R.color.primary_light));
@@ -92,12 +91,12 @@ reconocimiento.addValueEventListener(new ValueEventListener() {
 
         for (String pair: sensores){
             if (pair.contains(Singleton.getInstance().getUser()) || PerfilU.getText()=="Aprendiendo"){
-//            fab.setEnabled(false);
+
             Singleton.getInstance().setActivacioncontrol(true);
-                Toast.makeText(getActivity(), "Usuario Verificado", Toast.LENGTH_SHORT).show();
+
             break;}
             else{
-//                fab.setEnabled(true);
+
             }
 
         }
@@ -110,19 +109,6 @@ reconocimiento.addValueEventListener(new ValueEventListener() {
 
     }
 });
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Acerquese a la camara para activar el reconocimiento Facial", Snackbar.LENGTH_LONG)
-//                        .setAction("Lo tengo", null).show();
-//
-//                FragmentManager tr= getActivity().getSupportFragmentManager();
-//                tr.beginTransaction().replace(R.id.escenario, new RaspberryFragment(), "Control2")
-//                        .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
-//                        .addToBackStack(null).commit();
-//
-//            }
-//        });
         rv=(RecyclerView)Rec.findViewById(R.id.recyclerusuarios);
         rv.setLayoutManager(new LinearLayoutManager(getActivity(), LinearLayout.VERTICAL,false));
         usuarios=new ArrayList<>();
@@ -148,28 +134,6 @@ reconocimiento.addValueEventListener(new ValueEventListener() {
             }
         });
 
-
-//        DatabaseReference listo= FirebaseDatabase.getInstance().getReference().child("Facial").child("EntrenamientoHecho");
-//        listo.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (PerfilU!=null){
-//                if ((Boolean)dataSnapshot.getValue()==true ){
-//                    PerfilU.setTypeface(fontbold);
-//                    PerfilU.setText("Completo");
-//                }
-//                else {
-//                    PerfilU.setTypeface(fontbold);
-//                    PerfilU.setText("Aprendiendo");
-//                }
-//            }
-//            }
-//
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//
-//            }
-//        });
 
         return Rec;
     }

@@ -259,8 +259,8 @@ public class AdminFragment extends Fragment {
                 int a=item.length+sensores.size();
                 map.put("NumeroUsuarios",a);
                 auto.updateChildren(map);
-                fm.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).commit();
-                getActivity().getSupportFragmentManager().popBackStack();
+                fm.beginTransaction().replace(R.id.escenario, new RaspberryFragment()).addToBackStack(null).commit();
+//                getActivity().getSupportFragmentManager().popBackStack();
 
             }
         });

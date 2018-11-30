@@ -124,21 +124,32 @@ if(Singleton.getInstance().isActivacioncontrol()==false)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        FragmentManager manager= getSupportFragmentManager();
-        FragmentTransaction tx = manager.beginTransaction();
-
+        FragmentTransaction tx = getSupportFragmentManager().beginTransaction();
          p= Acmin.getInstance().getUserAcmin();
+         if (p==null)goLogInScreen();
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
          switch (p){
              case "MANAGER":
+                 if (mAuth.getCurrentUser().getEmail()=="lyanvilchis@gmail.com"){
                  getWindow().setNavigationBarColor(getResources().getColor(R.color.admin));
                  getWindow().setStatusBarColor(getResources().getColor(R.color.admin));
                  tx.replace(R.id.escenario,  new AdminFragment(),"Control1");
                  tx.commit();
-                 getSupportFragmentManager().popBackStack();
+                 getSupportFragmentManager().popBackStack();}
+                 else {
+                     getWindow().setNavigationBarColor(getResources().getColor(R.color.primary_light));
+                     getWindow().setStatusBarColor(getResources().getColor(R.color.primary_light));
+                     getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+                     tx.replace(R.id.escenario, new ControlFragment()).commit();
+                 }
              break;
              default:
-                 tx.replace(R.id.escenario, new ReconFragment()).addToBackStack(null).commit();
+                 getWindow().setNavigationBarColor(getResources().getColor(R.color.primary_light));
+                 getWindow().setStatusBarColor(getResources().getColor(R.color.primary_light));
                  getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+                 tx.replace(R.id.escenario, new ReconFragment()).commit();
+
                  getSupportFragmentManager().popBackStack();
              break;
          }
@@ -154,16 +165,8 @@ Wallpaper(nave);
         int id = item.getItemId();
 
         if (id == R.id.ReconocimientoFacial) {
-            // Handle the camera action
             if (Singleton.getInstance().isActivacioncontrol()==false){
-                //FINGER
-                mFingerPrintAuthHelper = FingerPrintAuthHelper.getHelper(this, this);
-                finger = new Dialog(this);
-                finger.setContentView(R.layout.fingers);
-                finger.setCancelable(false);
-                finger.show();
-                id=R.id.ControlDelHogar;
-                //
+
             }
             if (Singleton.getInstance().isActivacioncontrol()==true) {
                 getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
@@ -171,12 +174,14 @@ Wallpaper(nave);
 
                 switch (p){
                     case "MANAGER":
-                        fm.beginTransaction().replace(R.id.escenario,  new AdminFragment(),"ACMIN").commit();
-                        getSupportFragmentManager().popBackStack();
+                        fm.beginTransaction().replace(R.id.escenario,  new AdminFragment(),"ACMIN").addToBackStack(null).commit();
+                        getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.admin)));
+
                     break;
                     default:
                         fm.beginTransaction().replace(R.id.escenario, new ReconFragment()).commit();
                         getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.primary_light)));
+
                     break;
                 }
             }
@@ -184,12 +189,12 @@ Wallpaper(nave);
         } else if (id == R.id.ControlDelHogar) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            fm.beginTransaction().replace(R.id.escenario, new ControlFragment()).commit();
+            fm.beginTransaction().replace(R.id.escenario, new ControlFragment()).addToBackStack(null).commit();
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.colorPrimary)));
         } else if (id == R.id.Sensores) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
             getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
-            fm.beginTransaction().replace(R.id.escenario, new SensorFragment()).commit();
+            fm.beginTransaction().replace(R.id.escenario, new SensorFragment()).addToBackStack(null).commit();
             getSupportActionBar().setBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.Mix1)));
         } else if (id == R.id.Configuracion) {
             finish();
